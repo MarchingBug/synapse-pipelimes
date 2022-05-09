@@ -1,0 +1,152 @@
+{
+	"name": "WidgetsHtml",
+	"properties": {
+		"folder": {
+			"name": "Miscellaneous"
+		},
+		"nbformat": 0,
+		"nbformat_minor": 0,
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"synapse_widget": {
+				"version": "0.1"
+			},
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "python"
+			},
+			"language_info": {
+				"name": "python"
+			}
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "c1b76330-79b5-497e-b4e6-1ce798581742"
+					}
+				},
+				"source": [
+					"import urllib3\n",
+					"response = urllib3.PoolManager().request('GET', 'https://health.data.ny.gov/api/views/myeu-hzra/rows.csv')\n",
+					"csvfile = response.data.decode(\"utf-8\")\n",
+					"dbutils.fs.put(\"dbfs:/babynames.csv\", csvfile)\n",
+					""
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "843d4843-ef04-449b-ae8d-442e4568791e"
+					}
+				},
+				"source": [
+					"babynames = spark.read.format(\"csv\").option(\"header\", \"true\").option(\"inferSchema\", \"true\").load(\"dbfs:/babynames.csv\")\n",
+					"babynames.createOrReplaceTempView(\"babynames_table\")"
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "4cb3a84c-7f8d-472a-aef1-2dc414e0d263"
+					}
+				},
+				"source": [
+					"years = spark.sql(\"select distinct(Year) from babynames_table\").rdd.map(lambda row : row[0]).collect()\n",
+					"years.sort()"
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "915fdac8-0b8f-4dda-9a3d-d80c99b52e98"
+					}
+				},
+				"source": [
+					"\n",
+					"dbutils.widgets.dropdown(\"year\", \"2014\", [str(x) for x in years])"
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "824f6857-fe16-4d6e-9057-8fac3ec20ca3"
+					}
+				},
+				"source": [
+					"display(babynames.filter(babynames.Year == getArgument(\"year\")))"
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "bdd1073d-288c-4158-b0e3-67aae78fe3a8"
+					}
+				},
+				"source": [
+					"from IPython.display import Image \n",
+					"from IPython.core.display import HTML \n",
+					"Image(url= \"https://docs.databricks.com/_images/landing-aws.png\")"
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "9d45db3e-25e1-4e1e-9ab0-92a5dacc9153"
+					}
+				},
+				"source": [
+					""
+				],
+				"attachments": null,
+				"execution_count": 0
+			}
+		]
+	}
+}

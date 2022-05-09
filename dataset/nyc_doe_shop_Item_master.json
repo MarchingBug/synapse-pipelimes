@@ -1,0 +1,316 @@
+{
+	"name": "nyc_doe_shop_Item_master",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "educsademo-WorkspaceDefaultStorage",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "NYC DEO Shop"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "item_master_appcode11.txt",
+				"fileSystem": "nyc-doe-shop-files"
+			},
+			"columnDelimiter": "~",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "id",
+				"type": "String"
+			},
+			{
+				"name": "CommodityCode",
+				"type": "String"
+			},
+			{
+				"name": "ItemNumber",
+				"type": "String"
+			},
+			{
+				"name": "CheckDigit",
+				"type": "String"
+			},
+			{
+				"name": "MaintenanceCode",
+				"type": "String"
+			},
+			{
+				"name": "VendorNumber",
+				"type": "String"
+			},
+			{
+				"name": "VendorSuffix",
+				"type": "String"
+			},
+			{
+				"name": "VendorName",
+				"type": "String"
+			},
+			{
+				"name": "ContractNumber",
+				"type": "String"
+			},
+			{
+				"name": "Isbn10",
+				"type": "String"
+			},
+			{
+				"name": "Isbn13",
+				"type": "String"
+			},
+			{
+				"name": "OriginalISBN10",
+				"type": "String"
+			},
+			{
+				"name": "OriginalISBN13",
+				"type": "String"
+			},
+			{
+				"name": "Description",
+				"type": "String"
+			},
+			{
+				"name": "UnitOfMeasure",
+				"type": "String"
+			},
+			{
+				"name": "Price",
+				"type": "String"
+			},
+			{
+				"name": "DeliveryCharge",
+				"type": "String"
+			},
+			{
+				"name": "ImageUrl",
+				"type": "String"
+			},
+			{
+				"name": "LongDescriptionUrl",
+				"type": "String"
+			},
+			{
+				"name": "MsdsSheetUrl",
+				"type": "String"
+			},
+			{
+				"name": "Brand",
+				"type": "String"
+			},
+			{
+				"name": "ManufacturerName",
+				"type": "String"
+			},
+			{
+				"name": "ManufacturerItemNumber",
+				"type": "String"
+			},
+			{
+				"name": "VendorCatalogNumber",
+				"type": "String"
+			},
+			{
+				"name": "NystlIndicator",
+				"type": "String"
+			},
+			{
+				"name": "InitiationDate",
+				"type": "String"
+			},
+			{
+				"name": "ExpirationDate",
+				"type": "String"
+			},
+			{
+				"name": "Class",
+				"type": "String"
+			},
+			{
+				"name": "Grouping",
+				"type": "String"
+			},
+			{
+				"name": "Elementary",
+				"type": "String"
+			},
+			{
+				"name": "Intermediate",
+				"type": "String"
+			},
+			{
+				"name": "Secondary",
+				"type": "String"
+			},
+			{
+				"name": "CopyrightYear",
+				"type": "String"
+			},
+			{
+				"name": "Author",
+				"type": "String"
+			},
+			{
+				"name": "SubjectArea",
+				"type": "String"
+			},
+			{
+				"name": "Language",
+				"type": "String"
+			},
+			{
+				"name": "ItemForm",
+				"type": "String"
+			},
+			{
+				"name": "Grade",
+				"type": "String"
+			},
+			{
+				"name": "ReadingLevel",
+				"type": "String"
+			},
+			{
+				"name": "EditionNumber",
+				"type": "String"
+			},
+			{
+				"name": "Licensing",
+				"type": "String"
+			},
+			{
+				"name": "PublicationYear",
+				"type": "String"
+			},
+			{
+				"name": "ItemType",
+				"type": "String"
+			},
+			{
+				"name": "Platform",
+				"type": "String"
+			},
+			{
+				"name": "Type",
+				"type": "String"
+			},
+			{
+				"name": "TrackingCode",
+				"type": "String"
+			},
+			{
+				"name": "MFDType",
+				"type": "String"
+			},
+			{
+				"name": "MFDEquipmentStatus",
+				"type": "String"
+			},
+			{
+				"name": "MFDSegmentNumber",
+				"type": "String"
+			},
+			{
+				"name": "MFDMonthlyVolume",
+				"type": "String"
+			},
+			{
+				"name": "MFDCopiesPerMinute",
+				"type": "String"
+			},
+			{
+				"name": "CoachbusBoroughName",
+				"type": "String"
+			},
+			{
+				"name": "WirelessPlanType",
+				"type": "String"
+			},
+			{
+				"name": "WirelessPlanProvider",
+				"type": "String"
+			},
+			{
+				"name": "WirelessDeviceType",
+				"type": "String"
+			},
+			{
+				"name": "Status",
+				"type": "String"
+			},
+			{
+				"name": "IsMultipleVendors",
+				"type": "String"
+			},
+			{
+				"name": "UpdateDate",
+				"type": "String"
+			},
+			{
+				"name": "UpdatedBy",
+				"type": "String"
+			},
+			{
+				"name": "IsPromoItem",
+				"type": "String"
+			},
+			{
+				"name": "PromoPrice",
+				"type": "String"
+			},
+			{
+				"name": "BookClassType",
+				"type": "String"
+			},
+			{
+				"name": "AvailabilityCode",
+				"type": "String"
+			},
+			{
+				"name": "AvailableQty",
+				"type": "String"
+			},
+			{
+				"name": "MinimumProcessingSpeed",
+				"type": "String"
+			},
+			{
+				"name": "MinimumRAMRequired",
+				"type": "String"
+			},
+			{
+				"name": "DiskSpace",
+				"type": "String"
+			},
+			{
+				"name": "ProductName",
+				"type": "String"
+			},
+			{
+				"name": "ProductCategory",
+				"type": "String"
+			},
+			{
+				"name": "RUSTFlag",
+				"type": "String"
+			},
+			{
+				"name": "CCIFlag",
+				"type": "String"
+			},
+			{
+				"name": "BadgeFlag",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

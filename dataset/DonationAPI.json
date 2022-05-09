@@ -1,0 +1,65 @@
+{
+	"name": "DonationAPI",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AnonimizeDB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "date",
+				"type": "varchar"
+			},
+			{
+				"name": "Name",
+				"type": "varchar"
+			},
+			{
+				"name": "Notes",
+				"type": "varchar"
+			},
+			{
+				"name": "Amount",
+				"type": "money",
+				"precision": 19,
+				"scale": 4
+			},
+			{
+				"name": "FirstName",
+				"type": "varchar"
+			},
+			{
+				"name": "LastName",
+				"type": "varchar"
+			},
+			{
+				"name": "CreatedOn",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "Processed",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "IsNewAlumni",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DonationAPIStaging"
+		}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

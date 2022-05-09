@@ -1,0 +1,34 @@
+{
+	"name": "ImportTwitterInformation",
+	"properties": {
+		"activities": [
+			{
+				"name": "Process Twitter",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "Process Twitter",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2021-11-12T18:54:12Z"
+	},
+	"type": "Microsoft.Synapse/workspaces/pipelines"
+}

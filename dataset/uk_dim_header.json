@@ -1,0 +1,89 @@
+{
+	"name": "uk_dim_header",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "educsademo-WorkspaceDefaultStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "course_dim_header.csv",
+				"fileSystem": "uk-files"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "id",
+				"type": "String"
+			},
+			{
+				"name": "canvas_id",
+				"type": "String"
+			},
+			{
+				"name": "root_account_id",
+				"type": "String"
+			},
+			{
+				"name": "account_id",
+				"type": "String"
+			},
+			{
+				"name": "enrollment_term_id",
+				"type": "String"
+			},
+			{
+				"name": "name",
+				"type": "String"
+			},
+			{
+				"name": "code",
+				"type": "String"
+			},
+			{
+				"name": "type",
+				"type": "String"
+			},
+			{
+				"name": "created_at",
+				"type": "String"
+			},
+			{
+				"name": "start_at",
+				"type": "String"
+			},
+			{
+				"name": "conclude_at",
+				"type": "String"
+			},
+			{
+				"name": "publicly_visible",
+				"type": "String"
+			},
+			{
+				"name": "sis_source_id",
+				"type": "String"
+			},
+			{
+				"name": "workflow_state",
+				"type": "String"
+			},
+			{
+				"name": "wiki_id",
+				"type": "String"
+			},
+			{
+				"name": "syllabus_body",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

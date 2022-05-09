@@ -1,0 +1,39 @@
+{
+	"name": "DonationIngestion",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "xxxStaging",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "DonationIngestion",
+				"fileSystem": "pipelinedemo"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"fullName": {
+					"type": "string"
+				},
+				"donationDate": {
+					"type": "string"
+				},
+				"notes": {
+					"type": "string"
+				},
+				"amount": {
+					"type": "integer"
+				},
+				"thankyouSent": {
+					"type": "string"
+				}
+			}
+		}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

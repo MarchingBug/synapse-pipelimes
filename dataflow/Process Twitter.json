@@ -1,0 +1,28 @@
+{
+	"name": "Process Twitter",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "TwitterFiles",
+						"type": "DatasetReference"
+					},
+					"name": "Files"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "TwitterTable",
+						"type": "DatasetReference"
+					},
+					"name": "Database"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tTweetText as string,\n\t\tTweetId as string,\n\t\tCreatedAt as string,\n\t\tCreatedAtIso as string,\n\t\tRetweetCount as integer,\n\t\tTweetedBy as string,\n\t\tMediaUrls as string[],\n\t\tTweetLanguageCode as string,\n\t\tTweetInReplyToUserId as string,\n\t\tFavorited as boolean,\n\t\tUserMentions as (Id as integer, FullName as string, UserName as string)[],\n\t\tOriginalTweet as (TweetText as string, TweetId as string, CreatedAt as string, CreatedAtIso as string, RetweetCount as integer, TweetedBy as string, MediaUrls as string[], TweetLanguageCode as string, TweetInReplyToUserId as string, Favorited as boolean, UserMentions as (Id as integer, FullName as string, UserName as string)[], UserDetails as (FullName as string, Location as string, Id as integer, UserName as string, FollowersCount as integer, Description as string, StatusesCount as integer, FriendsCount as integer, FavouritesCount as integer, ProfileImageUrl as string)),\n\t\tUserDetails as (FullName as string, Location as string, Id as integer, UserName as string, FollowersCount as integer, Description as string, StatusesCount as integer, FriendsCount as integer, FavouritesCount as integer, ProfileImageUrl as string)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tmoveFiles: ['','processed'],\n\tdocumentForm: 'documentPerLine') ~> Files\nFiles sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tid as integer,\n\t\tTwitterText as string,\n\t\tTwitterTimeStamp as string,\n\t\tTag as string,\n\t\tUserId as string,\n\t\tLocation as string,\n\t\tTweetId as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tTwitterText = TweetText,\n\t\tTwitterTimeStamp = CreatedAt,\n\t\tTag = TweetLanguageCode,\n\t\tUserId = TweetedBy,\n\t\tLocation = UserDetails.Location,\n\t\tTweetId\n\t)) ~> Database"
+		}
+	}
+}

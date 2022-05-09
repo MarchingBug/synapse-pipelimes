@@ -1,0 +1,16 @@
+{
+	"name": "NYCDEOAzureFunction",
+	"type": "Microsoft.Synapse/workspaces/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureFunction",
+		"typeProperties": {
+			"functionAppUrl": "https://centralcourses.azurewebsites.net/api/credentials_sample?code=7T21VFbXlukGZZnoajP3Zp0VHI4ZGGZWtrgEh6/ntkQnlM2d4dJOcg==",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkVEVUNTQURFTU9fYjZjZmUxYmMtZmNlNS00NmRkLTk3MWUtZjFiYzFhMTMzMjM3Ig0KfQ=="
+		},
+		"connectVia": {
+			"referenceName": "AutoResolveIntegrationRuntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

@@ -1,0 +1,31 @@
+{
+	"name": "uk_process_delta",
+	"properties": {
+		"folder": {
+			"name": "UK-Canvas"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "uk_extracted_files",
+						"type": "DatasetReference"
+					},
+					"name": "ExtractedFiles"
+				}
+			],
+			"sinks": [
+				{
+					"linkedService": {
+						"referenceName": "deltafiles",
+						"type": "LinkedServiceReference"
+					},
+					"name": "CourseDelta"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tColumn_1 as string,\n\t\tColumn_2 as string,\n\t\tColumn_3 as string,\n\t\tColumn_4 as string,\n\t\tColumn_5 as string,\n\t\tColumn_6 as string,\n\t\tColumn_7 as string,\n\t\tColumn_8 as string,\n\t\tColumn_9 as string,\n\t\tColumn_10 as string,\n\t\tColumn_11 as string,\n\t\tColumn_12 as string,\n\t\tColumn_13 as string,\n\t\tColumn_14 as string,\n\t\tColumn_15 as string,\n\t\tColumn_16 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> ExtractedFiles\nExtractedFiles sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'delta',\n\tcontainer: 'uk-files',\n\tfolderPath: 'course_files_parquet',\n\tmergeSchema: false,\n\tautoCompact: false,\n\toptimizedWrite: false,\n\tvacuum: 0,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> CourseDelta"
+		}
+	}
+}

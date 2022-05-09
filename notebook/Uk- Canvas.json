@@ -1,0 +1,191 @@
+{
+	"name": "Uk- Canvas",
+	"properties": {
+		"folder": {
+			"name": "UK-Canvas"
+		},
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "NotebookPool",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "112g",
+			"driverCores": 16,
+			"executorMemory": "112g",
+			"executorCores": 16,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "Synapse PySpark"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/20e228e4-63c7-480a-a860-4b61e9623727/resourceGroups/EDU-US-DevPoc/providers/Microsoft.Synapse/workspaces/educsademo/bigDataPools/NotebookPool",
+				"name": "NotebookPool",
+				"type": "Spark",
+				"endpoint": "https://educsademo.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/NotebookPool",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "2.4",
+				"nodeCount": 10,
+				"cores": 16,
+				"memory": 112,
+				"extraHeader": null
+			}
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"microsoft": {
+						"language": "python"
+					},
+					"collapsed": false
+				},
+				"source": [
+					"%%pyspark\r\n",
+					"header = spark.read.load('abfss://uk-files@edupocdatalake.dfs.core.windows.net/course_dim_header.csv', format='csv'\r\n",
+					"## If header exists uncomment line below ##\r\n",
+					",header=True\r\n",
+					")\r\n",
+					"display(header.limit(10))"
+				],
+				"attachments": null,
+				"execution_count": 5
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"microsoft": {
+						"language": "python"
+					},
+					"collapsed": false
+				},
+				"source": [
+					"%%pyspark\r\n",
+					"df = spark.read.load('abfss://uk-files@edupocdatalake.dfs.core.windows.net/course_dim_sample.csv', format='csv'\r\n",
+					"## If header exists uncomment line below\r\n",
+					"##, header=True\r\n",
+					")\r\n",
+					"display(df.limit(10))"
+				],
+				"attachments": null,
+				"execution_count": 6
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"merged = header.union(df)\r\n",
+					"display(merged.limit(10))"
+				],
+				"attachments": null,
+				"execution_count": 7
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": true
+				},
+				"source": [
+					"print('Register the DataFrame as a SQL temporary view: source')\r\n",
+					"merged.createOrReplaceTempView('source')"
+				],
+				"attachments": null,
+				"execution_count": 8
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"microsoft": {
+						"language": "scala"
+					},
+					"collapsed": true
+				},
+				"source": [
+					"%%spark\r\n",
+					"// Save to SpakPool\r\n",
+					"\r\n",
+					"spark.sql(\"CREATE DATABASE IF NOT EXISTS complex\")\r\n",
+					"val df = spark.sql(\"SELECT * FROM source\") \r\n",
+					"df.write.mode(\"overwrite\").saveAsTable(\"complex.ukdata\")"
+				],
+				"attachments": null,
+				"execution_count": 9
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": true
+				},
+				"source": [
+					"## save to sql server\r\n",
+					"merged.write.format(\"jdbc\").option(\"url\", \"jdbc:sqlserver://eduusdevpoc.database.windows.net:1433\").option(\"driver\", \"com.microsoft.sqlserver.jdbc.SQLServerDriver\").option(\"database\",\"AnonimizeData\").option(\"dbtable\", \"UKSample\").option(\"user\", \"mainuser\").option(\"password\", \"#Welcome2018#\").save()"
+				],
+				"attachments": null,
+				"execution_count": 11
+			}
+		]
+	}
+}

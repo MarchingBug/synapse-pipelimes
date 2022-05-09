@@ -1,0 +1,20 @@
+{
+	"name": "CreateTableTripsFromParquet",
+	"properties": {
+		"folder": {
+			"name": "Files to Name"
+		},
+		"content": {
+			"query": "IF NOT EXISTS (SELECT * FROM sys.objects WHERE NAME = 'trips' AND TYPE = 'U')\nCREATE TABLE trips\n\t(\n\t [vendorID] nvarchar(30),\n\t [tpepPickupDateTime] datetime2(7),\n\t [tpepDropoffDateTime] datetime2(7),\n\t [passengerCount] int,\n\t [tripDistance] float,\n\t [puLocationId] nvarchar(30),\n\t [doLocationId] nvarchar(30),\n\t [startLon] float,\n\t [startLat] float,\n\t [endLon] float,\n\t [endLat] float,\n\t [rateCodeId] int,\n\t [storeAndFwdFlag] nvarchar(30),\n\t [paymentType] nvarchar(30),\n\t [fareAmount] float,\n\t [extra] float,\n\t [mtaTax] float,\n\t [improvementSurcharge] nvarchar(30),\n\t [tipAmount] float,\n\t [tollsAmount] float,\n\t [totalAmount] float,\n\t [puYear] int,\n\t [puMonth] int\n\t)\nWITH\n\t(\n\tDISTRIBUTION = ROUND_ROBIN,\n\t CLUSTERED COLUMNSTORE INDEX\n\t -- HEAP\n\t)\nGO\n\n--Uncomment the 4 lines below to create a stored procedure for data pipeline orchestration​                 \n--CREATE PROC bulk_load_trips\n--AS\n--BEGIN\nCOPY INTO nyctlc.trips\n(vendorID 1, tpepPickupDateTime 2, tpepDropoffDateTime 3, passengerCount 4, tripDistance 5, puLocationId 6, doLocationId 7, startLon 8, startLat 9, endLon 10, endLat 11, rateCodeId 12, storeAndFwdFlag 13, paymentType 14, fareAmount 15, extra 16, mtaTax 17, improvementSurcharge 18, tipAmount 19, tollsAmount 20, totalAmount 21, puYear 22, puMonth 23)\nFROM 'https://edupocdatalake.dfs.core.windows.net/nyctlc/yellow/*/*/*.parquet'\nWITH\n(\n\tFILE_TYPE = 'PARQUET'\n\t,MAXERRORS = 0\n\t,COMPRESSION = 'snappy'\n\t,IDENTITY_INSERT = 'OFF'\n)\n--END\nGO\n\nSELECT TOP 100 * FROM nyctlc.trips\nGO",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "sqlPool",
+				"poolName": "sqlPool"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

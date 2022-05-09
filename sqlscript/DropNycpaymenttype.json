@@ -1,0 +1,20 @@
+{
+	"name": "DropNycpaymenttype",
+	"properties": {
+		"folder": {
+			"name": "Files to Name"
+		},
+		"content": {
+			"query": "DROP EXTERNAL TABLE [dbo].[nyc_payment_type]\nGO\n\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "sqlPool",
+				"poolName": "sqlPool"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

@@ -1,0 +1,20 @@
+{
+	"name": "SelectFromStagingFiles",
+	"properties": {
+		"folder": {
+			"name": "Files to Name"
+		},
+		"content": {
+			"query": "SELECT count(*)\n\n FROM [Staging].[Files]",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "sqlPool",
+				"poolName": "sqlPool"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

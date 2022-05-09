@@ -1,0 +1,282 @@
+{
+	"name": "Computer Vision API Example",
+	"properties": {
+		"folder": {
+			"name": "Alabama State"
+		},
+		"nbformat": 4,
+		"nbformat_minor": 0,
+		"bigDataPool": {
+			"referenceName": "NotebookPool",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "112g",
+			"driverCores": 16,
+			"executorMemory": "112g",
+			"executorCores": 16,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"synapse_widget": {
+				"version": "0.1"
+			},
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "python"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/20e228e4-63c7-480a-a860-4b61e9623727/resourceGroups/EDU-US-DevPoc/providers/Microsoft.Synapse/workspaces/educsademo/bigDataPools/NotebookPool",
+				"name": "NotebookPool",
+				"type": "Spark",
+				"endpoint": "https://educsademo.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/NotebookPool",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "2.4",
+				"nodeCount": 10,
+				"cores": 16,
+				"memory": 112,
+				"extraHeader": null
+			}
+		},
+		"cells": [
+			{
+				"cell_type": "markdown",
+				"source": [
+					"# Project Oxford: Computer Vision API example"
+				],
+				"attachments": null
+			},
+			{
+				"cell_type": "markdown",
+				"source": [
+					"### This Jupyter notebook shows you how to get started with the Project Oxford <b>Computer Vision API</b> in Python, and how to visualize your results."
+				],
+				"attachments": null
+			},
+			{
+				"cell_type": "markdown",
+				"source": [
+					"To use this notebook, you will need to get keys to <b>Computer Vision API</b>. Visit <a href=\"https://azure.microsoft.com/en-us/services/cognitive-services/computer-vision\">https://azure.microsoft.com/en-us/services/cognitive-services/computer-vision</a>, and then the “Try Computer Vision API” button. On the “Sign in” page, use your Microsoft account to sign in and you will be able to subscribe to Computer Vision API and get free keys (Code of Conduct and TOS). After completing the sign-up process, paste your API key and API region into the variables section below. (Either the primary or the secondary key works.)"
+				],
+				"attachments": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"collapsed": true
+				},
+				"source": [
+					"import time \n",
+					"import requests\n",
+					"import cv2\n",
+					"import operator\n",
+					"import numpy as np\n",
+					"from __future__ import print_function\n",
+					"\n",
+					"# Import library to display results\n",
+					"import matplotlib.pyplot as plt\n",
+					"%matplotlib inline \n",
+					"# Display images within Jupyter"
+				],
+				"attachments": null,
+				"execution_count": 1
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"collapsed": true
+				},
+				"source": [
+					"# Variables\n",
+					"_url = 'https://edu-csa-cognitive-services.cognitiveservices.azure.com/' # Here, paste your full endpoint from the Azure portal\n",
+					"_key = 'a647801a09ad491caab64b45f6975a5d' # Here, paste your primary key\n",
+					"_maxNumRetries = 10"
+				],
+				"attachments": null,
+				"execution_count": 2
+			},
+			{
+				"cell_type": "markdown",
+				"source": [
+					"## Helper functions"
+				],
+				"attachments": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"collapsed": true
+				},
+				"source": [
+					"def processRequest( json, data, headers, params ):\n",
+					"\n",
+					"    \"\"\"\n",
+					"    Helper function to process the request to Project Oxford\n",
+					"\n",
+					"    Parameters:\n",
+					"    json: Used when processing images from its URL. See API Documentation\n",
+					"    data: Used when processing image read from disk. See API Documentation\n",
+					"    headers: Used to pass the key information and the data type request\n",
+					"    \"\"\"\n",
+					"\n",
+					"    retries = 0\n",
+					"    result = None\n",
+					"\n",
+					"    while True:\n",
+					"\n",
+					"        response = requests.request( 'post', _url, json = json, data = data, headers = headers, params = params )\n",
+					"\n",
+					"        if response.status_code == 429: \n",
+					"\n",
+					"            print( \"Message: %s\" % ( response.json() ) )\n",
+					"\n",
+					"            if retries <= _maxNumRetries: \n",
+					"                time.sleep(1) \n",
+					"                retries += 1\n",
+					"                continue\n",
+					"            else: \n",
+					"                print( 'Error: failed after retrying!' )\n",
+					"                break\n",
+					"\n",
+					"        elif response.status_code == 200 or response.status_code == 201:\n",
+					"\n",
+					"            if 'content-length' in response.headers and int(response.headers['content-length']) == 0: \n",
+					"                result = None \n",
+					"            elif 'content-type' in response.headers and isinstance(response.headers['content-type'], str): \n",
+					"                if 'application/json' in response.headers['content-type'].lower(): \n",
+					"                    result = response.json() if response.content else None \n",
+					"                elif 'image' in response.headers['content-type'].lower(): \n",
+					"                    result = response.content\n",
+					"        else:\n",
+					"            print( \"Error code: %d\" % ( response.status_code ) )\n",
+					"            print( \"Message: %s\" % ( response.json() ) )\n",
+					"\n",
+					"        break\n",
+					"        \n",
+					"    return result"
+				],
+				"attachments": null,
+				"execution_count": 3
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"collapsed": true
+				},
+				"source": [
+					"def renderResultOnImage( result, img ):\n",
+					"    \n",
+					"    \"\"\"Display the obtained results onto the input image\"\"\"\n",
+					"\n",
+					"    R = int(result['color']['accentColor'][:2],16)\n",
+					"    G = int(result['color']['accentColor'][2:4],16)\n",
+					"    B = int(result['color']['accentColor'][4:],16)\n",
+					"\n",
+					"    cv2.rectangle( img,(0,0), (img.shape[1], img.shape[0]), color = (R,G,B), thickness = 25 )\n",
+					"\n",
+					"    if 'categories' in result:\n",
+					"        categoryName = sorted(result['categories'], key=lambda x: x['score'])[0]['name']\n",
+					"        cv2.putText( img, categoryName, (30,70), cv2.FONT_HERSHEY_SIMPLEX, 2, (255,0,0), 3 )"
+				],
+				"attachments": null,
+				"execution_count": 4
+			},
+			{
+				"cell_type": "markdown",
+				"source": [
+					"## Analysis of an image retrieved via URL"
+				],
+				"attachments": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"collapsed": false
+				},
+				"source": [
+					"# URL direction to image\n",
+					"urlImage = 'https://oxfordportal.blob.core.windows.net/vision/Analysis/3.jpg'\n",
+					"\n",
+					"# Computer Vision parameters\n",
+					"params = { 'visualFeatures' : 'Color,Categories'} \n",
+					"\n",
+					"headers = dict()\n",
+					"headers['Ocp-Apim-Subscription-Key'] = _key\n",
+					"headers['Content-Type'] = 'application/json' \n",
+					"\n",
+					"json = { 'url': urlImage } \n",
+					"data = None\n",
+					"\n",
+					"result = processRequest( json, data, headers, params )\n",
+					"\n",
+					"if result is not None:\n",
+					"    # Load the original image, fetched from the URL\n",
+					"    arr = np.asarray( bytearray( requests.get( urlImage ).content ), dtype=np.uint8 )\n",
+					"    img = cv2.cvtColor( cv2.imdecode( arr, -1 ), cv2.COLOR_BGR2RGB )\n",
+					"\n",
+					"    renderResultOnImage( result, img )\n",
+					"\n",
+					"    ig, ax = plt.subplots(figsize=(15, 20))\n",
+					"    ax.imshow( img )"
+				],
+				"attachments": null,
+				"execution_count": 5
+			},
+			{
+				"cell_type": "markdown",
+				"source": [
+					"## Analysis of an image stored on disk"
+				],
+				"attachments": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"collapsed": false
+				},
+				"source": [
+					"# Load raw image file into memory\n",
+					"pathToFileInDisk = r'D:\\tmp\\3.jpg'\n",
+					"with open( pathToFileInDisk, 'rb' ) as f:\n",
+					"    data = f.read()\n",
+					"    \n",
+					"# Computer Vision parameters\n",
+					"params = { 'visualFeatures' : 'Color,Categories'} \n",
+					"\n",
+					"headers = dict()\n",
+					"headers['Ocp-Apim-Subscription-Key'] = _key\n",
+					"headers['Content-Type'] = 'application/octet-stream'\n",
+					"\n",
+					"json = None\n",
+					"\n",
+					"result = processRequest( json, data, headers, params )\n",
+					"\n",
+					"if result is not None:\n",
+					"    # Load the original image, fetched from the URL\n",
+					"    data8uint = np.fromstring( data, np.uint8 ) # Convert string to an unsigned int array\n",
+					"    img = cv2.cvtColor( cv2.imdecode( data8uint, cv2.IMREAD_COLOR ), cv2.COLOR_BGR2RGB )\n",
+					"\n",
+					"    renderResultOnImage( result, img )\n",
+					"\n",
+					"    ig, ax = plt.subplots(figsize=(15, 20))\n",
+					"    ax.imshow( img )"
+				],
+				"attachments": null,
+				"execution_count": 6
+			}
+		]
+	}
+}

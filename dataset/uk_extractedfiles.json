@@ -1,0 +1,22 @@
+{
+	"name": "uk_extractedfiles",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "educsademo-WorkspaceDefaultStorage",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "UK-Files"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "extracted-files",
+				"fileSystem": "ukfiles"
+			}
+		}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

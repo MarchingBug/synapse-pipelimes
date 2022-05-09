@@ -1,0 +1,103 @@
+{
+	"name": "NYCDOENotebook",
+	"properties": {
+		"activities": [
+			{
+				"name": "Save Course Information to CSV",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "courseId",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"path": "$['courseId']"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "NYCDOECourseId",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "NYCDOECSVFiles",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "GSuite Notebook",
+				"type": "SynapseNotebook",
+				"dependsOn": [
+					{
+						"activity": "Save Course Information to CSV",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebook": {
+						"referenceName": "GSuiteCourses",
+						"type": "NotebookReference"
+					}
+				}
+			}
+		],
+		"folder": {
+			"name": "NYC DOE"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-10-17T15:56:27Z"
+	},
+	"type": "Microsoft.Synapse/workspaces/pipelines"
+}

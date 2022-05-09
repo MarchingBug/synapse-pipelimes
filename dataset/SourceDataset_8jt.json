@@ -1,0 +1,44 @@
+{
+	"name": "SourceDataset_8jt",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AnonimizeDB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "fdates",
+				"type": "nvarchar"
+			},
+			{
+				"name": "forecast_vals",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "CountryRegion",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ProvinceState",
+				"type": "nvarchar"
+			},
+			{
+				"name": "model",
+				"type": "nvarchar"
+			},
+			{
+				"name": "obs_pred_r2_G",
+				"type": "float",
+				"precision": 15
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "CovId19"
+		}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

@@ -1,0 +1,17 @@
+{
+	"name": "select from meetdata",
+	"properties": {
+		"content": {
+			"query": "SELECT TOP (100) [_id]\n,[name]\n,[about]\n,[address]\n,[age]\n,[balance]\n,[company]\n,[email]\n,[eyeColor]\n,[favoriteFruit]\n FROM [complex].[dbo].[meetdata]",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "complex",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

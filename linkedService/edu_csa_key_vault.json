@@ -1,0 +1,11 @@
+{
+	"name": "edu_csa_key_vault",
+	"type": "Microsoft.Synapse/workspaces/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://edu-csa-keyvault.vault.azure.net/"
+		}
+	}
+}

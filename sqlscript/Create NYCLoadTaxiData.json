@@ -1,0 +1,16 @@
+{
+	"name": "Create NYCLoadTaxiData",
+	"properties": {
+		"content": {
+			"query": "create procedure Staging.spNYCLoadTaxiDataSummary\nas\n    --Drop and re-create Staging.idx_NYCTaxiData index\n    if (exists(select top 1 1 from sys.indexes where name = 'idx_NYCTaxiData' and object_id = object_id('Staging.NYCTaxiData')))\n        drop index idx_NYCTaxiData on Staging.NYCTaxiData \n    \n    create index idx_NYCTaxiData on Staging.NYCTaxiData(tpep_pickup_datetime, PULocationID, payment_type, passenger_count, trip_distance, tip_amount, fare_amount, total_amount)\n\n    --Drop and re-create NYC.TaxiDataSummary table\n    if (exists(select top 1 1 from sys.objects where name = 'TaxiDataSummary' and schema_id = schema_id('NYC') and type = 'U'))\n        drop table NYC.TaxiDataSummary \n\n    create table NYC.TaxiDataSummary \n    with (\n        distribution = round_robin\n    )\n    as\n    select \n        cast(tpep_pickup_datetime as date) as PickUpDate\n        , PickUp.Borough as PickUpBorough\n        , PickUp.Zone as PickUpZone\n        , case payment_type\n            when 1 then 'Credit card'\n            when 2 then 'Cash'\n            when 3 then 'No charge'\n            when 4 then 'Dispute'\n            when 5 then 'Unknown'\n            when 6 then 'Voided trip'\n        end as PaymentType\n        , count(*) as TotalTripCount\n        , sum(passenger_count) as TotalPassengerCount\n        , sum(trip_distance) as TotalDistanceTravelled\n        , sum(tip_amount) as TotalTipAmount\n        , sum(fare_amount) as TotalFareAmount\n        , sum(total_amount) as TotalTripAmount\n    from Staging.NYCTaxiData\n        inner join Staging.NYCTaxiLocationLookup as PickUp\n            on NYCTaxiData.PULocationID = PickUp.LocationID\n    group by cast(tpep_pickup_datetime as date) \n        , PickUp.Borough\n        , PickUp.Zone\n        , payment_type\n\n    --drop index idx_NYCTaxiData so it does not impact future loads\n    drop index idx_NYCTaxiData on Staging.NYCTaxiData\ngo",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"name": "sqlPool",
+				"type": "SqlPool"
+			}
+		},
+		"type": "SqlQuery"
+	}
+}

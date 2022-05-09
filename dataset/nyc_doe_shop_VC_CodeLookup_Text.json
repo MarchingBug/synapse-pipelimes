@@ -1,0 +1,44 @@
+{
+	"name": "nyc_doe_shop_VC_CodeLookup_Text",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "educsademo-WorkspaceDefaultStorage",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "NYC DEO Shop"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "VC_CodeLookup.txt",
+				"fileSystem": "nyc-doe-shop-files"
+			},
+			"columnDelimiter": "~",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "APPLICATION_NO",
+				"type": "String"
+			},
+			{
+				"name": "CODE_ID",
+				"type": "String"
+			},
+			{
+				"name": "CODE_DESC",
+				"type": "String"
+			},
+			{
+				"name": "CODE_TYPE",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

@@ -1,0 +1,16 @@
+{
+	"name": "Create NYTaxiLookup Table",
+	"properties": {
+		"content": {
+			"query": "create table [Staging].[NYCTaxiLocationLookup]\n(\n    [LocationID] [int] NULL,\n    [Borough] [varchar](200) NULL,\n    [Zone] [varchar](200) NULL,\n    [service_zone] [varchar](200) NULL\n)\nwith\n(\n    distribution = round_robin,\n    clustered columnstore index\n)",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"name": "sqlPool",
+				"type": "SqlPool"
+			}
+		},
+		"type": "SqlQuery"
+	}
+}

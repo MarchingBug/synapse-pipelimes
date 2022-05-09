@@ -1,0 +1,28 @@
+{
+	"name": "SmallDataFlowTest",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "NYCTaxiLocationLookup",
+						"type": "DatasetReference"
+					},
+					"name": "TaxiLocationLookUp"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "JsonOutputTest",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tLocationID as integer,\n\t\tBorough as string,\n\t\tZone as string,\n\t\tservice_zone as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table',\n\tstaged: false) ~> TaxiLocationLookUp\nTaxiLocationLookUp sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tumask: 0022,\n\tpreCommands: [],\n\tpostCommands: [],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
+		}
+	}
+}

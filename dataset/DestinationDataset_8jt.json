@@ -1,0 +1,17 @@
+{
+	"name": "DestinationDataset_8jt",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NYC_DOE_SHOP",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "CovId19"
+		}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

@@ -1,0 +1,63 @@
+{
+	"name": "NYC - Pivot  - Files",
+	"properties": {
+		"activities": [
+			{
+				"name": "Flatten Json",
+				"type": "SynapseNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebook": {
+						"referenceName": "NYC - Meet - Final",
+						"type": "NotebookReference"
+					}
+				}
+			},
+			{
+				"name": "Pivot Files",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "Flatten Json",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "FlattenNYCMeet",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"folder": {
+			"name": "NYC DOE"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-10-17T15:59:02Z"
+	},
+	"type": "Microsoft.Synapse/workspaces/pipelines"
+}

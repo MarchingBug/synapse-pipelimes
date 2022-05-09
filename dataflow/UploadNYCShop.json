@@ -1,0 +1,77 @@
+{
+	"name": "UploadNYCShop",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "nyc_doe_shop_Commodity_codes",
+						"type": "DatasetReference"
+					},
+					"name": "commoditycodes"
+				},
+				{
+					"dataset": {
+						"referenceName": "nyc_doe_shop_Item_Form_Descriptions",
+						"type": "DatasetReference"
+					},
+					"name": "itemdescriptions"
+				},
+				{
+					"dataset": {
+						"referenceName": "nyc_doe_shop_Item_master",
+						"type": "DatasetReference"
+					},
+					"name": "itemMasters"
+				},
+				{
+					"dataset": {
+						"referenceName": "nyc_doe_shop_Subject_Area",
+						"type": "DatasetReference"
+					},
+					"name": "subjectarea"
+				},
+				{
+					"dataset": {
+						"referenceName": "nyc_doe_shop_VC_CodeLookup_Text",
+						"type": "DatasetReference"
+					},
+					"name": "codelookup"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "comoditycodes",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				},
+				{
+					"dataset": {
+						"referenceName": "itemDescriptions",
+						"type": "DatasetReference"
+					},
+					"name": "sink2"
+				},
+				{
+					"dataset": {
+						"referenceName": "itemmasters",
+						"type": "DatasetReference"
+					},
+					"name": "sink3"
+				},
+				{
+					"dataset": {
+						"referenceName": "subjectarea",
+						"type": "DatasetReference"
+					},
+					"name": "sink4"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tCommodityCode as string,\n\t\tDescription as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> commoditycodes\nsource(output(\n\t\tcommodity_code as string,\n\t\titem_form as string,\n\t\titem_form_description as string,\n\t\titem_form_short_description as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> itemdescriptions\nsource(output(\n\t\tid as string,\n\t\tCommodityCode as string,\n\t\tItemNumber as string,\n\t\tCheckDigit as string,\n\t\tMaintenanceCode as string,\n\t\tVendorNumber as string,\n\t\tVendorSuffix as string,\n\t\tVendorName as string,\n\t\tContractNumber as string,\n\t\tIsbn10 as string,\n\t\tIsbn13 as string,\n\t\tOriginalISBN10 as string,\n\t\tOriginalISBN13 as string,\n\t\tDescription as string,\n\t\tUnitOfMeasure as string,\n\t\tPrice as string,\n\t\tDeliveryCharge as string,\n\t\tImageUrl as string,\n\t\tLongDescriptionUrl as string,\n\t\tMsdsSheetUrl as string,\n\t\tBrand as string,\n\t\tManufacturerName as string,\n\t\tManufacturerItemNumber as string,\n\t\tVendorCatalogNumber as string,\n\t\tNystlIndicator as string,\n\t\tInitiationDate as string,\n\t\tExpirationDate as string,\n\t\tClass as string,\n\t\tGrouping as string,\n\t\tElementary as string,\n\t\tIntermediate as string,\n\t\tSecondary as string,\n\t\tCopyrightYear as string,\n\t\tAuthor as string,\n\t\tSubjectArea as string,\n\t\tLanguage as string,\n\t\tItemForm as string,\n\t\tGrade as string,\n\t\tReadingLevel as string,\n\t\tEditionNumber as string,\n\t\tLicensing as string,\n\t\tPublicationYear as string,\n\t\tItemType as string,\n\t\tPlatform as string,\n\t\tType as string,\n\t\tTrackingCode as string,\n\t\tMFDType as string,\n\t\tMFDEquipmentStatus as string,\n\t\tMFDSegmentNumber as string,\n\t\tMFDMonthlyVolume as string,\n\t\tMFDCopiesPerMinute as string,\n\t\tCoachbusBoroughName as string,\n\t\tWirelessPlanType as string,\n\t\tWirelessPlanProvider as string,\n\t\tWirelessDeviceType as string,\n\t\tStatus as string,\n\t\tIsMultipleVendors as string,\n\t\tUpdateDate as string,\n\t\tUpdatedBy as string,\n\t\tIsPromoItem as string,\n\t\tPromoPrice as string,\n\t\tBookClassType as string,\n\t\tAvailabilityCode as string,\n\t\tAvailableQty as string,\n\t\tMinimumProcessingSpeed as string,\n\t\tMinimumRAMRequired as string,\n\t\tDiskSpace as string,\n\t\tProductName as string,\n\t\tProductCategory as string,\n\t\tRUSTFlag as string,\n\t\tCCIFlag as string,\n\t\tBadgeFlag as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> itemMasters\nsource(output(\n\t\tValue as string,\n\t\tText as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> subjectarea\nsource(output(\n\t\tAPPLICATION_NO as string,\n\t\tCODE_ID as string,\n\t\tCODE_DESC as string,\n\t\tCODE_TYPE as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> codelookup\ncommoditycodes sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tCommodityCode,\n\t\tDescription\n\t)) ~> sink1\nitemdescriptions sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tvalue as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> sink2\nitemMasters sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tvalue as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> sink3\nsubjectarea sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tvalue as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> sink4"
+		}
+	}
+}

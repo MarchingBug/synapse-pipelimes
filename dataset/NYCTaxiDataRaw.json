@@ -1,0 +1,115 @@
+{
+	"name": "NYCTaxiDataRaw",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "educsademo-WorkspaceDefaultSqlServer",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"DBName": "sqlPool"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "VendorID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "tpep_pickup_datetime",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "tpep_dropoff_datetime",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "passenger_count",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "trip_distance",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 2
+			},
+			{
+				"name": "RatecodeID",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "store_and_fwd_flag",
+				"type": "char"
+			},
+			{
+				"name": "PULocationID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DOLocationID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "payment_type",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "fare_amount",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "extra",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "mta_tax",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "tip_amount",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "tolls_amount",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "improvement_surcharge",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "total_amount",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			}
+		],
+		"typeProperties": {
+			"schema": "Staging",
+			"table": "NYCTaxiDataTest"
+		}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

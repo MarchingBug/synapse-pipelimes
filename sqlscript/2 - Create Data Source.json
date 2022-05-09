@@ -1,0 +1,19 @@
+{
+	"name": "2 - Create Data Source",
+	"properties": {
+		"folder": {
+			"name": "Polybase Import"
+		},
+		"content": {
+			"query": "CREATE EXTERNAL DATA SOURCE AzureStorage\nWITH (\n    TYPE = HADOOP,\n    LOCATION = 'wasbs://tsi-test@eduusdevpoc.blob.core.windows.net',\n    CREDENTIAL = AzureStorageCredential\n);",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "sqlPool",
+				"poolName": "sqlPool"
+			}
+		},
+		"type": "SqlQuery"
+	}
+}

@@ -1,0 +1,170 @@
+{
+	"name": "FlatenComplexJason",
+	"properties": {
+		"folder": {
+			"name": "Miscellaneous"
+		},
+		"nbformat": 0,
+		"nbformat_minor": 0,
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"synapse_widget": {
+				"version": "0.1"
+			},
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "python"
+			},
+			"language_info": {
+				"name": "python"
+			}
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "51c67cdc-14d6-4f52-be4d-8f20e8424740"
+					}
+				},
+				"source": [
+					"#Read the file from Blob Storage\n",
+					"storage_account_name = \"edapocstorage\"\n",
+					"storage_account_access_key = \"mpG7ZgTSASruvgnj5dIseIcJwwRXB0TCnqFU7oAz5four7jad8VKX1xdtG2GCXBjm+H/RlQVRTvgd3yujKwROA==\"\n",
+					"blob_container = \"jsonfiles\"\n",
+					"file_name = \"1488442Geometry.json\"\n",
+					"\n",
+					"spark.conf.set(\n",
+					"  \"fs.azure.account.key.\"+storage_account_name+\".blob.core.windows.net\",\n",
+					"  storage_account_access_key)\n",
+					"\n",
+					"blob_location = \"wasbs://\"+blob_container +\"@\" + storage_account_name + \".blob.core.windows.net/\"+file_name\n",
+					"\n",
+					"#Upload file into data frame\n",
+					"df= spark.read.json(\"wasbs://\"+blob_container +\"@\" + storage_account_name + \".blob.core.windows.net/\", multiLine=True)"
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "61e1e701-fcc1-4b35-a421-fb7f1751197a"
+					}
+				},
+				"source": [
+					"df.printSchema()"
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "2b48980a-d1e1-4990-90bd-a16a49436eda"
+					}
+				},
+				"source": [
+					"df.show()"
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "de46f2e0-53e7-44d4-a8cb-4f7dfe41d363"
+					}
+				},
+				"source": [
+					"#import libraries\n",
+					"#import pandas as pd\n",
+					"#import collections\n",
+					"#import numpy as np\n",
+					"from pyspark.sql.functions import explode, col\n",
+					"\n",
+					"#import json  \n",
+					"#from pandas.io.json import json_normalize  \n",
+					"\n",
+					"spark.conf.set(\"spark.sql.execution.arrow.enabled\", \"true\")"
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "94f5f259-24d8-4491-ac40-eb769f4a5dac"
+					}
+				},
+				"source": [
+					"#flatten first part\n",
+					"events_struct = df.select(explode(\"events\").alias(\"events\"))\n",
+					"events_struct.printSchema()"
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "840316a8-e043-4aec-a9a2-bde3cd595e7a"
+					}
+				},
+				"source": [
+					"#extract the structure from the events\n",
+					"events = events_struct.select(\"events.*\")\n",
+					"display(events)"
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "47adac7b-6b4a-479e-8048-d9798f26db7a"
+					}
+				},
+				"source": [
+					"#save to sql\n",
+					"events.write.format(\"jdbc\").option(\"url\", \"jdbc:sqlserver://eduusdevpoc.database.windows.net:1433\").option(\"driver\", \"com.microsoft.sqlserver.jdbc.SQLServerDriver\").option(\"database\",\"AnonimizeData\").option(\"dbtable\", \"TempCourseEvents\").option(\"user\", \"mainuser\").option(\"password\", \"#Welcome2018#\").save()"
+				],
+				"attachments": null,
+				"execution_count": 0
+			}
+		]
+	}
+}

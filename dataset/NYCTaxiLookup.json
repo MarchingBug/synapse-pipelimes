@@ -1,0 +1,41 @@
+{
+	"name": "NYCTaxiLookup",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Source files",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "taxi_zone_lookup.csv",
+				"container": "nyctaxilookup"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "LocationId",
+				"type": "String"
+			},
+			{
+				"name": "Borough",
+				"type": "String"
+			},
+			{
+				"name": "Zone",
+				"type": "String"
+			},
+			{
+				"name": "service_zone",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

@@ -1,0 +1,174 @@
+{
+	"name": "NYCImageMetadata-Lab1",
+	"properties": {
+		"folder": {
+			"name": "Miscellaneous"
+		},
+		"nbformat": 0,
+		"nbformat_minor": 0,
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"synapse_widget": {
+				"version": "0.1"
+			},
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "python"
+			},
+			"language_info": {
+				"name": "python"
+			}
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "Define and retrieve NYC Image URL parameter",
+						"showTitle": true,
+						"nuid": "0299c10e-3fab-4cb9-b889-477741e672e7"
+					}
+				},
+				"source": [
+					"dbutils.widgets.text(\"nycImageUrl\", \"\", \"Image URL\")\n",
+					"nycImageUrl = getArgument(\"nycImageUrl\")"
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "Define function to invoke Computer Vision API",
+						"showTitle": true,
+						"nuid": "8dd178ce-d0c9-4f9c-989c-69921b841025"
+					}
+				},
+				"source": [
+					"import requests\n",
+					"import json\n",
+					"\n",
+					"def GetNYCImageMetadata(imageUrl):\n",
+					"  # Replace <MDWComputerVision Subscription Key> with your valid subscription key.\n",
+					"  subscription_key = \"<ADPComputerVision Subscription Key>\"\n",
+					"  \n",
+					"  #Replace <MDWComputerVision Base URL> with your valid Computer Vision API base url\n",
+					"  vision_base_url = \"<ADPComputerVision Base URL>\" #It should look like this one: https://australiaeast.api.cognitive.microsoft.com/\n",
+					"  analyze_url = vision_base_url + \"vision/v2.0/analyze\"\n",
+					"  \n",
+					"  #Populate require request information\n",
+					"  headers = {'Ocp-Apim-Subscription-Key': subscription_key}\n",
+					"  params  = {'visualFeatures': 'Categories,Description,Color,Brands,Tags,Objects', 'details':'Landmarks,Celebrities'}\n",
+					"  data    = {'url': imageUrl}\n",
+					"  \n",
+					"  #Submit Computer Vision request for given image url\n",
+					"  response = requests.post(analyze_url, headers=headers, params=params, json=data)\n",
+					"  response.raise_for_status()\n",
+					"\n",
+					"  # The 'analysis' object contains various fields that describe the image. The most\n",
+					"  # relevant caption for the image is obtained from the 'description' property.\n",
+					"  analysis = response.json()\n",
+					"  return json.dumps(analysis).replace('\"requestId\"','\"imageUrl\":\"' + imageUrl + '\",\"requestId\"')"
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "Define function to mount NYC Image Metadata Container",
+						"showTitle": true,
+						"nuid": "6e70a764-5473-4c3b-9ee1-2fa13d1d1222"
+					}
+				},
+				"source": [
+					"def MountImageMetadataContainer():\n",
+					"  # Replace <MDWDataLake storage account name> with your valid storage account name\n",
+					"  datalakeAccountName = 'synapsedatalake[suffix]' #<--Replace [suffix] with your own suffix.\n",
+					"  \n",
+					"  # Replace <MDWDataLake storage account key> with your valid storage account name\n",
+					"  datalakeAccountKey = '[your SynapseDataLake account key]' #<-- Replace it with your Synapse Data Lake account key\n",
+					"  \n",
+					"  dataLakeConf = \"fs.azure.account.key.\" + datalakeAccountName + \".blob.core.windows.net\"\n",
+					"  dataLakeExtraConfig = {dataLakeConf:datalakeAccountKey}\n",
+					"  imageMetadataConainerUrl = \"wasbs://nycimagemetadata@\" + datalakeAccountName + \".blob.core.windows.net\"\n",
+					"  imageMetadataMountpoint = \"/mnt/NYCImageMetadata\"\n",
+					"\n",
+					"  try:\n",
+					"    dbutils.fs.mount(\n",
+					"    source = imageMetadataConainerUrl,\n",
+					"    mount_point = imageMetadataMountpoint,\n",
+					"    extra_configs = dataLakeExtraConfig)\n",
+					"  except Exception as e:\n",
+					"    if \"Directory already mounted\" in str(e):\n",
+					"      pass # Ignore error if already mounted.\n",
+					"    else:\n",
+					"      raise e\n",
+					"  return imageMetadataMountpoint\n",
+					"  "
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "Define function to save image metadata file",
+						"showTitle": true,
+						"nuid": "4ad992f6-5f8b-4b0d-8743-f435e42b2b8f"
+					}
+				},
+				"source": [
+					"def SaveImageMetadataFile(imageMetadata, fileName):\n",
+					"  metadataMountpoint = MountImageMetadataContainer()\n",
+					"  outputFilePath = metadataMountpoint + '/' + fileName\n",
+					"  dbutils.fs.put(outputFilePath, imageMetadata, overwrite=True)\n",
+					"  print(outputFilePath + ' file saved.')"
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "Invoke Computer Vision and Save Metadata File",
+						"showTitle": true,
+						"nuid": "5a003700-49b9-4164-b150-c856a5272b66"
+					}
+				},
+				"source": [
+					"from urllib.parse import urlparse\n",
+					"#invoke Computer Vision API to retrieve image metadata\n",
+					"jsonImageMetadata = GetNYCImageMetadata(nycImageUrl)\n",
+					"\n",
+					"#Generate filename for image metadata file.\n",
+					"filePath = urlparse(nycImageUrl)[2]\n",
+					"filePathParts = filePath.split('/')\n",
+					"fileName = filePathParts[len(filePathParts)-1] + '.json'\n",
+					"\n",
+					"#Save image metadata file in the NYCImageMetadata container\n",
+					"SaveImageMetadataFile(jsonImageMetadata, fileName)"
+				],
+				"attachments": null,
+				"execution_count": 0
+			}
+		]
+	}
+}

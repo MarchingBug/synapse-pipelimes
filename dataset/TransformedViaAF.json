@@ -1,0 +1,112 @@
+{
+	"name": "TransformedViaAF",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Source files",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "parameters-meetshort.json",
+				"container": "nycdoe"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"0": {
+					"type": "object",
+					"properties": {
+						"parameters": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"name": {
+										"type": "string"
+									},
+									"intValue": {
+										"type": "string"
+									}
+								}
+							}
+						},
+						"etag": {
+							"type": "string"
+						}
+					}
+				},
+				"1": {
+					"type": "object",
+					"properties": {
+						"parameters": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"name": {
+										"type": "string"
+									},
+									"intValue": {
+										"type": "string"
+									}
+								}
+							}
+						},
+						"etag": {
+							"type": "string"
+						}
+					}
+				},
+				"2": {
+					"type": "object",
+					"properties": {
+						"parameters": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"name": {
+										"type": "string"
+									},
+									"intValue": {
+										"type": "string"
+									}
+								}
+							}
+						},
+						"etag": {
+							"type": "string"
+						}
+					}
+				},
+				"3": {
+					"type": "object",
+					"properties": {
+						"parameters": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"name": {
+										"type": "string"
+									},
+									"intValue": {
+										"type": "string"
+									}
+								}
+							}
+						},
+						"etag": {
+							"type": "string"
+						}
+					}
+				}
+			}
+		}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

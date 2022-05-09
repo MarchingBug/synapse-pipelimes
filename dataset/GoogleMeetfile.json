@@ -1,0 +1,75 @@
+{
+	"name": "GoogleMeetfile",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "educsademo-WorkspaceDefaultStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": "nycdoe"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"kind": {
+					"type": "string"
+				},
+				"id": "{\r\n  \"type\": \"object\",\r\n  \"properties\": {\r\n    \"time\": {\r\n      \"type\": \"string\"\r\n    },\r\n    \"uniqueQualifier\": {\r\n      \"type\": \"string\"\r\n    },\r\n    \"applicationName\": {\r\n      \"type\": \"string\"\r\n    },\r\n    \"customerId\": {\r\n      \"type\": \"string\"\r\n    }\r\n  }\r\n}",
+				"etag": {
+					"type": "string"
+				},
+				"actor": {
+					"type": "object",
+					"properties": {
+						"callerType": {
+							"type": "string"
+						},
+						"email": {
+							"type": "string"
+						},
+						"profileId": {
+							"type": "string"
+						},
+						"key": {
+							"type": "string"
+						}
+					}
+				},
+				"events": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"type": {
+								"type": "string"
+							},
+							"name": {
+								"type": "string"
+							},
+							"parameters": {
+								"type": "array",
+								"items": {
+									"type": "object",
+									"properties": {
+										"name": {
+											"type": "string"
+										},
+										"intValue": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

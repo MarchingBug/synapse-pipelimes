@@ -1,0 +1,24 @@
+{
+	"name": "NewStreamedFile",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "Process Incoming Twitter files",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/pipelinedemo/blobs/TwitterCapture/",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/20e228e4-63c7-480a-a860-4b61e9623727/resourceGroups/EDU-US-DevPoc/providers/Microsoft.Storage/storageAccounts/edupocdatalake",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}

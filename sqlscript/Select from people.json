@@ -1,0 +1,17 @@
+{
+	"name": "Select from people",
+	"properties": {
+		"content": {
+			"query": "SELECT TOP (100) [_id]\n,[name]\n,[about]\n,[address]\n,[age]\n,[balance]\n,[company]\n,[email]\n,[eyeColor]\n,[favoriteFruit]\n FROM [nyc].[dbo].[people]",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "nyc",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

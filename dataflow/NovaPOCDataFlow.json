@@ -1,0 +1,38 @@
+{
+	"name": "NovaPOCDataFlow",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "NovaPOCSQLTable",
+						"type": "DatasetReference"
+					},
+					"name": "InitialView"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "NOVAPOCModelTable",
+						"type": "DatasetReference"
+					},
+					"name": "OutputModelTable"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SelectColumns"
+				},
+				{
+					"name": "BooleanTransformation"
+				},
+				{
+					"name": "ConvertValues"
+				}
+			],
+			"script": "source(output(\n\t\tStudentPIDM as string,\n\t\tTermCode as string,\n\t\tTerm as string,\n\t\tStudentNSUID as string,\n\t\tStudentFirstName as string,\n\t\tStudentMiddleName as string,\n\t\tStudentLastName as string,\n\t\tStudentEmail as string,\n\t\tCollegeCode as string,\n\t\tSecondCollegeCode as string,\n\t\tLevelCode as string,\n\t\tDegreeCode as string,\n\t\tSecondMajorCode as string,\n\t\tMinorCode as string,\n\t\tSecondMinorCode as string,\n\t\tSGBSTDN_MAJR_CODE_MINR_2 as string,\n\t\tSGBSTDN_MAJR_CODE_MINR_2_2 as string,\n\t\tProgramCode as string,\n\t\tConcentration as string,\n\t\tSecondConcentration as string,\n\t\tCampusCode as string,\n\t\tSGBSTDN_BLCK_CODE as string,\n\t\tStudentBlcokDesc as string,\n\t\tTermCodeStatusEffective as string,\n\t\tSGBSTDN_STYP_CODE as string,\n\t\tStudentType as string,\n\t\tStudentStatus as string,\n\t\tTermCodeAdmit as string,\n\t\tAdmitCode as string,\n\t\tDepartmentCode as string,\n\t\tSGBSTDN_RATE_CODE as string,\n\t\tsgrchrt_description as string,\n\t\tnumHoursAttempted as string,\n\t\tnumHoursEarned as string,\n\t\tnumTermGPA as string,\n\t\tnumCumulativeInstHoursEarned as string,\n\t\tnumCumulativeOverallHoursEarned as string,\n\t\tSHRTGPA_QUALITY_POINTS as string,\n\t\tnumRunningQualityPoints as string,\n\t\tunOfficialCumGPA as string,\n\t\tnumOverallGPA as string,\n\t\tCourseCRN as string,\n\t\tSSBSECT_SUBJ_CODE as string,\n\t\tSCBCRSE_TITLE as string,\n\t\tSSBSECT_CRSE_NUMB as string,\n\t\tSSBSECT_SEQ_NUMB as string,\n\t\tSCBCRSE_COLL_CODE as string,\n\t\tscbcrse_dept_code as string,\n\t\tscbcrse_divs_code as string,\n\t\tssbsect_camp_code as string,\n\t\tSFRSTCR_PTRM_CODE as string,\n\t\tSFRSTCR_RSTS_CODE as string,\n\t\tRegistered as string,\n\t\tSFRSTCR_BILL_HR as string,\n\t\tSFRSTCR_CREDIT_HR as string,\n\t\tSFRSTCR_GRDE_CODE as string,\n\t\tSFRSTCR_GRDE_CODE_MID as string,\n\t\tSFRSTCR_GRDE_DATE as string,\n\t\tSFRSTCR_LEVL_CODE as string,\n\t\tSFRSTCR_CAMP_CODE as string,\n\t\tinstructor_id as string,\n\t\tinstructor_first_name as string,\n\t\tinstructor_last_name as string,\n\t\tinstructor_email as string,\n\t\ttxtCampusCategory as string,\n\t\tTermStart as string,\n\t\ttermEnd as string,\n\t\tSGBSTDN_RESD_CODE as string,\n\t\tPrimaryMajorCode as string,\n\t\tProgram2 as string,\n\t\tnTermSequencePriorTerm as string,\n\t\tSGBSTDN_EXP_GRAD_DATE as string,\n\t\tAcademicYear as string,\n\t\tStudentlevel2 as string,\n\t\tSTVMAJR_CIPC_CODE as string,\n\t\tSTVCIPC_DESC as string,\n\t\tPrimaryMajordescription as string,\n\t\tSecondMajordescription as string,\n\t\tConc_Description as string,\n\t\tProgram_Desc as string,\n\t\tLevel_desc as string,\n\t\tCampus_Desc as string,\n\t\tWithdrawalReason as string,\n\t\tSHRDGMR_GRAD_DATE as string,\n\t\tStudentAdmit_Desc as string,\n\t\tRate_Desc as string,\n\t\tFianlGradeDate as string,\n\t\tFianlGrade as string,\n\t\tSGRCHRT_CHRT_CODE as string,\n\t\tSTVRSTS_INCL_SECT_ENRL as string,\n\t\tTermCode_StatusEnd as string,\n\t\tAcademic_Standing_Code_End_of_Term as string,\n\t\tAcademic_Standing_Desc as string,\n\t\tStudent_Attribute_Code as string,\n\t\tStudent_Attribute_Desc as string,\n\t\tSGBSTDN_ASTD_CODE as string,\n\t\tSFRSTCR_RSTS_DATE as string,\n\t\tdegree2 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> InitialView\nInitialView select(skipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectColumns\nConvertValues derive(STVRSTS_INCL_SECT_ENRL_bool = iif(STVRSTS_INCL_SECT_ENRL == 'Y', 1, 0)) ~> BooleanTransformation\nSelectColumns derive(numTermGPA = toDecimal(numTermGPA,18,6),\n\t\tnumOverallGPA = toDecimal(numOverallGPA,18,6),\n\t\tTermCode = toInteger(TermCode)) ~> ConvertValues\nBooleanTransformation sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tTermCode as integer,\n\t\tTerm as string,\n\t\tStudentNSUID as string,\n\t\tLevelCode as string,\n\t\tDegreeCode as string,\n\t\tStudentStatus as string,\n\t\tnumTermGPA as decimal(18,0),\n\t\tnumOverallGPA as decimal(18,0),\n\t\tCampusCode as string,\n\t\tSTVRSTS_INCL_SECT_ENRL as string,\n\t\tSTVRSTS_INCL_SECT_ENRL_bool as integer,\n\t\tSSBSECT_SUBJ_CODE as string,\n\t\tCollegeCode as string,\n\t\tLevel_desc as string,\n\t\tSSBSECT_CRSE_NUMB as string,\n\t\tSCBCRSE_TITLE as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tTermCode,\n\t\tTerm,\n\t\tStudentNSUID,\n\t\tLevelCode,\n\t\tDegreeCode,\n\t\tStudentStatus,\n\t\tnumTermGPA,\n\t\tnumOverallGPA,\n\t\tCampusCode,\n\t\tSTVRSTS_INCL_SECT_ENRL,\n\t\tSTVRSTS_INCL_SECT_ENRL_bool,\n\t\tSSBSECT_SUBJ_CODE,\n\t\tCollegeCode,\n\t\tLevel_desc,\n\t\tSSBSECT_CRSE_NUMB,\n\t\tSCBCRSE_TITLE\n\t)) ~> OutputModelTable"
+		}
+	}
+}

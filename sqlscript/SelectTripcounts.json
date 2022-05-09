@@ -1,0 +1,20 @@
+{
+	"name": "SelectTripcounts",
+	"properties": {
+		"folder": {
+			"name": "Files to Name"
+		},
+		"content": {
+			"query": "SELECT count(*)\n FROM [nyctaxi].[dbo].[trip2018csv]\n\n select count(*)\n from [nyctaxi].[dbo].[trip1]",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "nyctaxi",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

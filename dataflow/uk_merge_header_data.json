@@ -1,0 +1,31 @@
+{
+	"name": "uk_merge_header_data",
+	"properties": {
+		"folder": {
+			"name": "UK-Canvas"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "uk_extracted_files",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "uk_headerfile",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tColumn_1 as string,\n\t\tColumn_2 as string,\n\t\tColumn_3 as string,\n\t\tColumn_4 as string,\n\t\tColumn_5 as string,\n\t\tColumn_6 as string,\n\t\tColumn_7 as string,\n\t\tColumn_8 as string,\n\t\tColumn_9 as string,\n\t\tColumn_10 as string,\n\t\tColumn_11 as string,\n\t\tColumn_12 as string,\n\t\tColumn_13 as string,\n\t\tColumn_14 as string,\n\t\tColumn_15 as string,\n\t\tColumn_16 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> source1\nsource1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tid as string,\n\t\tcanvas_id as string,\n\t\troot_account_id as string,\n\t\taccount_id as string,\n\t\tenrollment_term_id as string,\n\t\tname as string,\n\t\tcode as string,\n\t\ttype as string,\n\t\tcreated_at as string,\n\t\tstart_at as string,\n\t\tconclude_at as string,\n\t\tpublicly_visible as string,\n\t\tsis_source_id as string,\n\t\tworkflow_state as string,\n\t\twiki_id as string,\n\t\tsyllabus_body as string\n\t),\n\tumask: 0022,\n\tpreCommands: [],\n\tpostCommands: [],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tmapColumn(\n\t\tid = Column_1,\n\t\tcanvas_id = Column_2,\n\t\troot_account_id = Column_3,\n\t\taccount_id = Column_4,\n\t\tenrollment_term_id = Column_5,\n\t\tname = Column_6,\n\t\tcode = Column_7,\n\t\ttype = Column_8,\n\t\tcreated_at = Column_9,\n\t\tstart_at = Column_10,\n\t\tconclude_at = Column_11,\n\t\tpublicly_visible = Column_10,\n\t\tsis_source_id = Column_11,\n\t\tworkflow_state = Column_12,\n\t\twiki_id = Column_13,\n\t\tsyllabus_body = Column_14\n\t)) ~> sink1"
+		}
+	}
+}

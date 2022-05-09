@@ -1,0 +1,47 @@
+{
+	"name": "TwitterTable",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "QnAMailbox",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "TwitterText",
+				"type": "varchar"
+			},
+			{
+				"name": "TwitterTimeStamp",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Tag",
+				"type": "varchar"
+			},
+			{
+				"name": "UserId",
+				"type": "varchar"
+			},
+			{
+				"name": "Location",
+				"type": "varchar"
+			},
+			{
+				"name": "TweetId",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "TwitterThings"
+		}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

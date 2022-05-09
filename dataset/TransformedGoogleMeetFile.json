@@ -1,0 +1,39 @@
+{
+	"name": "TransformedGoogleMeetFile",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "educsademo-WorkspaceDefaultStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "processed",
+				"fileSystem": "nycdoe"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"etag": {
+					"type": "string"
+				},
+				"eventname": {
+					"type": "string"
+				},
+				"intValue": {
+					"type": "string"
+				},
+				"name": {
+					"type": "string"
+				},
+				"value": {
+					"type": "string"
+				}
+			}
+		}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

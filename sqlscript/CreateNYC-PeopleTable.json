@@ -1,0 +1,16 @@
+{
+	"name": "CreateNYC-PeopleTable",
+	"properties": {
+		"content": {
+			"query": "Drop TABLE  [NYC].[People]\n\nCREATE TABLE [NYC].[People]\n(\n    [_id] varchar(200) NOT NULL,\n    [name] VARCHAR(200) NOT NULL,\n    [about] varchar(1000)  NOT NULL,\n    [address] varchar(200) NOT NULL,\n    [age] int NOT NULL,\n    [balance] varchar(200) NULL,\n    [Company] varchar(200) NULL,\n    [email] varchar(250) NULL,\n    [eyeColor] varchar(200) NULL,\n    [favoriteFruit] varchar(50) NULL\n    \n)\nWITH\n(\n    DISTRIBUTION = ROUND_ROBIN,\n    CLUSTERED COLUMNSTORE INDEX\n);\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"name": "sqlPool",
+				"type": "SqlPool"
+			}
+		},
+		"type": "SqlQuery"
+	}
+}

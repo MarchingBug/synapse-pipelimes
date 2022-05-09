@@ -1,0 +1,17 @@
+{
+	"name": "DestinationDataset_lra",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NYC_DOE_SHOP",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Admitted"
+		}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

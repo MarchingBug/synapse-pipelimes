@@ -1,0 +1,317 @@
+{
+	"name": "Handwriting OCR API Example",
+	"properties": {
+		"folder": {
+			"name": "Alabama State"
+		},
+		"nbformat": 4,
+		"nbformat_minor": 1,
+		"bigDataPool": {
+			"referenceName": "NotebookPool",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "112g",
+			"driverCores": 16,
+			"executorMemory": "112g",
+			"executorCores": 16,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"kernelspec": {
+				"name": "python3",
+				"display_name": "Python 3"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/20e228e4-63c7-480a-a860-4b61e9623727/resourceGroups/EDU-US-DevPoc/providers/Microsoft.Synapse/workspaces/educsademo/bigDataPools/NotebookPool",
+				"name": "NotebookPool",
+				"type": "Spark",
+				"endpoint": "https://educsademo.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/NotebookPool",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "2.4",
+				"nodeCount": 10,
+				"cores": 16,
+				"memory": 112,
+				"extraHeader": null
+			}
+		},
+		"cells": [
+			{
+				"cell_type": "markdown",
+				"source": [
+					"# Handwriting OCR API example"
+				],
+				"attachments": null
+			},
+			{
+				"cell_type": "markdown",
+				"source": [
+					"### This Jupyter notebook shows you how to get started with the Cognitive Service <b>Computer Vision Handwriting OCR API</b> in Python, and how to visualize your results."
+				],
+				"attachments": null
+			},
+			{
+				"cell_type": "markdown",
+				"source": [
+					"To use this notebook, you will need to get keys to <b>Computer Vision API</b>. Visit <a href=\"https://www.microsoft.com/cognitive-services/en-us/computer-vision-api\">https://www.microsoft.com/cognitive-services/en-us/computer-vision-api</a>, and then the “Try for free” button. On the “Sign in” page, use your Microsoft account to sign in and you will be able to subscribe to Computer Vision API and get free keys (Code of Conduct and TOS). After completing the sign-up process, paste your key into the variables section below. (Either the primary or the secondary key works.)"
+				],
+				"attachments": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"collapsed": true
+				},
+				"source": [
+					"import time \n",
+					"import requests\n",
+					"#import cv2\n",
+					"import operator\n",
+					"import numpy as np\n",
+					"\n",
+					""
+				],
+				"attachments": null,
+				"execution_count": 4
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"collapsed": true
+				},
+				"source": [
+					"# Variables\n",
+					"_url = 'https://edu-csa-cognitive-services.cognitiveservices.azure.com/vision/v3.1/ocr' # Here, paste your full endpoint from the Azure portal\n",
+					"_key = 'a647801a09ad491caab64b45f6975a5d' # Here, paste your primary key\n",
+					"_maxNumRetries = 10"
+				],
+				"attachments": null,
+				"execution_count": 5
+			},
+			{
+				"cell_type": "markdown",
+				"source": [
+					"# Helper functions"
+				],
+				"attachments": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"collapsed": true
+				},
+				"source": [
+					"def processRequest( json, data, headers, params ):\n",
+					"\n",
+					"    \"\"\"\n",
+					"    Helper function to process the request to Project Oxford\n",
+					"\n",
+					"    Parameters:\n",
+					"    json: Used when processing images from its URL. See API Documentation\n",
+					"    data: Used when processing image read from disk. See API Documentation\n",
+					"    headers: Used to pass the key information and the data type request\n",
+					"    \"\"\"\n",
+					"\n",
+					"    retries = 0\n",
+					"    result = None\n",
+					"    print(json)\n",
+					"\n",
+					"    while True:\n",
+					"        response = requests.request( 'post', _url, json = json, data = data, headers = headers, params = params )       \n",
+					"        if response.status_code == 429:\n",
+					"            print( \"Message: %s\" % ( response.json() ) )\n",
+					"            if retries <= _maxNumRetries: \n",
+					"                time.sleep(1) \n",
+					"                retries += 1\n",
+					"                continue\n",
+					"            else: \n",
+					"                print( 'Error: failed after retrying!' )\n",
+					"                break\n",
+					"        elif response.status_code == 202:\n",
+					"            result = response.headers['Operation-Location']\n",
+					"        else:\n",
+					"            print( \"Error code: %d\" % ( response.status_code ) )\n",
+					"            print( \"Message: %s\" % ( response.json() ) )\n",
+					"        break\n",
+					"        \n",
+					"    return result"
+				],
+				"attachments": null,
+				"execution_count": 6
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"collapsed": true
+				},
+				"source": [
+					"def getOCRTextResult( operationLocation, headers ):\n",
+					"    \"\"\"\n",
+					"    Helper function to get text result from operation location\n",
+					"\n",
+					"    Parameters:\n",
+					"    operationLocation: operationLocation to get text result, See API Documentation\n",
+					"    headers: Used to pass the key information\n",
+					"    \"\"\"\n",
+					"\n",
+					"    retries = 0\n",
+					"    result = None\n",
+					"\n",
+					"    while True:\n",
+					"        response = requests.request('get', operationLocation, json=None, data=None, headers=headers, params=None)\n",
+					"        if response.status_code == 429:\n",
+					"            print(\"Message: %s\" % (response.json()))\n",
+					"            if retries <= _maxNumRetries:\n",
+					"                time.sleep(1)\n",
+					"                retries += 1\n",
+					"                continue\n",
+					"            else:\n",
+					"                print('Error: failed after retrying!')\n",
+					"                break\n",
+					"        elif response.status_code == 200:\n",
+					"            result = response.json()\n",
+					"        else:\n",
+					"            print(\"Error code: %d\" % (response.status_code))\n",
+					"            print(\"Message: %s\" % (response.json()))\n",
+					"        break\n",
+					"\n",
+					"    return result"
+				],
+				"attachments": null,
+				"execution_count": 7
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"collapsed": true
+				},
+				"source": [
+					"def showResultOnImage( result, img ):\n",
+					"    \n",
+					"    \"\"\"Display the obtained results onto the input image\"\"\"\n",
+					"    img = img[:, :, (2, 1, 0)]\n",
+					"    fig, ax = plt.subplots(figsize=(12, 12))\n",
+					"    ax.imshow(img, aspect='equal')\n",
+					"\n",
+					"    lines = result['recognitionResult']['lines']\n",
+					"\n",
+					"    for i in range(len(lines)):\n",
+					"        words = lines[i]['words']\n",
+					"        for j in range(len(words)):\n",
+					"            tl = (words[j]['boundingBox'][0], words[j]['boundingBox'][1])\n",
+					"            tr = (words[j]['boundingBox'][2], words[j]['boundingBox'][3])\n",
+					"            br = (words[j]['boundingBox'][4], words[j]['boundingBox'][5])\n",
+					"            bl = (words[j]['boundingBox'][6], words[j]['boundingBox'][7])\n",
+					"            text = words[j]['text']\n",
+					"            x = [tl[0], tr[0], tr[0], br[0], br[0], bl[0], bl[0], tl[0]]\n",
+					"            y = [tl[1], tr[1], tr[1], br[1], br[1], bl[1], bl[1], tl[1]]\n",
+					"            line = Line2D(x, y, linewidth=3.5, color='red')\n",
+					"            ax.add_line(line)\n",
+					"            ax.text(tl[0], tl[1] - 2, '{:s}'.format(text),\n",
+					"            bbox=dict(facecolor='blue', alpha=0.5),\n",
+					"            fontsize=14, color='white')\n",
+					"\n",
+					"    plt.axis('off')\n",
+					"    plt.tight_layout()\n",
+					"    plt.draw()\n",
+					"    plt.show()"
+				],
+				"attachments": null,
+				"execution_count": 8
+			},
+			{
+				"cell_type": "markdown",
+				"source": [
+					"# Analysis of an image stored on disk"
+				],
+				"attachments": null
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"# URL direction to image\n",
+					"#urlImage = 'https://portalstoragewuprod2.azureedge.net/vision/HandWritingOCR/2.jpg'\n",
+					"#urlImage= 'https://eduusdevpoc.blob.core.windows.net/alabama-state/FULL_Index_example_1-FROM_mdp-39015076816407-1263-1304-1611773926-1.pdf?sp=rl&st=2021-02-11T22:22:51Z&se=2021-02-28T22:22:00Z&sv=2020-02-10&sr=b&sig=crUFnfqfZnFK8a3YRX%2Fb41cLEPgNYH%2F5Cyd%2B7mcjt7Y%3D'\n",
+					"urlImage= 'https://eduusdevpoc.blob.core.windows.net/alabama-state/book2/FULL_ToC_example_1-FROM_mdp-39015076816407-1.pdf?sp=rl&st=2021-02-11T22:35:35Z&se=2021-07-28T22:35:00Z&sv=2020-02-10&sr=b&sig=qHtC5UttSBN7msiYjxPjoEY7rigLuq59NuR1DiWq4Qc%3D'\n",
+					"# Computer Vision parameters\n",
+					"params = {'language': 'unk', 'detectOrientation': 'true'}\n",
+					"\n",
+					"headers = dict()\n",
+					"headers['Ocp-Apim-Subscription-Key'] = _key\n",
+					"headers['Content-Type'] = 'application/json'\n",
+					"data = {'url': urlImage}\n",
+					"json = { 'url': urlImage }\n",
+					"\n",
+					"################################\n",
+					"headers = {'Ocp-Apim-Subscription-Key': _key}\n",
+					"params = {'language': 'unk', 'detectOrientation': 'true'}\n",
+					"data = {'url': urlImage}\n",
+					"response = requests.post(ocr_url, headers=headers, params=params, json=data)\n",
+					"response.raise_for_status()\n",
+					"\n",
+					"analysis = response.json()\n",
+					"print(analysis)\n",
+					"################################\n",
+					"\n",
+					""
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"\n",
+					"data = None\n",
+					"\n",
+					"result = None\n",
+					"operationLocation = processRequest(json, data, headers, params)\n",
+					"print(operationLocation)"
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"if (operationLocation != None):\n",
+					"    headers = {}\n",
+					"    headers['Ocp-Apim-Subscription-Key'] = _key\n",
+					"    while True:\n",
+					"        time.sleep(1)\n",
+					"        result = getOCRTextResult(operationLocation, headers)\n",
+					"        if result['status'] == 'Succeeded' or result['status'] == 'Failed':\n",
+					"            break\n",
+					"\n",
+					""
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"if result is not None and result['status'] == 'Succeeded':\n",
+					"    # Load the original image, fetched from the URL\n",
+					"    arr = np.asarray( bytearray( requests.get( urlImage ).content ), dtype=np.uint8 )\n",
+					"    img = cv2.cvtColor( cv2.imdecode( arr, -1 ), cv2.COLOR_BGR2RGB )\n",
+					"    showResultOnImage( result, img )"
+				],
+				"attachments": null,
+				"execution_count": null
+			}
+		]
+	}
+}

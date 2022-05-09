@@ -1,0 +1,19 @@
+{
+	"name": "4 - Create Temp table",
+	"properties": {
+		"folder": {
+			"name": "Polybase Import"
+		},
+		"content": {
+			"query": "-- Create a temp table to hold the imported data\nCREATE EXTERNAL TABLE dbo.Temp (\n    [Date] datetime2(3) NULL,\n    [DateKey] decimal(38, 0) NULL,\n    [MonthKey] decimal(38, 0) NULL,\n    [Month] nvarchar(100) NULL,\n    [Quarter] nvarchar(100) NULL,\n    [Year] decimal(38, 0) NULL,\n    [Year-Quarter] nvarchar(100) NULL,\n    [Year-Month] nvarchar(100) NULL,\n    [Year-MonthKey] nvarchar(100) NULL,\n    [WeekDayKey] decimal(38, 0) NULL,\n    [WeekDay] nvarchar(100) NULL,\n    [Day Of Month] decimal(38, 0) NULL\n)\nWITH (\n    LOCATION='../',\n    DATA_SOURCE=AzureStorage,\n    FILE_FORMAT=TextFile\n);",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "sqlPool",
+				"poolName": "sqlPool"
+			}
+		},
+		"type": "SqlQuery"
+	}
+}

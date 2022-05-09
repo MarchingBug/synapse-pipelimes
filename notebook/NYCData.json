@@ -1,0 +1,227 @@
+{
+	"name": "NYCData",
+	"properties": {
+		"folder": {
+			"name": "Miscellaneous"
+		},
+		"nbformat": 0,
+		"nbformat_minor": 0,
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"synapse_widget": {
+				"version": "0.1"
+			},
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "python"
+			},
+			"language_info": {
+				"name": "python"
+			}
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "Mount Data Lake Container Function",
+						"showTitle": true,
+						"nuid": "957b2e81-1eb3-40b6-93c1-5db227ee42f1"
+					}
+				},
+				"source": [
+					"#Setup connection to storage account\n",
+					"\n",
+					"def MountDataLakeContainer(datalakeAccountName, datalakeAccountKey, containerName, mountPointName):\n",
+					"    dataLakeAccountDNS = datalakeAccountName + \".blob.core.windows.net\"\n",
+					"    \n",
+					"    dataLakeAuthTypeConfig = \"fs.azure.account.auth.type.\" + dataLakeAccountDNS\n",
+					"    dataLakeKeyConfig = \"fs.azure.account.key.\" + dataLakeAccountDNS\n",
+					"    \n",
+					"    dataLakeExtraConfig = {dataLakeAuthTypeConfig:\"SharedKey\"\n",
+					"                           , dataLakeKeyConfig:datalakeAccountKey}\n",
+					"    \n",
+					"    containerUri = \"wasbs://\" + containerName + \"@\" + dataLakeAccountDNS\n",
+					"    mountPointFolder = \"/mnt/\" + mountPointName\n",
+					"\n",
+					"    try:\n",
+					"        dbutils.fs.mount(source = containerUri, mount_point = mountPointFolder, extra_configs = dataLakeExtraConfig)\n",
+					"    except Exception as e:\n",
+					"        if \"Directory already mounted\" in str(e):\n",
+					"            pass # Ignore error if already mounted.\n",
+					"        else:\n",
+					"            raise e\n",
+					"    return containerUri\n",
+					"  \n",
+					"######### End of function  ########################\n",
+					"\n",
+					"#Set Account Name and Key Variable Values\n",
+					"dataLakeAccountName = 'edumdwstorageadc' \n",
+					"dataLakeAccountKey = 'HNcjtlp/yqy4hJvSZyzsB0CVvfN5SdTelYbf1oXGjtQq/DGOQrfo5+iF9z6EC+W3I2qtgfT7Rc5J4+MnXl3Tfw==' \n",
+					"\n",
+					"#Mount NYCTaxiData-Raw and NYCTaxiData-Curated Containers\n",
+					"MountDataLakeContainer(dataLakeAccountName, dataLakeAccountKey, 'nyctaxidata', 'nycdata')\n",
+					""
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "Define NYCTaxiData schema and load data into a Data Frame",
+						"showTitle": true,
+						"nuid": "bd076560-8ceb-4691-a3d6-2977d6f68fb1"
+					}
+				},
+				"source": [
+					"#Define NYCTaxiData schema and load data into a Data Frame\n",
+					"\n",
+					"from pyspark.sql.types import *\n",
+					"\n",
+					"nycTaxiDataSchema = StructType([\n",
+					"  StructField(\"VendorID\",IntegerType(),True)\n",
+					"  , StructField(\"tpep_pickup_datetime\",DateType(),True)\n",
+					"  , StructField(\"tpep_dropoff_datetime\",DateType(),True)\n",
+					"  , StructField(\"passenger_count\",IntegerType(),True)\n",
+					"  , StructField(\"trip_distance\",DoubleType(),True)\n",
+					"  , StructField(\"RatecodeID\",IntegerType(),True)\n",
+					"  , StructField(\"store_and_fwd_flag\",StringType(),True)\n",
+					"  , StructField(\"PULocationID\",IntegerType(),True)\n",
+					"  , StructField(\"DOLocationID\",IntegerType(),True)\n",
+					"  , StructField(\"payment_type\",IntegerType(),True)\n",
+					"  , StructField(\"fare_amount\",DoubleType(),True)\n",
+					"  , StructField(\"extra\",DoubleType(),True)\n",
+					"  , StructField(\"mta_tax\",DoubleType(),True)\n",
+					"  , StructField(\"tip_amount\",DoubleType(),True)\n",
+					"  , StructField(\"tolls_amount\",DoubleType(),True)\n",
+					"  , StructField(\"improvement_surcharge\",DoubleType(),True)\n",
+					"  , StructField(\"total_amount\",DoubleType(),True)])\n",
+					"  \n",
+					"dfNYCTaxiData = spark.read.format('csv').options(header='true').schema(nycTaxiDataSchema).load('/mnt/nycdata/*.csv')\n",
+					"dfNYCTaxiData.cache()"
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "Display Data Frame Content",
+						"showTitle": true,
+						"nuid": "0bffa0e9-750a-49b8-b33e-05b80fe1aeb4"
+					}
+				},
+				"source": [
+					"display(dfNYCTaxiData)"
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "Use Data Frame API Operations to Filter Data",
+						"showTitle": true,
+						"nuid": "72846e6f-db3a-4ce1-b324-e1381757cada"
+					}
+				},
+				"source": [
+					"display(dfNYCTaxiData.select(\"tpep_pickup_datetime\", \"passenger_count\", \"total_amount\").filter(\"passenger_count > 6 and total_amount > 50.0\"))"
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "Create Local Temp View",
+						"showTitle": true,
+						"nuid": "8e87d2f5-232b-4a76-9f43-11e4e2452dff"
+					}
+				},
+				"source": [
+					"\n",
+					"dfNYCTaxiData.createOrReplaceTempView('NYCTaxiDataTable')"
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "Use SQL to count NYC Taxi Data records",
+						"showTitle": true,
+						"nuid": "2bee0bc2-79cd-42e1-a82c-c9012fae7540"
+					}
+				},
+				"source": [
+					"%sql\n",
+					"select count(*) from NYCTaxiDataTable"
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": " Use SQL to aggregate NYC Taxi Data records and visualize data",
+						"showTitle": true,
+						"nuid": "82652f77-9076-4fdc-9180-ff6ac1e8c34a"
+					}
+				},
+				"source": [
+					"%sql\n",
+					"select case payment_type\n",
+					"            when 1 then 'Credit card'\n",
+					"            when 2 then 'Cash'\n",
+					"            when 3 then 'No charge'\n",
+					"            when 4 then 'Dispute'\n",
+					"            when 5 then 'Unknown'\n",
+					"            when 6 then 'Voided trip'\n",
+					"        end as PaymentType\n",
+					"  , count(*) as TotalRideCount\n",
+					"from NYCTaxiDataTable\n",
+					"group by payment_type\n",
+					"order by TotalRideCount desc"
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "67f4e049-64a1-4379-a1a0-3920040ef86c"
+					}
+				},
+				"source": [
+					""
+				],
+				"attachments": null,
+				"execution_count": 0
+			}
+		]
+	}
+}

@@ -1,0 +1,88 @@
+{
+	"name": "RedCap Download",
+	"properties": {
+		"folder": {
+			"name": "Yale"
+		},
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "NotebookPool",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "112g",
+			"driverCores": 16,
+			"executorMemory": "112g",
+			"executorCores": 16,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "cafbdfd4-acca-439c-b739-a848e7e11830"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"synapse_widget": {
+				"version": "0.1"
+			},
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "Synapse PySpark"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/20e228e4-63c7-480a-a860-4b61e9623727/resourceGroups/EDU-US-DevPoc/providers/Microsoft.Synapse/workspaces/educsademo/bigDataPools/NotebookPool",
+				"name": "NotebookPool",
+				"type": "Spark",
+				"endpoint": "https://educsademo.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/NotebookPool",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "2.4",
+				"nodeCount": 10,
+				"cores": 16,
+				"memory": 112,
+				"extraHeader": null
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"source": [
+					"#!/usr/bin/env python \r\n",
+					"import requests\r\n",
+					"data = {\r\n",
+					"    'token': '6C669E6851FE4B5FA294CD227A09B4E6',\r\n",
+					"    'batch_size' = '100L',\r\n",
+					"    'content': 'record',\r\n",
+					"    'action': 'export',\r\n",
+					"    'format': 'json',\r\n",
+					"    'type': 'flat',\r\n",
+					"    'csvDelimiter': '',\r\n",
+					"    'rawOrLabel': 'raw',\r\n",
+					"    'rawOrLabelHeaders': 'raw',\r\n",
+					"    'exportCheckboxLabel': 'false',\r\n",
+					"    'exportSurveyFields': 'false',\r\n",
+					"    'exportDataAccessGroups': 'false',\r\n",
+					"    'returnFormat': 'json'\r\n",
+					"}\r\n",
+					"r = requests.post('https://redcap.research.yale.edu/api/',data=data)\r\n",
+					"print('HTTP Status: ' + str(r.status_code))\r\n",
+					"print(r.json())\r\n",
+					"\r\n",
+					""
+				],
+				"attachments": null,
+				"execution_count": 1
+			}
+		]
+	}
+}

@@ -1,0 +1,313 @@
+{
+	"name": "GoogleDriveAPI",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "reqtest",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "112g",
+			"driverCores": 16,
+			"executorMemory": "112g",
+			"executorCores": 16,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "79d5eba3-eb6f-4659-9257-1a3971ac53e2"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "Synapse PySpark"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/20e228e4-63c7-480a-a860-4b61e9623727/resourceGroups/EDU-US-DevPoc/providers/Microsoft.Synapse/workspaces/educsademo/bigDataPools/reqtest",
+				"name": "reqtest",
+				"type": "Spark",
+				"endpoint": "https://educsademo.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/reqtest",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "2.4",
+				"nodeCount": 3,
+				"cores": 16,
+				"memory": 112,
+				"extraHeader": null
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"metadata": {
+					"tags": [
+						"parameters"
+					]
+				},
+				"source": [
+					"courseid = ''\n",
+					"Teacherid = ''"
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": true
+				},
+				"source": [
+					"CREDENTIALS = '{\"web\":{\"client_id\":\"604869050304-qhtj48jruvonpsmahro3enp7r15ckmdq.apps.googleusercontent.com\",\"project_id\":\"quickstart-1578674355189\",\"auth_uri\":\"https://accounts.google.com/o/oauth2/auth\",\"token_uri\":\"https://oauth2.googleapis.com/token\",\"auth_provider_x509_cert_url\":\"https://www.googleapis.com/oauth2/v1/certs\",\"client_secret\":\"SvkFWUS0OR0OGcss7IGAEOBt\",\"redirect_uris\":[\"https://educsagoogleapitest.azurewebsites.net/.auth/login/google/callback\"],\"javascript_origins\":[\"https://educsagoogleapitest.azurewebsites.net\"]}}'\n",
+					"\n",
+					"SECRETS = '{\"installed\":{\"client_id\":\"604869050304-k0n0ppbs8e8r22b5gfljisdp3k00gju5.apps.googleusercontent.com\",\"project_id\":\"quickstart-1578674355189\",\"auth_uri\":\"https://accounts.google.com/o/oauth2/auth\",\"token_uri\":\"https://oauth2.googleapis.com/token\",\"auth_provider_x509_cert_url\":\"https://www.googleapis.com/oauth2/v1/certs\",\"client_secret\":\"W7mv3o93rTDtnMIvsuP27yRM\",\"redirect_uris\":[\"urn:ietf:wg:oauth:2.0:oob\",\"http://localhost\"]}}'\n",
+					"\n",
+					"MYCREDS = '{\"access_token\": \"ya29.A0AfH6SMD47LJ1m_w4TxZ6KlznTj36VmmPdkslGOUHlRSws8XBKhfcs-OLkroK0dKp0sAG5KP0M61cyVYdvZDG2l7o-Prt47JsFutd3beq-uxBkBCf6xT9-rRzBProDx6mrOeim09sbo0UjWmQdrzLBS5T0BVjRxv4yOhEzWTKq_s\", \"client_id\": \"604869050304-k0n0ppbs8e8r22b5gfljisdp3k00gju5.apps.googleusercontent.com\", \"client_secret\": \"W7mv3o93rTDtnMIvsuP27yRM\", \"refresh_token\": \"1//055pFQKp51j8bCgYIARAAGAUSNwF-L9Ir657CMaIjRcG-r2BkSFk53BVleIo5vrQIfXYfSvQHz4KSyRpjBVaT9dVKgsnGlHpWKQc\", \"token_expiry\": \"2020-11-07T08:33:16Z\", \"token_uri\": \"https://oauth2.googleapis.com/token\", \"user_agent\": null, \"revoke_uri\": \"https://oauth2.googleapis.com/revoke\", \"id_token\": null, \"id_token_jwt\": null, \"token_response\": {\"access_token\": \"ya29.A0AfH6SMD47LJ1m_w4TxZ6KlznTj36VmmPdkslGOUHlRSws8XBKhfcs-OLkroK0dKp0sAG5KP0M61cyVYdvZDG2l7o-Prt47JsFutd3beq-uxBkBCf6xT9-rRzBProDx6mrOeim09sbo0UjWmQdrzLBS5T0BVjRxv4yOhEzWTKq_s\", \"expires_in\": 3599, \"refresh_token\": \"1//055pFQKp51j8bCgYIARAAGAUSNwF-L9Ir657CMaIjRcG-r2BkSFk53BVleIo5vrQIfXYfSvQHz4KSyRpjBVaT9dVKgsnGlHpWKQc\", \"scope\": \"https://www.googleapis.com/auth/drive\", \"token_type\": \"Bearer\"}, \"scopes\": [\"https://www.googleapis.com/auth/drive\"], \"token_info_uri\": \"https://oauth2.googleapis.com/tokeninfo\", \"invalid\": false, \"_class\": \"OAuth2Credentials\", \"_module\": \"oauth2client.client\"}'"
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"import pip\n",
+					"for i in pip.get_installed_distributions(local_only=True):\n",
+					"    print(i)"
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"import json\n",
+					"creds = json.loads(CREDENTIALS)\n",
+					"with open('credentials.json', 'w') as outfile:\n",
+					"    json.dump(creds, outfile)\n",
+					"\n",
+					"secrets = json.loads(SECRETS)\n",
+					"with open('client_secrets.json', 'w') as outfile:\n",
+					"    json.dump(secrets, outfile)\n",
+					"\n",
+					"\n",
+					"mycreds = json.loads(MYCREDS)\n",
+					"with open('mycreds.txt', 'w') as outfile:\n",
+					"    json.dump(mycreds, outfile)\n",
+					""
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"import pydrive\n",
+					"from pydrive.auth import GoogleAuth\n",
+					"from pydrive.drive import GoogleDrive\n",
+					"\n",
+					"gauth = GoogleAuth()"
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"# Try to load saved client credentials\n",
+					"gauth.LoadCredentialsFile(\"mycreds.txt\")"
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"if gauth.credentials is None:\n",
+					"   print('nope')\n",
+					"elif gauth.access_token_expired:\n",
+					"    # Refresh them if expired\n",
+					"    print('need to refresh')\n",
+					"else:\n",
+					"    # Initialize the saved creds\n",
+					"   print('need to authorize')\n",
+					""
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"\n",
+					"\n",
+					"if gauth.credentials is None:\n",
+					"    # Authenticate if they're not there\n",
+					"    gauth.LocalWebserverAuth(\"localhost\", [3000, 8080])\n",
+					"elif gauth.access_token_expired:\n",
+					"    # Refresh them if expired\n",
+					"    gauth.Refresh()\n",
+					"else:\n",
+					"    # Initialize the saved creds\n",
+					"    gauth.Authorize()\n",
+					"# Save the current credentials to a file\n",
+					"gauth.SaveCredentialsFile(\"mycreds.txt\")\n",
+					"\n",
+					"drive = GoogleDrive(gauth)\n",
+					"\n",
+					"# Create GoogleDriveFile instance with title 'Hello.txt'.\n",
+					"file1 = drive.CreateFile({'title': 'Hello.txt'})\n",
+					"file1.Upload() # Upload the file.\n",
+					"print('title: %s, id: %s' % (file1['title'], file1['id']))\n",
+					"# title: Hello.txt, id: {{FILE_ID}}"
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"filelist=[]\n",
+					"def ListFolder(parent,folderName):  \n",
+					"  file_list = drive.ListFile({'q': \"'%s' in parents and trashed=false\" % parent}).GetList()  \n",
+					"  for f in file_list:\n",
+					"    if f['mimeType']=='application/vnd.google-apps.folder': # if folder        \n",
+					"        folderName = f['title']           \n",
+					"        ListFolder(f['id'],folderName)      \n",
+					"    else:        \n",
+					"        filelist.append({\"folderid\":parent,\"folderName\":folderName,\"title\":f['title'],\"title1\":f['alternateLink']})\n",
+					"  return filelist\n",
+					"\n",
+					"\n",
+					"filelist = ListFolder('root','root')\n",
+					""
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"print(filelist)"
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"x = json.dumps(filelist)\n",
+					"print(x)"
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"df = spark.read.json(sc.parallelize([x]))\n",
+					"df.show()"
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"print('Register the DataFrame as a SQL temporary view: source')\n",
+					"df.createOrReplaceTempView('source')"
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"microsoft": {
+						"language": "scala"
+					}
+				},
+				"source": [
+					"%%spark\n",
+					"// Write the dataframe into your sql pool\n",
+					"import org.apache.spark.sql.SqlAnalyticsConnector._\n",
+					"import com.microsoft.spark.sqlanalytics.utils.Constants\n",
+					"import com.microsoft.spark.sqlanalytics\n",
+					"import org.apache.spark.sql.{DataFrameReader, DataFrameWriter, Row, SaveMode}\n",
+					"\n",
+					"val sql_pool_name = \"sqlPool\" //fill in your sql pool name"
+				],
+				"attachments": null,
+				"execution_count": 1
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"microsoft": {
+						"language": "scala"
+					}
+				},
+				"source": [
+					"%%spark\n",
+					"val files = spark.sql(\"SELECT * FROM source\")\n",
+					"files.show(5,truncate = false)\n",
+					"//files.write.mode(\"append\").sqlanalytics(s\"$sql_pool_name.Staging.Files\", Constants.INTERNAL)\n",
+					"files.write.format(\"jdbc\").mode(SaveMode.Append).option(\"url\", \"jdbc:sqlserver://educsademo.sql.azuresynapse.net:1433\").option(\"driver\", \"com.microsoft.sqlserver.jdbc.SQLServerDriver\").option(\"database\",\"sqlPool\").option(\"dbtable\", \"staging.files\").option(\"user\", \"sqladminuser@educsademo\").option(\"password\", \"#Welcome2018#\").save()  \n",
+					""
+				],
+				"attachments": null,
+				"execution_count": 2
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"#Save to parquet\n",
+					"from pyspark.sql import SparkSession\n",
+					"spark.conf.set(\"spark.sql.execution.arrow.enabled\", \"true\")\n",
+					"#Read the file from Blob Storage\n",
+					"storage_account_name = \"edupocdatalake\"\n",
+					"storage_account_access_key = \"7AEdrSo1ec/gz1NOrbil8vqKrzXNRoOY9MqhiOIOOFoKN3KkafpizmlvfFccs0PuQo2h9cVgCL/tNCCBD1qmAA==\"\n",
+					"blob_container = \"mydrivefiles\"\n",
+					"file_name = \"myfiles2.json\"\n",
+					"\n",
+					"spark.conf.set(\"spark.hadoop.mapreduce.fileoutputcommitter.cleanup.skipped\",\"true\")\n",
+					"spark.conf.set(\n",
+					"  \"fs.azure.account.key.\"+storage_account_name+\".blob.core.windows.net\",\n",
+					"  storage_account_access_key)\n",
+					"\n",
+					"blob_location = \"wasbs://\"+blob_container +\"@\" + storage_account_name + \".blob.core.windows.net/\"+file_name\n",
+					"\n",
+					"print(blob_location)"
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"df.repartition(1).write.parquet(blob_location)"
+				],
+				"attachments": null,
+				"execution_count": null
+			}
+		]
+	}
+}

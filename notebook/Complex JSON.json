@@ -1,0 +1,153 @@
+{
+	"name": "Complex JSON",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "starterpool",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/20e228e4-63c7-480a-a860-4b61e9623727/resourceGroups/EDU-US-DevPoc/providers/Microsoft.Synapse/workspaces/educsademo/bigDataPools/starterpool",
+				"name": "starterpool",
+				"type": "Spark",
+				"endpoint": "https://educsademo.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/starterpool",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "2.4",
+				"nodeCount": 3,
+				"cores": 16,
+				"memory": 112,
+				"extraHeader": null
+			}
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"source": [
+					"#Read the file from Blob Storage\n",
+					"storage_account_name = \"eduusdevpoc\"\n",
+					"storage_account_access_key = \"2p2pbYrinF5gi/QVO6PO8bs9OdbrdInq+Ou7zlP1mkC1uwWR6F3cGddHuc57U/XzM79IvdDprq+CPUmgDkwU8Q==\"\n",
+					"blob_container = \"jsonfiles\"\n",
+					"file_name = \"1488442Geometry.json\"\n",
+					"\n",
+					"spark.conf.set(\n",
+					"  \"fs.azure.account.key.\"+storage_account_name+\".blob.core.windows.net\",\n",
+					"  storage_account_access_key)\n",
+					"\n",
+					"blob_location = \"wasbs://\"+blob_container +\"@\" + storage_account_name + \".blob.core.windows.net/\"+file_name\n",
+					"\n",
+					"#Upload file into data frame\n",
+					"df= spark.read.json(\"wasbs://\"+blob_container +\"@\" + storage_account_name + \".blob.core.windows.net/\", multiLine=True)"
+				],
+				"attachments": null,
+				"execution_count": 3
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"df.printSchema()"
+				],
+				"attachments": null,
+				"execution_count": 4
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"df.show()"
+				],
+				"attachments": null,
+				"execution_count": 5
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"#import libraries\n",
+					"#import pandas as pd\n",
+					"#import collections\n",
+					"#import numpy as np\n",
+					"from pyspark.sql.functions import explode, col\n",
+					"\n",
+					"#import json  \n",
+					"#from pandas.io.json import json_normalize  \n",
+					"\n",
+					"spark.conf.set(\"spark.sql.execution.arrow.enabled\", \"true\")"
+				],
+				"attachments": null,
+				"execution_count": 6
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"#flatten first part\n",
+					"friends_struct = df.select(explode(\"friends\").alias(\"friends\"))\n",
+					"friends_struct.printSchema()"
+				],
+				"attachments": null,
+				"execution_count": 7
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"diagram": {
+						"activateDiagramType": 1,
+						"chartConfig": {
+							"category": "bar",
+							"keys": [
+								"name"
+							],
+							"values": [
+								"id"
+							],
+							"yLabel": "id",
+							"xLabel": "name",
+							"aggregation": "SUM",
+							"aggByBackend": false
+						},
+						"aggData": "{\"id\":{\"Abigail Garcia\":0,\"Aisha Sharp\":2,\"Alisha Hayes\":0,\"Ann Parrish\":2,\"Baker Silva\":1,\"Becker Byrd\":2,\"Bennett Day\":1,\"Brandi Hancock\":1,\"Brewer Knox\":1,\"Brock Cobb\":0,\"Camacho Cervantes\":0,\"Cara Fisher\":1,\"Carey Fowler\":2,\"Castro Perez\":2,\"Charmaine Gay\":0,\"Coleen Pennington\":0,\"Colleen Armstrong\":2,\"Cook Vance\":1,\"Daisy Pennington\":1,\"Dana Alston\":1,\"Daniel Malone\":1,\"Dena Bauer\":2,\"Effie Vaughn\":1,\"Eileen Kemp\":2,\"Elisa Blackwell\":0,\"Eloise Prince\":2,\"Erica Alexander\":0,\"Ernestine Wilder\":1,\"Evangeline Mclean\":0,\"Fischer Mckinney\":1,\"Foley Marshall\":1,\"Gentry Hicks\":2,\"Graham Wheeler\":0,\"Haley Mooney\":0,\"Hart Fletcher\":0,\"Hodge Deleon\":2,\"Hogan Oconnor\":1,\"Janna Reese\":2,\"Jeanette Neal\":2,\"Jody Cross\":1,\"Johnston Church\":1,\"June Baldwin\":0,\"Kerri Mckenzie\":2,\"Knox Hobbs\":0,\"Krista Beard\":0,\"Kristen Knapp\":1,\"Kristina Snider\":1,\"Lakisha Wells\":0,\"Lenora Craig\":1,\"Levy Mcbride\":0,\"Lillian Griffin\":0,\"Lorie Cannon\":0,\"Lyons Church\":1,\"Mallory Rowe\":2,\"Mariana Nunez\":0,\"Marina Mccoy\":1,\"Marina Morse\":2,\"Marlene Huber\":0,\"Mary Lara\":2,\"Mccarty Calhoun\":1,\"Mclaughlin Conner\":2,\"Medina Mcdowell\":2,\"Mollie Cardenas\":1,\"Monica Stephenson\":0,\"Muriel Salas\":0,\"Nelson Emerson\":0,\"Norman Ware\":1,\"Ola Hansen\":2,\"Patrice Park\":2,\"Pugh Daniels\":0,\"Reyna Hooper\":2,\"Reynolds Hartman\":0,\"Richards Wong\":2,\"Roy Rosa\":2,\"Sandra Simon\":2,\"Sheppard Contreras\":2,\"Stephens Whitfield\":0,\"Sutton Hess\":1,\"Tameka Murphy\":0,\"Tillman Glenn\":2,\"Tracey Kerr\":1,\"Tracey Wall\":1,\"Tricia Bentley\":2,\"Zelma Barron\":1}}",
+						"isSummary": false,
+						"previewData": {
+							"filter": null
+						},
+						"isSql": false
+					}
+				},
+				"source": [
+					"#extract the structure from the events\n",
+					"friends = friends_struct.select(\"friends.*\")\n",
+					"display(friends)"
+				],
+				"attachments": null,
+				"execution_count": 8
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"#save to sql\n",
+					"events.write.format(\"jdbc\").option(\"url\", \"jdbc:sqlserver://flvs-eda-poc-sqlserver.database.windows.net:1433\").option(\"driver\", \"com.microsoft.sqlserver.jdbc.SQLServerDriver\").option(\"database\",\"eda-poc-sqlserver\").option(\"dbtable\", \"TempCourseEvents\").option(\"user\", \"mainuser\").option(\"password\", \"P@$$word123\").save()"
+				],
+				"attachments": null,
+				"execution_count": null
+			}
+		]
+	}
+}

@@ -1,0 +1,19 @@
+{
+	"name": "SourceDataset_mvn",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Source files",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"container": "donations"
+			}
+		},
+		"schema": {}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

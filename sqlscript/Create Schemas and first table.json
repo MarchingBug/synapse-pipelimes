@@ -1,0 +1,16 @@
+{
+	"name": "Create Schemas and first table",
+	"properties": {
+		"content": {
+			"query": "create schema [NYC]\ngo\ncreate schema [Staging]\ngo\n\ncreate table [Staging].[NYCTaxiData]\n(\n    [VendorID] [int] NULL,\n    [tpep_pickup_datetime] [datetime] NULL,\n    [tpep_dropoff_datetime] [datetime] NULL,\n    [passenger_count] [smallint] NULL,\n    [trip_distance] [decimal](8, 2) NULL,\n    [RatecodeID] [smallint] NULL,\n    [store_and_fwd_flag] [char](1) NULL,\n    [PULocationID] [int] NULL,\n    [DOLocationID] [int] NULL,\n    [payment_type] [smallint] NULL,\n    [fare_amount] [decimal](10, 2) NULL,\n    [extra] [decimal](10, 2) NULL,\n    [mta_tax] [decimal](10, 2) NULL,\n    [tip_amount] [decimal](10, 2) NULL,\n    [tolls_amount] [decimal](10, 2) NULL,\n    [improvement_surcharge] [decimal](10, 2) NULL,\n    [total_amount] [decimal](10, 2) NULL\n)\nwith\n(\n    distribution = round_robin,\n    heap\n)\ngo",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"name": "sqlPool",
+				"type": "SqlPool"
+			}
+		},
+		"type": "SqlQuery"
+	}
+}

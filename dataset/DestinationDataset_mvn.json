@@ -1,0 +1,16 @@
+{
+	"name": "DestinationDataset_mvn",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AnonimizeDB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"table": "mynewtable"
+		}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

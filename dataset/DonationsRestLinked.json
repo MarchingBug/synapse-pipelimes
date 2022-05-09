@@ -1,0 +1,16 @@
+{
+	"name": "DonationsRestLinked",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DonationApiCall",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"typeProperties": {
+			"relativeUrl": "https://apidemolgbac.azurewebsites.net/api/donations"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

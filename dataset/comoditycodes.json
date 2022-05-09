@@ -1,0 +1,17 @@
+{
+	"name": "comoditycodes",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NYC_DOE_SHOP",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "commodity_codes_appcode"
+		}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

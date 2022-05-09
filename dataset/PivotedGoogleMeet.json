@@ -1,0 +1,48 @@
+{
+	"name": "PivotedGoogleMeet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "educsademo-WorkspaceDefaultStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "googlemeetpivot.json",
+				"folderPath": "pivotfiles",
+				"fileSystem": "nycdoe"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"etag": {
+					"type": "string"
+				},
+				"name": {
+					"type": "string"
+				},
+				"parameters": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"intValue": {
+								"type": "string"
+							},
+							"name": {
+								"type": "string"
+							}
+						}
+					}
+				},
+				"type": {
+					"type": "string"
+				}
+			}
+		}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

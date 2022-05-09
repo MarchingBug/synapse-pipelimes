@@ -1,0 +1,16 @@
+{
+	"name": "Create Final Tables",
+	"properties": {
+		"content": {
+			"query": "Create table [NYC].[TaxiDataSummary]\n(\n    [PickUpDate] [date] NULL,\n    [PickUpBorough] [varchar](200) NULL,\n    [PickUpZone] [varchar](200) NULL,\n    [PaymentType] [varchar](11) NULL,\n    [TotalTripCount] [int] NULL,\n    [TotalPassengerCount] [int] NULL,\n    [TotalDistanceTravelled] [decimal](38, 2) NULL,\n    [TotalTipAmount] [decimal](38, 2) NULL,\n    [TotalFareAmount] [decimal](38, 2) NULL,\n    [TotalTripAmount] [decimal](38, 2) NULL\n)\nwith\n(\n    distribution = round_robin,\n    clustered columnstore index\n)\n\ngo\n\ncreate table [NYC].[TaxiLocationLookup]\n(\n    [LocationID] [int] NULL,\n    [Borough] [varchar](200) NULL,\n    [Zone] [varchar](200) NULL,\n    [ServiceZone] [varchar](200) NULL\n)\nwith\n(\n    distribution = round_robin,\n    clustered columnstore index\n)\ngo",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"name": "sqlPool",
+				"type": "SqlPool"
+			}
+		},
+		"type": "SqlQuery"
+	}
+}

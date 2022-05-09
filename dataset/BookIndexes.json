@@ -1,0 +1,21 @@
+{
+	"name": "BookIndexes",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Source files",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Orc",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "*.pdf",
+				"container": "alabama-state"
+			},
+			"enablePhysicalSchema": true
+		},
+		"schema": []
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

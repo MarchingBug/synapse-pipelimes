@@ -1,0 +1,20 @@
+{
+	"name": "Create NYCTaxiDataTestTable",
+	"properties": {
+		"folder": {
+			"name": "Files to Name"
+		},
+		"content": {
+			"query": "SET ANSI_NULLS ON\nGO\nSET QUOTED_IDENTIFIER ON\nGO\n\nCREATE TABLE [Staging].[NYCTaxiDataTest]\n( \n\t[VendorID] [int]  NULL,\n\t[tpep_pickup_datetime] [datetime]  NULL,\n\t[tpep_dropoff_datetime] [datetime]  NULL,\n\t[passenger_count] [smallint]  NULL,\n\t[trip_distance] [decimal](8,2)  NULL,\n\t[RatecodeID] [smallint]  NULL,\n\t[store_and_fwd_flag] [char](1)  NULL,\n\t[PULocationID] [int]  NULL,\n\t[DOLocationID] [int]  NULL,\n\t[payment_type] [smallint]  NULL,\n\t[fare_amount] [decimal](10,2)  NULL,\n\t[extra] [decimal](10,2)  NULL,\n\t[mta_tax] [decimal](10,2)  NULL,\n\t[tip_amount] [decimal](10,2)  NULL,\n\t[tolls_amount] [decimal](10,2)  NULL,\n\t[improvement_surcharge] [decimal](10,2)  NULL,\n\t[total_amount] [decimal](10,2)  NULL\n)\nWITH\n(\n\tDISTRIBUTION = ROUND_ROBIN,\n\tHEAP\n)\nGO",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "sqlPool",
+				"poolName": "sqlPool"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

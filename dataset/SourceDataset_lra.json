@@ -1,0 +1,23 @@
+{
+	"name": "SourceDataset_lra",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AnonimizeDB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Admitted",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Admitted"
+		}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

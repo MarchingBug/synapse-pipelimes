@@ -1,0 +1,195 @@
+{
+	"name": "TwitterFiles",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Source files",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"container": "twitter-things"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"TweetText": {
+					"type": "string"
+				},
+				"TweetId": {
+					"type": "string"
+				},
+				"CreatedAt": {
+					"type": "string"
+				},
+				"CreatedAtIso": {
+					"type": "string"
+				},
+				"RetweetCount": {
+					"type": "integer"
+				},
+				"TweetedBy": {
+					"type": "string"
+				},
+				"MediaUrls": {
+					"type": "array"
+				},
+				"TweetLanguageCode": {
+					"type": "string"
+				},
+				"TweetInReplyToUserId": {
+					"type": "string"
+				},
+				"Favorited": {
+					"type": "boolean"
+				},
+				"UserMentions": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"Id": {
+								"type": "integer"
+							},
+							"FullName": {
+								"type": "string"
+							},
+							"UserName": {
+								"type": "string"
+							}
+						}
+					}
+				},
+				"OriginalTweet": {
+					"type": "object",
+					"properties": {
+						"TweetText": {
+							"type": "string"
+						},
+						"TweetId": {
+							"type": "string"
+						},
+						"CreatedAt": {
+							"type": "string"
+						},
+						"CreatedAtIso": {
+							"type": "string"
+						},
+						"RetweetCount": {
+							"type": "integer"
+						},
+						"TweetedBy": {
+							"type": "string"
+						},
+						"MediaUrls": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"TweetLanguageCode": {
+							"type": "string"
+						},
+						"TweetInReplyToUserId": {
+							"type": "string"
+						},
+						"Favorited": {
+							"type": "boolean"
+						},
+						"UserMentions": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"Id": {
+										"type": "integer"
+									},
+									"FullName": {
+										"type": "string"
+									},
+									"UserName": {
+										"type": "string"
+									}
+								}
+							}
+						},
+						"UserDetails": {
+							"type": "object",
+							"properties": {
+								"FullName": {
+									"type": "string"
+								},
+								"Location": {
+									"type": "string"
+								},
+								"Id": {
+									"type": "integer"
+								},
+								"UserName": {
+									"type": "string"
+								},
+								"FollowersCount": {
+									"type": "integer"
+								},
+								"Description": {
+									"type": "string"
+								},
+								"StatusesCount": {
+									"type": "integer"
+								},
+								"FriendsCount": {
+									"type": "integer"
+								},
+								"FavouritesCount": {
+									"type": "integer"
+								},
+								"ProfileImageUrl": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				},
+				"UserDetails": {
+					"type": "object",
+					"properties": {
+						"FullName": {
+							"type": "string"
+						},
+						"Location": {
+							"type": "string"
+						},
+						"Id": {
+							"type": "integer"
+						},
+						"UserName": {
+							"type": "string"
+						},
+						"FollowersCount": {
+							"type": "integer"
+						},
+						"Description": {
+							"type": "string"
+						},
+						"StatusesCount": {
+							"type": "integer"
+						},
+						"FriendsCount": {
+							"type": "integer"
+						},
+						"FavouritesCount": {
+							"type": "integer"
+						},
+						"ProfileImageUrl": {
+							"type": "string"
+						}
+					}
+				}
+			}
+		}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

@@ -1,0 +1,235 @@
+{
+	"name": "GoogleApis",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "NotebookPool",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "112g",
+			"driverCores": 16,
+			"executorMemory": "112g",
+			"executorCores": 16,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "97e75ba3-5dfe-4e6e-bb1d-b438031367d3"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "python"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/20e228e4-63c7-480a-a860-4b61e9623727/resourceGroups/EDU-US-DevPoc/providers/Microsoft.Synapse/workspaces/educsademo/bigDataPools/NotebookPool",
+				"name": "NotebookPool",
+				"type": "Spark",
+				"endpoint": "https://educsademo.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/NotebookPool",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "2.4",
+				"nodeCount": 10,
+				"cores": 16,
+				"memory": 112,
+				"extraHeader": null
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"metadata": {
+					"tags": [
+						"parameters"
+					]
+				},
+				"source": [
+					"token = 'ya29.A0AfH6SMCfGOokdVB6FMDOt_1agGo9QiNRQSzSAHoHo_7akSwedtXm6Fg-alz0cySnzNHQFse5KUOif6Qh_AQyWCHHZGZiUW1plaCMkPRZtO5uqekdWXiFl2xhEJZB7K7kUnpFC_RBu_HC4tppfby-yFLFTqOSbigfKumMFFIueR4-5STx1hPGXqYRK_WNZld8ZYRpuxXPUbahtPWxK8uphY-Pw_Jv_HU0eR4Jp2qh'"
+				],
+				"attachments": null,
+				"execution_count": 16
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": true
+				},
+				"source": [
+					"SCOPES = [\n",
+					"    \"https://www.googleapis.com/auth/classroom.courses.readonly\",\n",
+					"    \"https://www.googleapis.com/auth/classroom.profile.emails\",\n",
+					"    \"https://www.googleapis.com/auth/classroom.profile.photos\",\n",
+					"    \"https://www.googleapis.com/auth/classroom.rosters.readonly\",\n",
+					"    \"https://www.googleapis.com/auth/admin.directory.user.readonly\",\n",
+					"    \"https://www.googleapis.com/auth/classroom.coursework.students.readonly\"\n",
+					"];\n",
+					" \n",
+					"AZURE_STORAGE_CONNECTION_STRING = \"DefaultEndpointsProtocol=https;AccountName=diitfpe;AccountKey=Zxfou+nZoJc1Q1Z54ae1TpONmFdmgOkfuDjpyfUmmgU51vRaHp/+Qxt4225mRQdE0i41b0ie5WHscollvLtr/w==;EndpointSuffix=core.windows.net\";\n",
+					"\n",
+					"email = 'dataservices@schools.nyc.gov'\n",
+					"\n",
+					"CREDENTIALS = '{\"private_key\": \"-----BEGIN PRIVATE KEY-----\\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCjSKrEN9AR26ES\\nXWXlLbKleWttMtpZY4MhuEAJfzUIOmFdyKXKNGdTvqfuRq0UnPSmpKDYIg7ST8IX\\n0MNN56u/2RfkVVerXSgy1GGo7tsI3nUKRYkPSnqKupsODsktl+8BH1dHoMwzspSm\\n5Qqt3HXApcVa3jwBAY3W8/QjGCfn+3aIAcV9q5F7+8TPhzwjEwsfRqJm8y0DfgDh\\nO1IAH8BDJsJmMFpglIU2eoOWa6OgOgZuBzg+xwL9V6C+iICwaokHJpB0as/+YyRg\\nu4QfIOlYGhMc21GJdKAPi9KHWisQeW9+I3GnvAZHX595I4v2D7ZK2Id0N8y7gaTs\\nYvVoZJC1AgMBAAECggEAEkRfv7TuGllY/ejPV0zTUW+HL6ptQsEpxfIgI+UvJdJW\\nMJDxJJvT5XVibHtMA2Qt0J4r/7y2WMajKa6UHZk/SHwSkAZmLkiCkJvcUx2/CREj\\nbziT7/nT7MTvR4Aq9zv/TpUBhYS9OO66clNpwZqfh85j3lnCGmtglr19wMFZPDq3\\n4HQDfAnUbjOljP4k6wGIOqhDw0M5PoTVsFZQv583Cl3+ZIiY+lgtRqJo+EA1dxK+\\nj6Cg03pkoeG9TaMqz22LUnT0JhZ801yMnnUjA0id+80motomKeAXZH+OPz9k6kbD\\nX7okERcxPw1mJcVuRuQVd/3G/t33jOsmd6+6IWqrfwKBgQDg7cIanz5hR2tknGDb\\n1maBKaQ3gO7r2CHXKMIwL61Xb8BpYZ+E4uLA2t/bygjQ1qBHKpHk6ebuX99hKLAP\\n6s6RF5BLy3FDycSyQ8olh1eg7j1yQJ0v0zRChDoR7l5CidXY1mvfL/C02R95araa\\n2hYm4Acy+zQDVs7EOYeSv9pRLwKBgQC51u/bYJhLIWXoqMIodpS9uNb1KPaRMdoH\\nW2XiahRhVVhdyG89Agz1TK1AI1srUEbc6XAJjj8l0zXUzF+/ofn7veFCPlpy9ebw\\nN/cD7I7vMByLceazbZrpSxZAmIH5on72QZGx+kLk+OjVaU9NVciVXitfopJ+AePz\\nXfmBzHJbWwKBgHSgMv3UxeZwvqlrP/mc4IdmTQSOcNOOvHUwaAfOIMXuZsj9WlXv\\nwn0Wv+3Zgtqt/msIEp+r/BZrVYquKyQFrteibSovsWnhq4B3D9CHrZL/FJMyF46d\\np0I6B1YWz38Wsu/8tfACjn9m+R/eihIetE+x52mywJRepVUvMzGPEqb3AoGAXQsL\\n094s4ZC7IR08+F1GYyakGOKFcHRxILXV8OIDiifcsjej2fuo2TemljIddzYeBISr\\nn10kqJ9ymDQqzBsgubV7jlsBlgUftq2OctyBQ6fm4roIM1Vw9dSuM3EnwgBlaI2z\\nkFQoIdOtXwv2tFV6s64OMTeH+KahpjsqrJ3bs3kCgYEA1rh4Qt/rkgzQlrfXanPk\\n+hc4J8R+yDln6H9aFtrSzLOWOJ38DLMFLN7nH/2sLV2JQ3OIt/sIrrChAIUOkK7H\\nu4+OGGQXaco3VzyAgJx0SLg3BP9D5zv49ZlbbbCQU/PoDi/SGsiB9WQs0PNNEzOQ\\n12Qw3MqoUa7LCA3zJMiUFFo=\\n-----END PRIVATE KEY-----\\n\",\"client_id\": \"7914891501-s39im33fug3kghf0dp1qqeo0j8i6i8dt.apps.googleusercontent.com\",\"api_key\": \"AIzaSyA7vE3LmnjLuHRUatsDJ_ZV_fqRbek62pA\"}'\n",
+					""
+				],
+				"attachments": null,
+				"execution_count": 17
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"import json\n",
+					"x = json.loads(CREDENTIALS)"
+				],
+				"attachments": null,
+				"execution_count": 18
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"from __future__ import print_function\n",
+					"import httplib2\n",
+					"import logging\n",
+					"import os\n",
+					"import pickle\n",
+					"import os.path \n",
+					"import requests\n",
+					"from googleapiclient.discovery import build\n",
+					"from google_auth_oauthlib.flow import InstalledAppFlow\n",
+					"from google.auth.transport.requests import Request\n",
+					"import datetime\n",
+					"import json\n",
+					"from google.auth import crypt\n",
+					"import jwt\n",
+					"from time import time\n",
+					"import requests"
+				],
+				"attachments": null,
+				"execution_count": 19
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"def convertFinalJson(list,folder,type):\n",
+					"    try:\n",
+					"        datenow = datetime.datetime.now()\n",
+					"        dataCourses = none;\n",
+					"        blobName = 'googleclassroomCentral'+datenow+'.json'\n",
+					"        containerName = 'rldatalake/googlecentral/courses/full/'+folder\n",
+					"\n",
+					"        if type != 'b':\n",
+					"            blobName = 'Datalog.json'\n",
+					"            containerName = 'rldatalake/googlecentral/courses/full/datalog'\n",
+					"        \n",
+					"        print(list)\n",
+					"        \n",
+					"        #Get a reference to a container\n",
+					"        #blobServiceClient = BlobServiceClient.fromConnectionString(AZURE_STORAGE_CONNECTION_STRING);        \n",
+					"        #containerClient = blobServiceClient.getContainerClient(containerName);\n",
+					"        #blockBlobClient = containerClient.getBlockBlobClient(blobName);\n",
+					"        #dataCourses = JSON.stringify(list);\n",
+					"        #console.log('**** priting the memory at upload',process.memoryUsage());\n",
+					"        #uploadBlobResponse = blockBlobClient.upload(dataCourses, dataCourses.length);\n",
+					"        #print.log('**** uploaded blob filejson success', blobName);\n",
+					"    \n",
+					"    except: \n",
+					"        e = sys.exc_info()[0]\n",
+					"        print( \"Error: %s\" % e )\n",
+					""
+				],
+				"attachments": null,
+				"execution_count": 20
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"def getCourses (folder,nextPageToken):\n",
+					"    #jsonDataList = [];  \n",
+					"    pageSize = 500;\n",
+					"    \n",
+					"    pageToken = token\n",
+					"    print(pageToken)\n",
+					"    if nextPageToken != None:\n",
+					"       pageToken = nextPageToken;\n",
+					"\n",
+					"    #options = {\n",
+					"    #    \"method\": \"get\",\n",
+					"    #    headers: {\n",
+					"    #        'Content-Type': 'application/json',\n",
+					"    #        Authorization: 'Bearer ' + token,\n",
+					"    #    },\n",
+					"    #}\n",
+					"    #var url = 'https://classroom.googleapis.com/v1/courses?&pageSize=500&pageToken=CikKJxIlCMmr7IvMLhIcCg5iDAjkxuP6BRCAmIjIAgoKCICAgKD6jbTTDg==';\n",
+					"    \n",
+					"    url = 'https://classroom.googleapis.com/v1/courses?courseStates=ACTIVE'+'&pageSize=' + str(pageSize);\n",
+					"\n",
+					"    if (pageToken):\n",
+					"        url = 'https://classroom.googleapis.com/v1/courses?courseStates=ACTIVE&pageSize=' + str(pageSize) + '&pageToken=' + pageToken;\n",
+					"    \n",
+					"    print('url', url);\n",
+					"    myheaders = {\"Content-Type\":\"application/json\",\"Authorization\":\"Bearer  ya29.A0AfH6SMCfGOokdVB6FMDOt_1agGo9QiNRQSzSAHoHo_7akSwedtXm6Fg-alz0cySnzNHQFse5KUOif6Qh_AQyWCHHZGZiUW1plaCMkPRZtO5uqekdWXiFl2xhEJZB7K7kUnpFC_RBu_HC4tppfby-yFLFTqOSbigfKumMFFIueR4-5STx1hPGXqYRK_WNZld8ZYRpuxXPUbahtPWxK8uphY-Pw_Jv_HU0eR4Jp2qh\"}\n",
+					"    print (myheaders)\n",
+					"    courseResponse = requests.get(url,myheaders)\n",
+					"        \n",
+					"    print(courseResponse)\n",
+					"    \n",
+					"    \n",
+					" #   json = courseResponse.json();\n",
+					" #   courses = json.courses;\n",
+					" #   nextPage = json.nextPageToken \n",
+					" #   if json.nextPageToken == 0:\n",
+					" #       nextPage = 0\n",
+					" #   nextpageList.extend({\"nextpage\": nextPage, \"dataLength\": courses.length})\n",
+					" #   if courses and courses.length:\n",
+					" #      jsonDataList = jsonDataList.concat(courses);\n",
+					" #      print('*** priting the jsondatalist length', jsonDataList.length);\n",
+					" #      convertFinalJson(jsonDataList,folder,'b');\n",
+					" #   else:\n",
+					" #      print('No courses found.') "
+				],
+				"attachments": null,
+				"execution_count": 29
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"def courseData(folder): \n",
+					"    print('call coming into coursedata')  \n",
+					"    getCourses(folder, None)\n",
+					"    #convertFinalJson(nextpageList,folder,'a')\n",
+					"   "
+				],
+				"attachments": null,
+				"execution_count": 30
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"courseData('0B8QKjc_1k8yoflpweTlNQkZyX0QtY2tuR0xCbkh1bVBtTzhYSUdQMmpPYVZLaFJmMlNkRGs')"
+				],
+				"attachments": null,
+				"execution_count": 31
+			}
+		]
+	}
+}

@@ -1,0 +1,20 @@
+{
+	"name": "InsertIntoNYCTaxiDataTest",
+	"properties": {
+		"folder": {
+			"name": "Files to Name"
+		},
+		"content": {
+			"query": "Insert into [Staging].[NYCTaxiDataTest] ([VendorID]\n,[tpep_pickup_datetime]\n,[tpep_dropoff_datetime]\n,[passenger_count]\n,[trip_distance]\n,[RatecodeID]\n,[store_and_fwd_flag]\n,[PULocationID]\n,[DOLocationID]\n,[payment_type]\n,[fare_amount]\n,[extra]\n,[mta_tax]\n,[tip_amount]\n,[tolls_amount]\n,[improvement_surcharge]\n,[total_amount])\n\nSELECT TOP (100) [VendorID]\n,[tpep_pickup_datetime]\n,[tpep_dropoff_datetime]\n,[passenger_count]\n,[trip_distance]\n,[RatecodeID]\n,[store_and_fwd_flag]\n,[PULocationID]\n,[DOLocationID]\n,[payment_type]\n,[fare_amount]\n,[extra]\n,[mta_tax]\n,[tip_amount]\n,[tolls_amount]\n,[improvement_surcharge]\n,[total_amount]\n FROM [Staging].[NYCTaxiData]",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "sqlPool",
+				"poolName": "sqlPool"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

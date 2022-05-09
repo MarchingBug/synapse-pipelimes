@@ -1,0 +1,118 @@
+{
+	"name": "TwitterInput",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "educsademo-WorkspaceDefaultStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "TwitterCapture",
+				"fileSystem": "pipelinedemo"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"TweetText": {
+					"type": "string"
+				},
+				"TweetId": {
+					"type": "string"
+				},
+				"CreatedAt": {
+					"type": "string"
+				},
+				"CreatedAtIso": {
+					"type": "string"
+				},
+				"RetweetCount": {
+					"type": "integer"
+				},
+				"TweetedBy": {
+					"type": "string"
+				},
+				"MediaUrls": {
+					"type": "array"
+				},
+				"TweetLanguageCode": {
+					"type": "string"
+				},
+				"TweetInReplyToUserId": {
+					"type": "string"
+				},
+				"Favorited": {
+					"type": "boolean"
+				},
+				"UserMentions": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"Id": {
+								"type": "integer"
+							},
+							"FullName": {
+								"type": "string"
+							},
+							"UserName": {
+								"type": "string"
+							}
+						}
+					}
+				},
+				"OriginalTweet": {
+					"type": "null"
+				},
+				"UserDetails": {
+					"type": "object",
+					"properties": {
+						"FullName": {
+							"type": "string"
+						},
+						"Location": {
+							"type": "string"
+						},
+						"Id": {
+							"type": "integer"
+						},
+						"UserName": {
+							"type": "string"
+						},
+						"FollowersCount": {
+							"type": "integer"
+						},
+						"Description": {
+							"type": "string"
+						},
+						"StatusesCount": {
+							"type": "integer"
+						},
+						"FriendsCount": {
+							"type": "integer"
+						},
+						"FavouritesCount": {
+							"type": "integer"
+						},
+						"ProfileImageUrl": {
+							"type": "string"
+						}
+					}
+				},
+				"EventProcessedUtcTime": {
+					"type": "string"
+				},
+				"PartitionId": {
+					"type": "integer"
+				},
+				"EventEnqueuedUtcTime": {
+					"type": "string"
+				}
+			}
+		}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

@@ -1,0 +1,410 @@
+{
+	"name": "NovaPOCSQLTable",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AnonimizeDB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "StudentPIDM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TermCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Term",
+				"type": "nvarchar"
+			},
+			{
+				"name": "StudentNSUID",
+				"type": "nvarchar"
+			},
+			{
+				"name": "StudentFirstName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "StudentMiddleName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "StudentLastName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "StudentEmail",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CollegeCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SecondCollegeCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LevelCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DegreeCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SecondMajorCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MinorCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SecondMinorCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SGBSTDN_MAJR_CODE_MINR_2",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SGBSTDN_MAJR_CODE_MINR_2_2",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ProgramCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Concentration",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SecondConcentration",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CampusCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SGBSTDN_BLCK_CODE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "StudentBlcokDesc",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TermCodeStatusEffective",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SGBSTDN_STYP_CODE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "StudentType",
+				"type": "nvarchar"
+			},
+			{
+				"name": "StudentStatus",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TermCodeAdmit",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AdmitCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DepartmentCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SGBSTDN_RATE_CODE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "sgrchrt_description",
+				"type": "nvarchar"
+			},
+			{
+				"name": "numHoursAttempted",
+				"type": "nvarchar"
+			},
+			{
+				"name": "numHoursEarned",
+				"type": "nvarchar"
+			},
+			{
+				"name": "numTermGPA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "numCumulativeInstHoursEarned",
+				"type": "nvarchar"
+			},
+			{
+				"name": "numCumulativeOverallHoursEarned",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SHRTGPA_QUALITY_POINTS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "numRunningQualityPoints",
+				"type": "nvarchar"
+			},
+			{
+				"name": "unOfficialCumGPA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "numOverallGPA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CourseCRN",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SSBSECT_SUBJ_CODE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SCBCRSE_TITLE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SSBSECT_CRSE_NUMB",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SSBSECT_SEQ_NUMB",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SCBCRSE_COLL_CODE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "scbcrse_dept_code",
+				"type": "nvarchar"
+			},
+			{
+				"name": "scbcrse_divs_code",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ssbsect_camp_code",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SFRSTCR_PTRM_CODE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SFRSTCR_RSTS_CODE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Registered",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SFRSTCR_BILL_HR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SFRSTCR_CREDIT_HR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SFRSTCR_GRDE_CODE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SFRSTCR_GRDE_CODE_MID",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SFRSTCR_GRDE_DATE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SFRSTCR_LEVL_CODE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SFRSTCR_CAMP_CODE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "instructor_id",
+				"type": "nvarchar"
+			},
+			{
+				"name": "instructor_first_name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "instructor_last_name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "instructor_email",
+				"type": "nvarchar"
+			},
+			{
+				"name": "txtCampusCategory",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TermStart",
+				"type": "nvarchar"
+			},
+			{
+				"name": "termEnd",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SGBSTDN_RESD_CODE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PrimaryMajorCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Program2",
+				"type": "nvarchar"
+			},
+			{
+				"name": "nTermSequencePriorTerm",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SGBSTDN_EXP_GRAD_DATE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AcademicYear",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Studentlevel2",
+				"type": "nvarchar"
+			},
+			{
+				"name": "STVMAJR_CIPC_CODE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "STVCIPC_DESC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PrimaryMajordescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SecondMajordescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Conc_Description",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Program_Desc",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Level_desc",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Campus_Desc",
+				"type": "nvarchar"
+			},
+			{
+				"name": "WithdrawalReason",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SHRDGMR_GRAD_DATE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "StudentAdmit_Desc",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Rate_Desc",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FianlGradeDate",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FianlGrade",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SGRCHRT_CHRT_CODE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "STVRSTS_INCL_SECT_ENRL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TermCode_StatusEnd",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Academic_Standing_Code_End_of_Term",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Academic_Standing_Desc",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Student_Attribute_Code",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Student_Attribute_Desc",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SGBSTDN_ASTD_CODE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SFRSTCR_RSTS_DATE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "degree2",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "NovaPOCTable"
+		}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

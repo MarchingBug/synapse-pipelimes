@@ -1,0 +1,269 @@
+{
+	"name": "EducationFirstFlatten",
+	"properties": {
+		"folder": {
+			"name": "Miscellaneous"
+		},
+		"nbformat": 0,
+		"nbformat_minor": 0,
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"synapse_widget": {
+				"version": "0.1"
+			},
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "python"
+			},
+			"language_info": {
+				"name": "python"
+			}
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "b16de984-e4c0-4171-9b08-aadb438e75f0"
+					}
+				},
+				"source": [
+					"#Read the file from Blob Storage\n",
+					"storage_account_name = \"eduusdevpoc\"\n",
+					"storage_account_access_key = \"2p2pbYrinF5gi/QVO6PO8bs9OdbrdInq+Ou7zlP1mkC1uwWR6F3cGddHuc57U/XzM79IvdDprq+CPUmgDkwU8Q==\"\n",
+					"blob_container = \"educationfirst\"\n",
+					"\n",
+					"\n",
+					"spark.conf.set(\n",
+					"  \"fs.azure.account.key.\"+storage_account_name+\".blob.core.windows.net\",\n",
+					"  storage_account_access_key)\n",
+					"\n",
+					"blob_location = \"wasbs://\"+blob_container +\"@\" + storage_account_name + \".blob.core.windows.net/\"+file_name\n",
+					"\n",
+					"#Upload file into data frame\n",
+					"df= spark.read.json(\"wasbs://\"+blob_container +\"@\" + storage_account_name + \".blob.core.windows.net/\", multiLine=True)"
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "ee7a0e24-aed0-48c6-ac6d-51e607489292"
+					}
+				},
+				"source": [
+					"df.printSchema()"
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "19b3d1cf-2f03-44ce-8c54-c568886b5c01"
+					}
+				},
+				"source": [
+					"df.show()"
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "08e5a826-a906-4580-9dd3-d22fbfe9c685"
+					}
+				},
+				"source": [
+					"#import libraries\n",
+					"import pandas as pd\n",
+					"#import collections\n",
+					"#import numpy as np\n",
+					"from pyspark.sql.functions import explode, col\n",
+					"\n",
+					"#import json  \n",
+					"#from pandas.io.json import json_normalize  \n",
+					"\n",
+					"spark.conf.set(\"spark.sql.execution.arrow.enabled\", \"true\")"
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "529bb4ff-9730-4b1b-8b98-f2b739da184b"
+					}
+				},
+				"source": [
+					"#flatten first part\n",
+					"candidates_explode = df.select(explode(\"candidates\").alias(\"candidates\"))\n",
+					"candidates_explode.printSchema()"
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "7087a669-d04a-4bb4-8a46-2269681a0889"
+					}
+				},
+				"source": [
+					"candidates = candidates_explode.select(\"candidates.firstname\",\"candidates.lastname\",\"candidates.application.eId\")\n",
+					"candidates.show()\n",
+					""
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "68d4ce53-db84-4640-8e36-e2a2d67446af"
+					}
+				},
+				"source": [
+					"#flatten first part\n",
+					"application_struct = df.select(explode(\"candidates.application\").alias(\"application\"))\n",
+					"application_struct.printSchema()"
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "84289a93-beb6-47f5-a209-a7377ee26c11"
+					}
+				},
+				"source": [
+					"#extract the structure from the events\n",
+					"application = application_struct.select(\"application.*\")\n",
+					"display(application)\n",
+					"\n",
+					""
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "d8ca6e3f-a942-4ca2-8443-4edf56243750"
+					}
+				},
+				"source": [
+					"cleanedapp =  application.select(\"consentDate\", \"eId\",\"gender\",\"sentDate\",\"workflowStateEId\")\n",
+					"display(cleanedapp)"
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "6ce53222-c659-4483-a32a-1617ef85ab02"
+					}
+				},
+				"source": [
+					"merged = pd.merge(candidates.select(\"*\").toPandas(), cleanedapp.select(\"*\").toPandas(), on='eId', how='left')\n",
+					"display(merged)"
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "4cf67c23-a0a0-41bb-8357-0fa89551495d"
+					}
+				},
+				"source": [
+					"\n",
+					"\n",
+					"final = spark.createDataFrame(merged)\n",
+					"final.show()"
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "4742b14a-8167-4317-aa31-b8f812dfff42"
+					}
+				},
+				"source": [
+					"# Configure blob storage account access key globally\n",
+					"output_container_name = \"wrangleddatafolder\"\n",
+					"output_container_path = \"wasbs://%s@%s.blob.core.windows.net\" % (output_container_name, storage_account_name)\n",
+					"output_blob_folder = \"%s/wrangleddatafolder\" % output_container_path\n",
+					"\n",
+					"# write the dataframe as a single file to blob storage\n",
+					"(final.write.mode(\"overwrite\").option(\"header\", \"true\").format(\"com.databricks.spark.csv\").save(output_blob_folder))\n",
+					"\n",
+					"# Get the name of the wrangled-data CSV file that was just saved to Azure blob storage (it starts with 'part-')\n",
+					"files = dbutils.fs.ls(output_blob_folder)\n",
+					"output_file = [x for x in files if x.name.startswith(\"part-\")]\n",
+					"\n",
+					"# Move the wrangled-data CSV file from a sub-folder (wrangled_data_folder) to the root of the blob container\n",
+					"# While simultaneously changing the file name\n",
+					"dbutils.fs.mv(output_file[0].path, \"%s/TransformedCandidates.csv\" % output_container_path)"
+				],
+				"attachments": null,
+				"execution_count": 0
+			}
+		]
+	}
+}

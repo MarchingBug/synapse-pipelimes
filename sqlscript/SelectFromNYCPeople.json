@@ -1,0 +1,20 @@
+{
+	"name": "SelectFromNYCPeople",
+	"properties": {
+		"folder": {
+			"name": "Files to Name"
+		},
+		"content": {
+			"query": "SELECT  [_id]\n,[name]\n,[about]\n,[address]\n,[age]\n,[balance]\n,[Company]\n,[email]\n,[eyeColor]\n,[favoriteFruit]\n FROM [NYC].[People]",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "sqlPool",
+				"poolName": "sqlPool"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

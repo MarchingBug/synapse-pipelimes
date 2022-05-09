@@ -1,0 +1,501 @@
+{
+	"name": "GSuiteSubmissions_test",
+	"properties": {
+		"folder": {
+			"name": "NYC DOE Google Meet"
+		},
+		"nbformat": 0,
+		"nbformat_minor": 0,
+		"bigDataPool": {
+			"referenceName": "NotebookPool",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "112g",
+			"driverCores": 16,
+			"executorMemory": "112g",
+			"executorCores": 16,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"synapse_widget": {
+				"version": "0.1",
+				"state": {
+					"55f2ab8d-1906-4a2d-b3b5-bd12cd3a73d9": {
+						"type": "Synapse.DataFrame",
+						"sync_state": {
+							"table": {
+								"rows": [
+									{
+										"courseid": "164567789892",
+										"courseworkid": "58590105955"
+									},
+									{
+										"courseid": "167308191583",
+										"courseworkid": "184835942109"
+									},
+									{
+										"courseid": "210607069056",
+										"courseworkid": "185853550802"
+									},
+									{
+										"courseid": "165028282760",
+										"courseworkid": "205211976917"
+									},
+									{
+										"courseid": "164863074743",
+										"courseworkid": "284755135247"
+									},
+									{
+										"courseid": "205209110560",
+										"courseworkid": "215951952374"
+									},
+									{
+										"courseid": "164499563211",
+										"courseworkid": "216471560926"
+									},
+									{
+										"courseid": "164415470112",
+										"courseworkid": "280092588313"
+									},
+									{
+										"courseid": "164410741822",
+										"courseworkid": "234039494645"
+									},
+									{
+										"courseid": "164820421530",
+										"courseworkid": "172625480561"
+									}
+								],
+								"schema": {
+									"courseid": "string",
+									"courseworkid": "string"
+								}
+							},
+							"isSummary": false,
+							"language": "scala"
+						},
+						"persist_state": {
+							"view": {
+								"type": "details",
+								"chartOptions": {
+									"chartType": "bar",
+									"aggregationType": "count",
+									"categoryFieldKeys": [
+										"courseid"
+									],
+									"seriesFieldKeys": [
+										"courseid"
+									],
+									"isStacked": false
+								}
+							}
+						}
+					}
+				}
+			},
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "Synapse PySpark"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/20e228e4-63c7-480a-a860-4b61e9623727/resourceGroups/EDU-US-DevPoc/providers/Microsoft.Synapse/workspaces/educsademo/bigDataPools/NotebookPool",
+				"name": "NotebookPool",
+				"type": "Spark",
+				"endpoint": "https://educsademo.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/NotebookPool",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "2.4",
+				"nodeCount": 10,
+				"cores": 16,
+				"memory": 112,
+				"extraHeader": null
+			}
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"metadata": {
+					"diagram": {
+						"activateDiagramType": 1,
+						"chartConfig": {
+							"category": "bar",
+							"keys": [
+								"courses"
+							],
+							"values": [
+								"courses"
+							],
+							"yLabel": "courses",
+							"xLabel": "courses",
+							"aggregation": "COUNT",
+							"aggByBackend": false
+						},
+						"aggData": "{\"courses\":{\"119374423249\":1,\"119471352839\":1,\"121183007457\":1,\"140709961551\":1,\"144781290186\":1,\"145462311035\":1,\"146782004324\":1,\"148546798350\":1,\"148791782190\":1,\"152878685099\":1}}",
+						"isSummary": false,
+						"previewData": {
+							"filter": null
+						},
+						"isSql": false
+					},
+					"collapsed": false
+				},
+				"source": [
+					"q = spark.read.load('abfss://nycdoe@edupocdatalake.dfs.core.windows.net/googlemeet/Group_5_00002.csv', format='csv', header=True)\n",
+					"\n",
+					"display(q.limit(10))"
+				],
+				"attachments": null,
+				"execution_count": 192
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"q.createOrReplaceTempView('CourseData')\n",
+					""
+				],
+				"attachments": null,
+				"execution_count": 193
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": true
+				},
+				"source": [
+					"startingJSON = '[{\"courseId\": \"1\", \"courseWorkId\": \"1\", \"id\": \"Cg4I_Pb_kPMBEOOi-KHaAQ\", \"userId\": \"112899792226009076499\", \"creationTime\": \"2021-02-24T18:58:22.837Z\", \"updateTime\": \"2021-02-24T18:58:22.768Z\", \"state\": \"CREATED\", \"alternateLink\": \"https://classroom.google.com/c/MTY0NTY3Nzg5ODky/a/NTg1OTAxMDU5NTVa/submissions/by-status/and-sort-last-name/student/NjUyNjU0NjYyMzZa\", \"courseWorkType\": \"ASSIGNMENT\", \"assignmentSubmission\": {}, \"submissionHistory\": [{\"stateHistory\": {\"state\": \"CREATED\", \"stateTimestamp\": \"2021-02-24T18:58:22.767Z\", \"actorUserId\": \"112899792226009076499\"}}]}, {\"courseId\": \"164567789892\", \"courseWorkId\": \"58590105955\", \"id\": \"Cg4IpOyQk_MBEOOi-KHaAQ\", \"userId\": \"100506541763744365206\", \"creationTime\": \"2021-02-24T18:58:54.948Z\", \"updateTime\": \"2021-02-24T18:58:54.941Z\", \"state\": \"CREATED\", \"alternateLink\": \"https://classroom.google.com/c/MTY0NTY3Nzg5ODky/a/NTg1OTAxMDU5NTVa/submissions/by-status/and-sort-last-name/student/NjUyNjk5Mzc3MDBa\", \"courseWorkType\": \"ASSIGNMENT\", \"assignmentSubmission\": {}, \"submissionHistory\": [{\"stateHistory\": {\"state\": \"CREATED\", \"stateTimestamp\": \"2021-02-24T18:58:54.941Z\", \"actorUserId\": \"100506541763744365206\"}}]}, {\"courseId\": \"164567789892\", \"courseWorkId\": \"58590105955\", \"id\": \"Cg4IvuyQk_MBEOOi-KHaAQ\", \"userId\": \"108965769482805633371\", \"creationTime\": \"2021-02-24T18:59:02.527Z\", \"updateTime\": \"2021-02-24T18:59:02.498Z\", \"state\": \"CREATED\", \"alternateLink\": \"https://classroom.google.com/c/MTY0NTY3Nzg5ODky/a/NTg1OTAxMDU5NTVa/submissions/by-status/and-sort-last-name/student/NjUyNjk5Mzc3MjZa\", \"courseWorkType\": \"ASSIGNMENT\", \"assignmentSubmission\": {}, \"submissionHistory\": [{\"stateHistory\": {\"state\": \"CREATED\", \"stateTimestamp\": \"2021-02-24T18:59:02.498Z\", \"actorUserId\": \"108965769482805633371\"}}]}, {\"courseId\": \"164567789892\", \"courseWorkId\": \"58590105955\", \"id\": \"Cg4IzeyQk_MBEOOi-KHaAQ\", \"userId\": \"117377301735625501599\", \"creationTime\": \"2021-02-24T18:59:22.611Z\", \"updateTime\": \"2021-02-24T18:59:22.482Z\", \"state\": \"CREATED\", \"alternateLink\": \"https://classroom.google.com/c/MTY0NTY3Nzg5ODky/a/NTg1OTAxMDU5NTVa/submissions/by-status/and-sort-last-name/student/NjUyNjk5Mzc3NDFa\", \"courseWorkType\": \"ASSIGNMENT\", \"assignmentSubmission\": {}, \"submissionHistory\": [{\"stateHistory\": {\"state\": \"CREATED\", \"stateTimestamp\": \"2021-02-24T18:59:22.482Z\", \"actorUserId\": \"117377301735625501599\"}}]}, {\"courseId\": \"164567789892\", \"courseWorkId\": \"58590105955\", \"id\": \"Cg4I0OyQk_MBEOOi-KHaAQ\", \"userId\": \"107829799271418567212\", \"creationTime\": \"2021-02-24T18:58:16.957Z\", \"updateTime\": \"2021-02-24T18:58:16.896Z\", \"state\": \"CREATED\", \"alternateLink\": \"https://classroom.google.com/c/MTY0NTY3Nzg5ODky/a/NTg1OTAxMDU5NTVa/submissions/by-status/and-sort-last-name/student/NjUyNjk5Mzc3NDRa\", \"courseWorkType\": \"ASSIGNMENT\", \"assignmentSubmission\": {}, \"submissionHistory\": [{\"stateHistory\": {\"state\": \"CREATED\", \"stateTimestamp\": \"2021-02-24T18:58:16.896Z\", \"actorUserId\": \"107829799271418567212\"}}]}, {\"courseId\": \"164567789892\", \"courseWorkId\": \"58590105955\", \"id\": \"Cg4I2-yQk_MBEOOi-KHaAQ\", \"userId\": \"101976540951631743007\", \"creationTime\": \"2021-02-24T18:59:43.359Z\", \"updateTime\": \"2021-02-24T18:59:43.314Z\", \"state\": \"CREATED\", \"alternateLink\": \"https://classroom.google.com/c/MTY0NTY3Nzg5ODky/a/NTg1OTAxMDU5NTVa/submissions/by-status/and-sort-last-name/student/NjUyNjk5Mzc3NTVa\", \"courseWorkType\": \"ASSIGNMENT\", \"assignmentSubmission\": {}, \"submissionHistory\": [{\"stateHistory\": {\"state\": \"CREATED\", \"stateTimestamp\": \"2021-02-24T18:59:43.314Z\", \"actorUserId\": \"101976540951631743007\"}}]}, {\"courseId\": \"164567789892\", \"courseWorkId\": \"58590105955\", \"id\": \"Cg4I4eyQk_MBEOOi-KHaAQ\", \"userId\": \"107226347615681547034\", \"creationTime\": \"2021-02-24T18:59:37.460Z\", \"updateTime\": \"2021-02-24T18:59:37.396Z\", \"state\": \"CREATED\", \"alternateLink\": \"https://classroom.google.com/c/MTY0NTY3Nzg5ODky/a/NTg1OTAxMDU5NTVa/submissions/by-status/and-sort-last-name/student/NjUyNjk5Mzc3NjFa\", \"courseWorkType\": \"ASSIGNMENT\", \"assignmentSubmission\": {}, \"submissionHistory\": [{\"stateHistory\": {\"state\": \"CREATED\", \"stateTimestamp\": \"2021-02-24T18:59:37.396Z\", \"actorUserId\": \"107226347615681547034\"}}]}, {\"courseId\": \"164567789892\", \"courseWorkId\": \"58590105955\", \"id\": \"Cg4Ir52hxuYEEOOi-KHaAQ\", \"userId\": \"112151516977411200938\", \"creationTime\": \"2021-02-24T18:58:59.992Z\", \"updateTime\": \"2021-02-24T18:58:59.927Z\", \"state\": \"CREATED\", \"alternateLink\": \"https://classroom.google.com/c/MTY0NTY3Nzg5ODky/a/NTg1OTAxMDU5NTVa/submissions/by-status/and-sort-last-name/student/MTY0OTY2NzE1MDU1\", \"courseWorkType\": \"ASSIGNMENT\", \"assignmentSubmission\": {}, \"submissionHistory\": [{\"stateHistory\": {\"state\": \"CREATED\", \"stateTimestamp\": \"2021-02-24T18:58:59.927Z\", \"actorUserId\": \"112151516977411200938\"}}]}, {\"courseId\": \"164567789892\", \"courseWorkId\": \"58590105955\", \"id\": \"Cg4IsJ2hxuYEEOOi-KHaAQ\", \"userId\": \"102416459768487440587\", \"creationTime\": \"2021-02-24T18:58:44.511Z\", \"updateTime\": \"2021-02-24T18:58:44.448Z\", \"state\": \"CREATED\", \"alternateLink\": \"https://classroom.google.com/c/MTY0NTY3Nzg5ODky/a/NTg1OTAxMDU5NTVa/submissions/by-status/and-sort-last-name/student/MTY0OTY2NzE1MDU2\", \"courseWorkType\": \"ASSIGNMENT\", \"assignmentSubmission\": {}, \"submissionHistory\": [{\"stateHistory\": {\"state\": \"CREATED\", \"stateTimestamp\": \"2021-02-24T18:58:44.448Z\", \"actorUserId\": \"102416459768487440587\"}}]}, {\"courseId\": \"164567789892\", \"courseWorkId\": \"58590105955\", \"id\": \"Cg4IuLDQxuYEEOOi-KHaAQ\", \"userId\": \"100660000239116196152\", \"creationTime\": \"2021-02-24T18:58:44.447Z\", \"updateTime\": \"2021-02-24T18:58:44.327Z\", \"state\": \"CREATED\", \"alternateLink\": \"https://classroom.google.com/c/MTY0NTY3Nzg5ODky/a/NTg1OTAxMDU5NTVa/submissions/by-status/and-sort-last-name/student/MTY0OTY3NDg3NTQ0\", \"courseWorkType\": \"ASSIGNMENT\", \"assignmentSubmission\": {}, \"submissionHistory\": [{\"stateHistory\": {\"state\": \"CREATED\", \"stateTimestamp\": \"2021-02-24T18:58:44.327Z\", \"actorUserId\": \"100660000239116196152\"}}]}, {\"courseId\": \"164567789892\", \"courseWorkId\": \"58590105955\", \"id\": \"Cg4IwZTZuO8EEOOi-KHaAQ\", \"userId\": \"100869245752779208300\", \"creationTime\": \"2021-02-24T18:58:34.490Z\", \"updateTime\": \"2021-02-24T18:58:34.442Z\", \"state\": \"CREATED\", \"alternateLink\": \"https://classroom.google.com/c/MTY0NTY3Nzg5ODky/a/NTg1OTAxMDU5NTVa/submissions/by-status/and-sort-last-name/student/MTY3MzU0MTkwNDAx\", \"courseWorkType\": \"ASSIGNMENT\", \"assignmentSubmission\": {}, \"submissionHistory\": [{\"stateHistory\": {\"state\": \"CREATED\", \"stateTimestamp\": \"2021-02-24T18:58:34.442Z\", \"actorUserId\": \"100869245752779208300\"}}]}]'"
+				],
+				"attachments": null,
+				"execution_count": 195
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"import requests\n",
+					"import json\n",
+					"import datetime as dt\n",
+					"from datetime import date\n",
+					"import random\n",
+					"import string\n",
+					"import ast\n",
+					"from array import array\n",
+					"from pyspark.sql.types import *\n",
+					""
+				],
+				"attachments": null,
+				"execution_count": 196
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"def getToken(obj):\n",
+					"   # create a formatted string of the Python JSON object\n",
+					"   # text = json.dumps(obj, sort_keys=True, indent=4)\n",
+					"   # print(text)\n",
+					"\n",
+					"   headers = {\"email\" : obj,\"iscentral\" : \"N\"}\n",
+					"\n",
+					"   new_token = requests.get (\"https://googleclassroomapi.azurewebsites.net/api/GetGsuiteToken?code=uyOBZn2EInNfu4dg97fKIvFx4P1hWZJnlJZ/raCnGkPXVmkaVrBbpQ==\", headers = headers)\n",
+					"   return new_token\n",
+					""
+				],
+				"attachments": null,
+				"execution_count": 197
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"def getCourseInfo(url,oauthtoken):\n",
+					"    authorization = \"Bearer \" + oauthtoken\n",
+					"    headers = { \"Content-Type\": \"application/json\",     \"Authorization\": authorization }\n",
+					"\n",
+					"    response = requests.get(url, headers=headers)\n",
+					"    submissions = response.json()\n",
+					"    if response.status_code == 200:\n",
+					"      if len(submissions) > 0 :\n",
+					"            studentSubmissions = submissions[\"studentSubmissions\"]\n",
+					"            # print(len(studentSubmissions))\n",
+					"            return studentSubmissions\n",
+					"      else:\n",
+					"            return \"nothing\"\n",
+					"    "
+				],
+				"attachments": null,
+				"execution_count": 198
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": true
+				},
+				"source": [
+					"# :- LogicalRDD [alternateLink#2284, courseId#2285, courseWorkId#2286, courseWorkType#2287, creationTime#2288, id#2289, state#2290, submissionHistory#2291, updateTime#2292, userId#2293], false\r\n",
+					"# +- LogicalRDD [alternateLink#2340, assignmentSubmission#2341, courseId#2342, courseWorkId#2343, courseWorkType#2344, creationTime#2345, id#2346, late#2347, state#2348, submissionHistory#2349, updateTime#2350, userId#2351], false\r\n",
+					"definedSchema = StructType([\r\n",
+					"    StructField(\"alternateLink\",StringType(),nullable = True),\r\n",
+					"    StructField(\"assignmentSubmission\",StringType(),nullable = True),\r\n",
+					"    StructField(\"courseId\",StringType(),nullable = True),\r\n",
+					"    StructField(\"courseWorkId\", StringType(), nullable = True),\r\n",
+					"    StructField(\"courseWorkType\", StringType(), nullable = True),\r\n",
+					"    StructField(\"creationTime\", StringType(), nullable = True),\r\n",
+					"    StructField(\"id\", StringType(), nullable = True),\r\n",
+					"    StructField(\"late\", BooleanType(), nullable = True),\r\n",
+					"    StructField(\"submissionHistory\", StringType(), nullable = True),\r\n",
+					"    StructField(\"updateTime\", StringType(), nullable = True),\r\n",
+					"    StructField(\"userId\", StringType(), nullable = True)]\r\n",
+					"  )"
+				],
+				"attachments": null,
+				"execution_count": 203
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"def processemail(emailid):\n",
+					"    a = spark.sql(\"SELECT courseid,courseworkid FROM CourseData limit 20\")\n",
+					"    courses = a.rdd.collect()\n",
+					"    y = json.loads(startingJSON) \n",
+					"    studentSubmissionsList = spark.read.json(sc.parallelize([y]),definedSchema)\n",
+					"    count = 0\n",
+					"    initialFlag = 0\n",
+					"    for row in courses:\n",
+					"        token = getToken(emailid)\n",
+					"        oauthtoken = token.json()['oauthtoken']\n",
+					"        if(len(oauthtoken)> 0) :\n",
+					"                                current_courseid = row['courseid']\n",
+					"                                current_cwid = row['courseworkid']\n",
+					"                                url = 'https://classroom.googleapis.com/v1/courses/' + current_courseid + '/courseWork/'+current_cwid+'/studentSubmissions?pageSize=500' \n",
+					"                                submissionsList = getCourseInfo (url,oauthtoken)                                \n",
+					"                                if(len(submissionsList))> 0:\n",
+					"                                                            try:                                                                                                                            \n",
+					"                                                                x = json.dumps(submissionsList)\n",
+					"                                                               # assigmentSubmission = x[\"assigmentSubmission\"]\n",
+					"                                                               # submissionHistory = x[\"submissionHistory\"]\n",
+					"                                                                subList = spark.read.json(sc.parallelize([x]),definedSchema) \n",
+					"                                                                if (initialFlag == 0): \n",
+					"                                                                   studentSubmissionsList = subList                                                                                                                                                                                                                                                                                                                \n",
+					"                                                                   initialFlag  = 1\n",
+					"                                                                else:  \n",
+					"                                                                   studentSubmissionsList = studentSubmissionsList.unionAll(subList)\n",
+					"                                                                   studentSubmissionsList.count()\n",
+					"                                                            \n",
+					"                                                                count = count + 1\n",
+					"                                                                \n",
+					"                                                            except Exception as inst:\n",
+					"                                                                   print('error:', inst)\n",
+					"                                                                #    print('count:', count)\n",
+					"                                                                #    print('listsub:', listsub)\n",
+					"                                                                   break\n",
+					"                                                                #    continue\n",
+					"        else:\n",
+					"            print(\"Error while fetching token\")\n",
+					"            return;\n",
+					"        if(count > 5):     \n",
+					"                        \n",
+					"                            letters = string.digits\n",
+					"                            ind = ''.join(random.choice(letters) for i in range(10))\n",
+					"                            # df = spark.read.json(sc.parallelize([x]))\n",
+					"                            # df.show()                           \n",
+					"                            filename = \"abfss://nycdoe@edupocdatalake.dfs.core.windows.net/googlemeet/json/\"+ ind +\".json\"\n",
+					"                            studentSubmissionsList.write.json(filename)\n",
+					"                            print(filename)\n",
+					"                            initialFlag = 0\n",
+					"                            count = 0\n",
+					"    # letters = string.digits\n",
+					"    # ind = ''.join(random.choice(letters) for i in range(10))\n",
+					"    # filename = \"abfss://nycdoe@edupocdatalake.dfs.core.windows.net/googlemeet/json/\"+ ind +\".json\"\n",
+					"    # studentSubmissionsList.write.json(filename)\n",
+					"    # print(filename)\n",
+					"    \n",
+					"        "
+				],
+				"attachments": null,
+				"execution_count": 218
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"currentemail = 'dataservices@schools.nyc.gov';\n",
+					"processemail(currentemail)\n",
+					"        "
+				],
+				"attachments": null,
+				"execution_count": 219
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": true
+				},
+				"source": [
+					"startingJSON = '[{\"courseId\": \"164567789892\", \"courseWorkId\": \"58590105955\", \"id\": \"Cg4I_Pb_kPMBEOOi-KHaAQ\", \"userId\": \"112899792226009076499\", \"creationTime\": \"2021-02-24T18:58:22.837Z\", \"updateTime\": \"2021-02-24T18:58:22.768Z\", \"state\": \"CREATED\", \"alternateLink\": \"https://classroom.google.com/c/MTY0NTY3Nzg5ODky/a/NTg1OTAxMDU5NTVa/submissions/by-status/and-sort-last-name/student/NjUyNjU0NjYyMzZa\", \"courseWorkType\": \"ASSIGNMENT\", \"assignmentSubmission\": {}, \"submissionHistory\": [{\"stateHistory\": {\"state\": \"CREATED\", \"stateTimestamp\": \"2021-02-24T18:58:22.767Z\", \"actorUserId\": \"112899792226009076499\"}}]}, {\"courseId\": \"164567789892\", \"courseWorkId\": \"58590105955\", \"id\": \"Cg4IpOyQk_MBEOOi-KHaAQ\", \"userId\": \"100506541763744365206\", \"creationTime\": \"2021-02-24T18:58:54.948Z\", \"updateTime\": \"2021-02-24T18:58:54.941Z\", \"state\": \"CREATED\", \"alternateLink\": \"https://classroom.google.com/c/MTY0NTY3Nzg5ODky/a/NTg1OTAxMDU5NTVa/submissions/by-status/and-sort-last-name/student/NjUyNjk5Mzc3MDBa\", \"courseWorkType\": \"ASSIGNMENT\", \"assignmentSubmission\": {}, \"submissionHistory\": [{\"stateHistory\": {\"state\": \"CREATED\", \"stateTimestamp\": \"2021-02-24T18:58:54.941Z\", \"actorUserId\": \"100506541763744365206\"}}]}, {\"courseId\": \"164567789892\", \"courseWorkId\": \"58590105955\", \"id\": \"Cg4IvuyQk_MBEOOi-KHaAQ\", \"userId\": \"108965769482805633371\", \"creationTime\": \"2021-02-24T18:59:02.527Z\", \"updateTime\": \"2021-02-24T18:59:02.498Z\", \"state\": \"CREATED\", \"alternateLink\": \"https://classroom.google.com/c/MTY0NTY3Nzg5ODky/a/NTg1OTAxMDU5NTVa/submissions/by-status/and-sort-last-name/student/NjUyNjk5Mzc3MjZa\", \"courseWorkType\": \"ASSIGNMENT\", \"assignmentSubmission\": {}, \"submissionHistory\": [{\"stateHistory\": {\"state\": \"CREATED\", \"stateTimestamp\": \"2021-02-24T18:59:02.498Z\", \"actorUserId\": \"108965769482805633371\"}}]}, {\"courseId\": \"164567789892\", \"courseWorkId\": \"58590105955\", \"id\": \"Cg4IzeyQk_MBEOOi-KHaAQ\", \"userId\": \"117377301735625501599\", \"creationTime\": \"2021-02-24T18:59:22.611Z\", \"updateTime\": \"2021-02-24T18:59:22.482Z\", \"state\": \"CREATED\", \"alternateLink\": \"https://classroom.google.com/c/MTY0NTY3Nzg5ODky/a/NTg1OTAxMDU5NTVa/submissions/by-status/and-sort-last-name/student/NjUyNjk5Mzc3NDFa\", \"courseWorkType\": \"ASSIGNMENT\", \"assignmentSubmission\": {}, \"submissionHistory\": [{\"stateHistory\": {\"state\": \"CREATED\", \"stateTimestamp\": \"2021-02-24T18:59:22.482Z\", \"actorUserId\": \"117377301735625501599\"}}]}, {\"courseId\": \"164567789892\", \"courseWorkId\": \"58590105955\", \"id\": \"Cg4I0OyQk_MBEOOi-KHaAQ\", \"userId\": \"107829799271418567212\", \"creationTime\": \"2021-02-24T18:58:16.957Z\", \"updateTime\": \"2021-02-24T18:58:16.896Z\", \"state\": \"CREATED\", \"alternateLink\": \"https://classroom.google.com/c/MTY0NTY3Nzg5ODky/a/NTg1OTAxMDU5NTVa/submissions/by-status/and-sort-last-name/student/NjUyNjk5Mzc3NDRa\", \"courseWorkType\": \"ASSIGNMENT\", \"assignmentSubmission\": {}, \"submissionHistory\": [{\"stateHistory\": {\"state\": \"CREATED\", \"stateTimestamp\": \"2021-02-24T18:58:16.896Z\", \"actorUserId\": \"107829799271418567212\"}}]}, {\"courseId\": \"164567789892\", \"courseWorkId\": \"58590105955\", \"id\": \"Cg4I2-yQk_MBEOOi-KHaAQ\", \"userId\": \"101976540951631743007\", \"creationTime\": \"2021-02-24T18:59:43.359Z\", \"updateTime\": \"2021-02-24T18:59:43.314Z\", \"state\": \"CREATED\", \"alternateLink\": \"https://classroom.google.com/c/MTY0NTY3Nzg5ODky/a/NTg1OTAxMDU5NTVa/submissions/by-status/and-sort-last-name/student/NjUyNjk5Mzc3NTVa\", \"courseWorkType\": \"ASSIGNMENT\", \"assignmentSubmission\": {}, \"submissionHistory\": [{\"stateHistory\": {\"state\": \"CREATED\", \"stateTimestamp\": \"2021-02-24T18:59:43.314Z\", \"actorUserId\": \"101976540951631743007\"}}]}, {\"courseId\": \"164567789892\", \"courseWorkId\": \"58590105955\", \"id\": \"Cg4I4eyQk_MBEOOi-KHaAQ\", \"userId\": \"107226347615681547034\", \"creationTime\": \"2021-02-24T18:59:37.460Z\", \"updateTime\": \"2021-02-24T18:59:37.396Z\", \"state\": \"CREATED\", \"alternateLink\": \"https://classroom.google.com/c/MTY0NTY3Nzg5ODky/a/NTg1OTAxMDU5NTVa/submissions/by-status/and-sort-last-name/student/NjUyNjk5Mzc3NjFa\", \"courseWorkType\": \"ASSIGNMENT\", \"assignmentSubmission\": {}, \"submissionHistory\": [{\"stateHistory\": {\"state\": \"CREATED\", \"stateTimestamp\": \"2021-02-24T18:59:37.396Z\", \"actorUserId\": \"107226347615681547034\"}}]}, {\"courseId\": \"164567789892\", \"courseWorkId\": \"58590105955\", \"id\": \"Cg4Ir52hxuYEEOOi-KHaAQ\", \"userId\": \"112151516977411200938\", \"creationTime\": \"2021-02-24T18:58:59.992Z\", \"updateTime\": \"2021-02-24T18:58:59.927Z\", \"state\": \"CREATED\", \"alternateLink\": \"https://classroom.google.com/c/MTY0NTY3Nzg5ODky/a/NTg1OTAxMDU5NTVa/submissions/by-status/and-sort-last-name/student/MTY0OTY2NzE1MDU1\", \"courseWorkType\": \"ASSIGNMENT\", \"assignmentSubmission\": {}, \"submissionHistory\": [{\"stateHistory\": {\"state\": \"CREATED\", \"stateTimestamp\": \"2021-02-24T18:58:59.927Z\", \"actorUserId\": \"112151516977411200938\"}}]}, {\"courseId\": \"164567789892\", \"courseWorkId\": \"58590105955\", \"id\": \"Cg4IsJ2hxuYEEOOi-KHaAQ\", \"userId\": \"102416459768487440587\", \"creationTime\": \"2021-02-24T18:58:44.511Z\", \"updateTime\": \"2021-02-24T18:58:44.448Z\", \"state\": \"CREATED\", \"alternateLink\": \"https://classroom.google.com/c/MTY0NTY3Nzg5ODky/a/NTg1OTAxMDU5NTVa/submissions/by-status/and-sort-last-name/student/MTY0OTY2NzE1MDU2\", \"courseWorkType\": \"ASSIGNMENT\", \"assignmentSubmission\": {}, \"submissionHistory\": [{\"stateHistory\": {\"state\": \"CREATED\", \"stateTimestamp\": \"2021-02-24T18:58:44.448Z\", \"actorUserId\": \"102416459768487440587\"}}]}, {\"courseId\": \"164567789892\", \"courseWorkId\": \"58590105955\", \"id\": \"Cg4IuLDQxuYEEOOi-KHaAQ\", \"userId\": \"100660000239116196152\", \"creationTime\": \"2021-02-24T18:58:44.447Z\", \"updateTime\": \"2021-02-24T18:58:44.327Z\", \"state\": \"CREATED\", \"alternateLink\": \"https://classroom.google.com/c/MTY0NTY3Nzg5ODky/a/NTg1OTAxMDU5NTVa/submissions/by-status/and-sort-last-name/student/MTY0OTY3NDg3NTQ0\", \"courseWorkType\": \"ASSIGNMENT\", \"assignmentSubmission\": {}, \"submissionHistory\": [{\"stateHistory\": {\"state\": \"CREATED\", \"stateTimestamp\": \"2021-02-24T18:58:44.327Z\", \"actorUserId\": \"100660000239116196152\"}}]}, {\"courseId\": \"164567789892\", \"courseWorkId\": \"58590105955\", \"id\": \"Cg4IwZTZuO8EEOOi-KHaAQ\", \"userId\": \"100869245752779208300\", \"creationTime\": \"2021-02-24T18:58:34.490Z\", \"updateTime\": \"2021-02-24T18:58:34.442Z\", \"state\": \"CREATED\", \"alternateLink\": \"https://classroom.google.com/c/MTY0NTY3Nzg5ODky/a/NTg1OTAxMDU5NTVa/submissions/by-status/and-sort-last-name/student/MTY3MzU0MTkwNDAx\", \"courseWorkType\": \"ASSIGNMENT\", \"assignmentSubmission\": {}, \"submissionHistory\": [{\"stateHistory\": {\"state\": \"CREATED\", \"stateTimestamp\": \"2021-02-24T18:58:34.442Z\", \"actorUserId\": \"100869245752779208300\"}}]}]'"
+				],
+				"attachments": null,
+				"execution_count": 73
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": true
+				},
+				"source": [
+					"c = json.loads(startingJSON)\r\n",
+					""
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": true
+				},
+				"source": [
+					"print(c)"
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": true
+				},
+				"source": [
+					"dfs = spark.read.json(sc.parallelize([c]))"
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": true
+				},
+				"source": [
+					"dfs.count()"
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"display(dfs)"
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": true
+				},
+				"source": [
+					"letters = string.digits\r\n",
+					"ind = ''.join(random.choice(letters) for i in range(10))\r\n",
+					"\r\n",
+					"filename = \"abfss://nycdoe@diitfpe.dfs.core.windows.net/googlecentral/submissions/full/group2/test_\"+ ind +\".parquet\"\r\n",
+					"df.write.parquet(filename)"
+				],
+				"attachments": null,
+				"execution_count": null
+			}
+		]
+	}
+}

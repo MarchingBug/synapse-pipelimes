@@ -1,0 +1,50 @@
+{
+	"name": "FlattenNYCMeet",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "TransformedGoogleMeetFile",
+						"type": "DatasetReference"
+					},
+					"name": "importfile"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "PivotedGoogleMeet",
+						"type": "DatasetReference"
+					},
+					"name": "SinkToJson"
+				}
+			],
+			"transformations": [
+				{
+					"name": "PivotString"
+				},
+				{
+					"name": "FilterStringValues"
+				},
+				{
+					"name": "SelectColumns"
+				},
+				{
+					"name": "MergedFiles"
+				},
+				{
+					"name": "FilterIntValues"
+				},
+				{
+					"name": "SelectIntColumns"
+				},
+				{
+					"name": "PivotIntegers"
+				}
+			],
+			"script": "source(output(\n\t\tetag as string,\n\t\teventname as string,\n\t\tintValue as string,\n\t\tname as string,\n\t\tvalue as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tdocumentForm: 'documentPerLine',\n\twildcardPaths:['processed/*.json']) ~> importfile\nSelectColumns pivot(groupBy(etag),\n\tpivotBy(name),\n\t{} = min(value),\n\tcolumnNaming: '$N$V',\n\tlateral: false) ~> PivotString\nimportfile filter(isNull(intValue)) ~> FilterStringValues\nFilterStringValues select(mapColumn(\n\t\tetag,\n\t\tname,\n\t\tvalue\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectColumns\nPivotString, PivotIntegers join(PivotString@etag == PivotIntegers@etag,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> MergedFiles\nimportfile filter(isNull(value)) ~> FilterIntValues\nFilterIntValues select(mapColumn(\n\t\tetag,\n\t\tintValue,\n\t\tname\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectIntColumns\nSelectIntColumns pivot(groupBy(etag),\n\tpivotBy(name),\n\tintValue = min(intValue),\n\tcolumnNaming: '$N$V',\n\tlateral: true) ~> PivotIntegers\nMergedFiles sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tetag as string,\n\t\tname as string,\n\t\tparameters as (intValue as string, name as string)[],\n\t\ttype as string\n\t),\n\ttruncate: true,\n\tumask: 0022,\n\tpreCommands: [],\n\tpostCommands: [],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tsaveOrder: 1,\n\tpartitionBy('hash', 1)) ~> SinkToJson"
+		}
+	}
+}

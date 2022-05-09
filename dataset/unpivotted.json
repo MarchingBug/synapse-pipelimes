@@ -1,0 +1,81 @@
+{
+	"name": "unpivotted",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "educsademo-WorkspaceDefaultStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": "sco"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"method": {
+					"type": "string"
+				},
+				"methodParameters": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"type": {
+								"type": "string"
+							},
+							"value": {
+								"type": "string"
+							}
+						}
+					}
+				},
+				"automationKey": {
+					"type": "string"
+				},
+				"version": {
+					"type": "string"
+				},
+				"detail": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"id": "{\r\n  \"type\": \"null\"\r\n}",
+							"foreignKeyID": {
+								"type": "null"
+							},
+							"action": {
+								"type": "string"
+							},
+							"keyValue": {
+								"type": "string"
+							},
+							"data": {
+								"type": "array",
+								"items": {
+									"type": "object",
+									"properties": {
+										"type": {
+											"type": "string"
+										},
+										"value": {
+											"type": "string"
+										}
+									}
+								}
+							},
+							"subData": {
+								"type": "array"
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

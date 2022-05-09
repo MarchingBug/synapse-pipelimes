@@ -1,0 +1,155 @@
+{
+	"name": "Import files from Source files",
+	"properties": {
+		"activities": [
+			{
+				"name": "Source files",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "BinarySource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true
+						},
+						"formatSettings": {
+							"type": "BinaryReadSettings"
+						}
+					},
+					"sink": {
+						"type": "BinarySink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "TaxiFilesSource",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DestinationFiles",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Import Lookup Data",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"preCopyScript": "truncate table  NYC.TaxiLocationLookup",
+						"allowPolyBase": true,
+						"polyBaseSettings": {
+							"rejectValue": 0,
+							"rejectType": "value",
+							"useTypeDefault": true
+						},
+						"disableMetricsCollection": false
+					},
+					"enableStaging": true,
+					"stagingSettings": {
+						"linkedServiceName": {
+							"referenceName": "edupocdatalake",
+							"type": "LinkedServiceReference"
+						},
+						"path": "stagingdata"
+					},
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "LocationId",
+									"type": "String"
+								},
+								"sink": {
+									"name": "LocationID",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "Borough",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Borough",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Zone",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Zone",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "service_zone",
+									"type": "String"
+								},
+								"sink": {
+									"name": "service_zone",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "NYCTaxiLookup",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "NYCTaxiLocationLookup",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2021-10-17T15:56:19Z"
+	},
+	"type": "Microsoft.Synapse/workspaces/pipelines"
+}

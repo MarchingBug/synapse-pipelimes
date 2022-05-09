@@ -1,0 +1,188 @@
+{
+	"name": "GSuiteCourses",
+	"properties": {
+		"nbformat": 0,
+		"nbformat_minor": 0,
+		"bigDataPool": {
+			"referenceName": "NotebookPool",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "112g",
+			"driverCores": 16,
+			"executorMemory": "112g",
+			"executorCores": 16,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "Synapse PySpark"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/20e228e4-63c7-480a-a860-4b61e9623727/resourceGroups/EDU-US-DevPoc/providers/Microsoft.Synapse/workspaces/educsademo/bigDataPools/NotebookPool",
+				"name": "NotebookPool",
+				"type": "Spark",
+				"endpoint": "https://educsademo.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/NotebookPool",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "2.4",
+				"nodeCount": 10,
+				"cores": 16,
+				"memory": 112,
+				"extraHeader": null
+			}
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": true
+				},
+				"source": [
+					"#Read the file from Blob Storage\r\n",
+					"storage_account_name = \"eduusdevpoc\"\r\n",
+					"storage_account_access_key = \"2p2pbYrinF5gi/QVO6PO8bs9OdbrdInq+Ou7zlP1mkC1uwWR6F3cGddHuc57U/XzM79IvdDprq+CPUmgDkwU8Q==\"\r\n",
+					"blob_container = \"nycdoe\"\r\n",
+					"#file_name = \"coursestoprocess.json\"\r\n",
+					"file_name = \"coursestoprocess.csv\"\r\n",
+					"\r\n",
+					"spark.conf.set(\r\n",
+					"  \"fs.azure.account.key.\"+storage_account_name+\".blob.core.windows.net\",\r\n",
+					"  storage_account_access_key)\r\n",
+					"\r\n",
+					"blob_location = \"wasbs://\"+blob_container +\"@\" + storage_account_name + \".blob.core.windows.net/\"+file_name\r\n",
+					"\r\n",
+					"#Upload file into data frame\r\n",
+					"#df= spark.read.json(\"wasbs://\"+blob_container +\"@\" + storage_account_name + \".blob.core.windows.net/\", multiLine=True)\r\n",
+					"df= spark.read.csv(\"wasbs://\"+blob_container +\"@\" + storage_account_name + \".blob.core.windows.net/\", multiLine=True)"
+				],
+				"attachments": null,
+				"execution_count": 79
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": true
+				},
+				"source": [
+					"df.show()\n",
+					"for row in df:\n",
+					"    #call function\n",
+					"    print(row[\"courseId\"])\n",
+					""
+				],
+				"attachments": null,
+				"execution_count": 80
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"def jprint(obj):\n",
+					"    # create a formatted string of the Python JSON object\n",
+					"    text = json.dumps(obj, sort_keys=True, indent=4)\n",
+					"    print(text)\n",
+					"\n",
+					"headers = {\n",
+					"    \n",
+					"    \"email\" : \"dataservices@schools.nyc.gov\",\n",
+					"    \"iscentral\" : \"Y\"\n",
+					"}\n",
+					"\n",
+					"response = requests.get (\"https://googleclassroomapi.azurewebsites.net/api/GetGsuiteToken?code=uyOBZn2EInNfu4dg97fKIvFx4P1hWZJnlJZ/raCnGkPXVmkaVrBbpQ==\", headers = headers)\n",
+					"jprint (response.json())"
+				],
+				"attachments": null,
+				"execution_count": 56
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"oauthtoken = response.json()['oauthtoken']\n",
+					"authorization = \"Bearer \" + oauthtoken\n",
+					"\n",
+					"headers = { \"Content-Type\": \"application/json\", \n",
+					"           \"Authorization\": authorization }\n",
+					"\n",
+					"response = requests.get('https://classroom.googleapis.com/v1/courses?courseStates=ACTIVE&pageSize=10', headers=headers)\n",
+					"jprint (response.json())"
+				],
+				"attachments": null,
+				"execution_count": 57
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"import json\n",
+					"import pandas as pd    \n",
+					"import collections\n",
+					"import numpy as np\n",
+					"\n",
+					"data= response.json()\n",
+					"data = data['courses']\n",
+					"\n",
+					"for row in data:\n",
+					"    print(row[\"id\"])\n",
+					"\n",
+					""
+				],
+				"attachments": null,
+				"execution_count": 58
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"for row in data:\n",
+					"    print(row[\"id\"])"
+				],
+				"attachments": null,
+				"execution_count": 59
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					""
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					""
+				],
+				"attachments": null,
+				"execution_count": null
+			}
+		]
+	}
+}

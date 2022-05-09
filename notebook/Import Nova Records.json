@@ -1,0 +1,134 @@
+{
+	"name": "Import Nova Records",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "NotebookPool",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "112g",
+			"driverCores": 16,
+			"executorMemory": "112g",
+			"executorCores": 16,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "fe1a392c-0d15-44dd-a34b-9e76d3e01c49"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "Synapse PySpark"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/20e228e4-63c7-480a-a860-4b61e9623727/resourceGroups/EDU-US-DevPoc/providers/Microsoft.Synapse/workspaces/educsademo/bigDataPools/NotebookPool",
+				"name": "NotebookPool",
+				"type": "Spark",
+				"endpoint": "https://educsademo.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/NotebookPool",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "2.4",
+				"nodeCount": 10,
+				"cores": 16,
+				"memory": 112,
+				"extraHeader": null
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"metadata": {
+					"microsoft": {
+						"language": "python"
+					},
+					"diagram": {
+						"activateDiagramType": 1,
+						"chartConfig": {
+							"category": "bar",
+							"keys": [
+								"StudentPIDM"
+							],
+							"values": [
+								"StudentPIDM"
+							],
+							"yLabel": "StudentPIDM",
+							"xLabel": "StudentPIDM",
+							"aggregation": "COUNT",
+							"aggByBackend": false
+						},
+						"aggData": "{\"StudentPIDM\":{\"1300\":10}}",
+						"isSummary": false,
+						"previewData": {
+							"filter": null
+						},
+						"isSql": false
+					},
+					"collapsed": false
+				},
+				"source": [
+					"%%pyspark\n",
+					"blob_account_name = \"eduusdevpoc\"\n",
+					"blob_container_name = \"nsupoc\"\n",
+					"from pyspark.sql import SparkSession\n",
+					"\n",
+					"sc = SparkSession.builder.getOrCreate()\n",
+					"token_library = sc._jvm.com.microsoft.azure.synapse.tokenlibrary.TokenLibrary\n",
+					"blob_sas_token = token_library.getConnectionString(\"Source files\")\n",
+					"thePassword = token_library.getSecret(\"edu-csa-keyvault\", \"WelcomePassword\")\n",
+					"\n",
+					"\n",
+					"spark.conf.set(\n",
+					"    'fs.azure.sas.%s.%s.blob.core.windows.net' % (blob_container_name, blob_account_name),\n",
+					"    blob_sas_token)\n",
+					"df = spark.read.load('wasbs://nsupoc@eduusdevpoc.blob.core.windows.net/dbo.VW_AI_POC_Analystics.csv', format='csv', header=True)\n",
+					"display(df.limit(10))\n",
+					"\n",
+					""
+				],
+				"attachments": null,
+				"execution_count": 18
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"print(thePassword)"
+				],
+				"attachments": null,
+				"execution_count": 21
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"#save to sql\n",
+					"df.write.format(\"jdbc\").option(\"url\", \"jdbc:sqlserver://eduusdevpoc.database.windows.net\").option(\"driver\", \"com.microsoft.sqlserver.jdbc.SQLServerDriver\").option(\"database\",\"AnonimizeData\").option(\"dbtable\", \"NovaPOCTable\").option(\"user\", \"mainuser\").option(\"password\", thePassword).save()"
+				],
+				"attachments": null,
+				"execution_count": 19
+			}
+		]
+	}
+}

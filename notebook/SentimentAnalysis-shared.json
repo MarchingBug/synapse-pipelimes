@@ -1,0 +1,314 @@
+{
+	"name": "SentimentAnalysis-shared",
+	"properties": {
+		"folder": {
+			"name": "Miscellaneous"
+		},
+		"nbformat": 0,
+		"nbformat_minor": 0,
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"synapse_widget": {
+				"version": "0.1"
+			},
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "python"
+			},
+			"language_info": {
+				"name": "python"
+			}
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "536f77b5-c6fd-467f-b265-f9d56f09c7f2"
+					}
+				},
+				"source": [
+					"#Read the file from Blob Storage\n",
+					"storage_account_name = \"your-account-name\"\n",
+					"storage_account_access_key = \"storate-account-access-key\"\n",
+					"blob_container = \"blob-container\"\n",
+					"file_name = \"file-name\" #If left empty it will read the contents of the folder\n",
+					"\n",
+					"spark.conf.set(\n",
+					"  \"fs.azure.account.key.\"+storage_account_name+\".blob.core.windows.net\",\n",
+					"  storage_account_access_key)\n",
+					"\n",
+					"blob_location = \"wasbs://\"+blob_container +\"@\" + storage_account_name + \".blob.core.windows.net/\"+file_name\n",
+					"\n",
+					"#Upload file into data frame\n",
+					"df = spark.read.format(\"csv\").load(\"wasbs://\"+blob_container +\"@\" + storage_account_name + \".blob.core.windows.net/\",header='true', inferSchema = True)\n",
+					"df\n",
+					"\n",
+					"\n",
+					""
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "2165ca11-72d8-44ef-a70a-b525ea561c75"
+					}
+				},
+				"source": [
+					"%sh\n",
+					"/databricks/python/bin/pip install --upgrade pip"
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "9560bc15-52d8-4047-a32b-d8ae5b52748f"
+					}
+				},
+				"source": [
+					"\n",
+					"from pyspark.sql.functions import lit\n",
+					"from pyspark.sql.types import DoubleType\n",
+					"from pyspark.sql.types import FloatType\n",
+					"from pyspark.sql import Row\n",
+					"\n",
+					"import numpy as np\n",
+					"import pandas as pd\n",
+					"\n",
+					"# Enable Arrow-based columnar data transfers\n",
+					"spark.conf.set(\"spark.sql.execution.arrow.enabled\", \"true\")\n",
+					"\n",
+					"\n",
+					"#df = df.withColumn('score', lit(None).cast(DoubleType()))\n",
+					"df = df.withColumn('score', lit(None).cast(FloatType()))\n",
+					"\n",
+					""
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "ed24bfa3-f405-4931-b596-c9c995353aa9"
+					}
+				},
+				"source": [
+					"import os\n",
+					"import requests\n",
+					"# pprint is used to format the JSON response\n",
+					"from pprint import pprint\n",
+					""
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "5e19c36a-841e-443c-a9a4-e86fad44c452"
+					}
+				},
+				"source": [
+					"pip install --upgrade requests"
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "630602d3-900f-4b32-8c14-98f34cca939e"
+					}
+				},
+				"source": [
+					"\n",
+					"import pandas as pd\n",
+					"from pandas.io.json import json_normalize\n",
+					""
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "92760395-71f7-4ba7-8f81-6949c2c57b24"
+					}
+				},
+				"source": [
+					"def SentimentAnalysis(textToCheck):  \n",
+					"  \n",
+					"    documents = {\"documents\": [\n",
+					"    {\"id\": \"1\", \"text\": textToCheck}\n",
+					"     ]}\n",
+					"    subscription_key = \"fe5fd33f372b47c1aba4402c6f111f5a\"\n",
+					"    endpoint = \"https://eastus.api.cognitive.microsoft.com/\"\n",
+					"    sentiment_url = endpoint + \"/text/analytics/v2.1/sentiment\"\n",
+					"    headers = {\"Ocp-Apim-Subscription-Key\": subscription_key}\n",
+					"    response = requests.post(sentiment_url, headers=headers, json=documents)\n",
+					"    sentiment = response.json()\n",
+					"    x = sentiment['documents'][0]['score']\n",
+					"   \n",
+					"    return x "
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "4b77b1dd-32eb-4cc1-b67a-e4769f721cda"
+					}
+				},
+				"source": [
+					"result_pdf = df.select(\"*\").toPandas()\n",
+					"records = result_pdf.to_dict(orient='records')\n",
+					"records"
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "573a6150-78be-4dd3-b9fa-d915d5a0c2e1"
+					}
+				},
+				"source": [
+					"x = SentimentAnalysis('This is a horrible day')\n",
+					"x"
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "03864b86-2470-4bf2-8419-f079a04837b1"
+					}
+				},
+				"source": [
+					"fieldnames = ['Date', 'First Name','Last Name','Memo / Description','Amount','score']               \n",
+					"\n",
+					"\n",
+					"rows_list = []\n",
+					"# Read and anonymize data, writing to target file.\n",
+					"for row in records:\n",
+					"  dict1 = {}\n",
+					"  row[\"score\"] = SentimentAnalysis(row[\"Memo / Description\"])  \n",
+					"  dict1.update(row) \n",
+					"\n",
+					"  rows_list.append(dict1)\n",
+					"\n",
+					"\n",
+					"cleaned = pd.DataFrame(rows_list)    \n",
+					"cleaned"
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "0f3b2e4d-4087-46fe-a9e4-7cfc946a297d"
+					}
+				},
+				"source": [
+					"# Create a Spark DataFrame from a pandas DataFrame using Arrow\n",
+					"processed = spark.createDataFrame(cleaned)\n",
+					"processed.show()"
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "1909288a-e20b-4d38-8ca3-f131a159036c"
+					}
+				},
+				"source": [
+					"sqlDatabase = \"AnonimizeData\"\n",
+					"sqlServer = \"server-name\"\n",
+					"sqlUser = \"sql-user\"\n",
+					"sqlPass = \"#sql-password\"\n",
+					"sqlJdbcPort =  \"1433\"\n",
+					"dwJdbcExtraOptions = \"encrypt=true;trustServerCertificate=true;hostNameInCertificate=*.database.windows.net;loginTimeout=30;\"\n",
+					"sqlDwUrl = \"jdbc:sqlserver://\" + sqlServer + \":\" + sqlJdbcPort + \";database=\" + sqlDatabase + \";user=\" + sqlUser+\";password=\" + sqlPass + \";\" + dwJdbcExtraOptions\n",
+					"sqlUrlSmall = \"jdbc:sqlserver://\" + sqlServer + \":\" + sqlJdbcPort + \";database=\" + sqlDatabase + \";user=\" + sqlUser+\";password=\" + sqlPass\n",
+					"print(sqlDwUrl)"
+				],
+				"attachments": null,
+				"execution_count": 0
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"application/vnd.databricks.v1+cell": {
+						"title": "",
+						"showTitle": false,
+						"nuid": "396e7441-ca66-4ea0-a163-cdd9f02ef0f4"
+					}
+				},
+				"source": [
+					"processed.write.format(\"jdbc\").option(\"url\", \"jdbc:sqlserver://server-name:1433\").option(\"driver\", \"com.microsoft.sqlserver.jdbc.SQLServerDriver\").option(\"database\",\"data-base-name\").option(\"dbtable\", \"table-name\").option(\"user\", \"user-name\").option(\"password\", \"user-password\").save()"
+				],
+				"attachments": null,
+				"execution_count": 0
+			}
+		]
+	}
+}

@@ -1,0 +1,30 @@
+{
+	"name": "monday live demo",
+	"properties": {
+		"activities": [
+			{
+				"name": "Google APIs",
+				"type": "SynapseNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebook": {
+						"referenceName": "GoogleApis",
+						"type": "NotebookReference"
+					},
+					"snapshot": true
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2021-10-17T15:56:55Z"
+	},
+	"type": "Microsoft.Synapse/workspaces/pipelines"
+}

@@ -1,0 +1,16 @@
+{
+	"name": "JSON Sample",
+	"properties": {
+		"content": {
+			"query": "SELECT TOP 10\n    JSON_VALUE(LINE, '$.CRMID') AS CRMID\n    ,JSON_VALUE(LINE, '$.LAST_NAME') AS LAST_NAME\n    ,JSON_VALUE(LINE, '$.FIRST_NAME') AS FIRST_NAME\n    ,JSON_VALUE(LINE, '$.MIDDLE_NAME') AS MIDDLE_NAME\n    ,JSON_VALUE(LINE, '$.ADMIT_TERM') AS ADMIT_TERM\n    ,JSON_VALUE(LINE, '$.ADMIT_DESCR') AS ADMIT_DESCR\n    ,JSON_VALUE(LINE, '$.ACAD_CAREER') AS ACAD_CAREER\n    ,JSON_VALUE(LINE, '$.ADMIT_TYPE') AS ADMIT_TYPE\n    ,JSON_VALUE(LINE, '$.ADMIT_TYPE_DESCR') AS ADMIT_TYPE_DESCR\n    ,JSON_VALUE(LINE, '$.APPL_SOURCE') AS APPL_SOURCE\n    ,JSON_VALUE(LINE, '$.ACAD_PROG') AS ACAD_PROG\n    ,JSON_VALUE(LINE, '$.ACAD_PROG_DESCR') AS ACAD_PROG_DESCR\n    ,JSON_VALUE(LINE, '$.ACAD_PLAN') AS ACAD_PLAN\n    ,JSON_VALUE(LINE, '$.ACAD_PLAN_DESCR') AS ACAD_PLAN_DESCR\n    ,JSON_VALUE(LINE, '$.CURRENT_PROGRAM') AS CURRENT_PROGRAM\n    ,JSON_VALUE(LINE, '$.CURRENT_PROGRAM_DESCR') AS CURRENT_PROGRAM_DESCR\n    ,JSON_VALUE(LINE, '$.CURRENT_PLAN') AS CURRENT_PLAN\n    ,JSON_VALUE(LINE, '$.CURRENT_PLAN_DESCR') AS CURRENT_PLAN_DESCR\n    ,JSON_VALUE(LINE, '$.GENDER') AS GENDER\n    ,JSON_VALUE(LINE, '$.AGE_BY_YEARS') AS AGE_BY_YEARS\n    ,JSON_VALUE(LINE, '$.ADDRESS1') AS ADDRESS1\n    ,JSON_VALUE(LINE, '$.ADDRESS2') AS ADDRESS2\n    ,JSON_VALUE(LINE, '$.CITY') AS CITY\n    ,JSON_VALUE(LINE, '$.STATE') AS STATE\n    ,JSON_VALUE(LINE, '$.POSTAL') AS POSTAL\n    ,JSON_VALUE(LINE, '$.StudentSK') AS StudentSK\nFROM\n    OPENROWSET(\n        BULK 'https://edupocdatalake.dfs.core.windows.net/student/student.json',\n        FORMAT = 'CSV',\n        FIELDQUOTE = '0x0b',\n        FIELDTERMINATOR ='0x0b',\n        ROWTERMINATOR = '},'\n    )\n    WITH (\n        line varchar(max)\n    ) AS [result]\nORDER BY\nCAST(JSON_VALUE(LINE, '$.StudentSK') AS int)",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "master",
+				"poolName": "Built-in"
+			}
+		},
+		"type": "SqlQuery"
+	}
+}

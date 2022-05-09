@@ -1,0 +1,16 @@
+{
+	"name": "Query and Pivot",
+	"properties": {
+		"content": {
+			"query": "/*SELECT [etag]\n,[eventname]\n,[boolValue]\n,[intValue]\n,[name]\n,[value]\n FROM [nyc].[dbo].[google_meet] */\n\n\n DECLARE @cols AS NVARCHAR(MAX),\n    @query  AS NVARCHAR(MAX);\n\nSET @cols = STUFF((SELECT distinct ',' + QUOTENAME(c.name) \n            FROM google_meet c\n            FOR XML PATH(''), TYPE\n            ).value('.', 'NVARCHAR(MAX)') \n        ,1,1,'')\n\nselect @cols\n\n/*set @query = 'SELECT etag,eventname, date, ' + @cols + ' from \n            (\n                select date\n                    , amount\n                    , category\n                from temp\n           ) x\n            pivot \n            (\n                 max(amount)\n                for category in (' + @cols + ')\n            ) p '\n\n\nexecute(@query)\n\ndrop table temp*/",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "nyc",
+				"poolName": "Built-in"
+			}
+		},
+		"type": "SqlQuery"
+	}
+}

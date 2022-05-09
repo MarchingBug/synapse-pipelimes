@@ -1,0 +1,41 @@
+{
+	"name": "UnPivotTable",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DonationAPI",
+						"type": "DatasetReference"
+					},
+					"name": "DatabaseTable"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "unpivotted",
+						"type": "DatasetReference"
+					},
+					"name": "SaveToJson"
+				}
+			],
+			"transformations": [
+				{
+					"name": "UnpivotColumns"
+				},
+				{
+					"name": "ColumnsToUnpivot"
+				},
+				{
+					"name": "SelectFinalColumns"
+				},
+				{
+					"name": "CollectColumns"
+				}
+			],
+			"script": "source(output(\n\t\tid as integer,\n\t\tdate as string,\n\t\tName as string,\n\t\tNotes as string,\n\t\tAmount as decimal(19,4),\n\t\tFirstName as string,\n\t\tLastName as string,\n\t\tCreatedOn as timestamp,\n\t\tProcessed as integer,\n\t\tIsNewAlumni as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DatabaseTable\nColumnsToUnpivot unpivot(output(\n\t\tname as string,\n\t\tvalue as string,\n\t\tName as string,\n\t\tNotes as string\n\t),\n\tungroupBy(id),\n\tlateral: true,\n\tignoreNullPivots: false) ~> UnpivotColumns\nDatabaseTable select(mapColumn(\n\t\tid,\n\t\tdate,\n\t\tName,\n\t\tNotes\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> ColumnsToUnpivot\nCollectColumns select(mapColumn(\n\t\tKeyId = id,\n\t\tdata\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectFinalColumns\nUnpivotColumns aggregate(groupBy(id),\n\tdata = collect('name :'  + UnpivotColumns@name + ',value : ' + value)) ~> CollectColumns\nSelectFinalColumns sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tmethod as string,\n\t\tmethodParameters as (type as string, value as string)[],\n\t\tautomationKey as string,\n\t\tversion as string,\n\t\tdetail as (id as string, foreignKeyID as string, action as string, keyValue as string, data as (type as string, value as string)[], subData as string[])[]\n\t),\n\tpartitionFileNames:['unpivotted.json'],\n\tumask: 0022,\n\tpreCommands: [],\n\tpostCommands: [],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tpartitionBy('hash', 1)) ~> SaveToJson"
+		}
+	}
+}

@@ -1,0 +1,20 @@
+{
+	"name": "5 - Create Staging table",
+	"properties": {
+		"folder": {
+			"name": "Polybase Import"
+		},
+		"content": {
+			"query": "-- Load the data from Azure Blob storage to Azure Synapse Analytics\nCREATE TABLE [dbo].[StageDate]\nWITH (   \n    CLUSTERED COLUMNSTORE INDEX,\n    DISTRIBUTION = ROUND_ROBIN\n)\nAS\nSELECT * FROM [dbo].[Temp];",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "sqlPool",
+				"poolName": "sqlPool"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

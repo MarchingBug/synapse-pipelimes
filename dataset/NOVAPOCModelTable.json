@@ -1,0 +1,88 @@
+{
+	"name": "NOVAPOCModelTable",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AnonimizeDB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "TermCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Term",
+				"type": "nvarchar"
+			},
+			{
+				"name": "StudentNSUID",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LevelCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DegreeCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "StudentStatus",
+				"type": "nvarchar"
+			},
+			{
+				"name": "numTermGPA",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "numOverallGPA",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "CampusCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "STVRSTS_INCL_SECT_ENRL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "STVRSTS_INCL_SECT_ENRL_bool",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SSBSECT_SUBJ_CODE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CollegeCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Level_desc",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SSBSECT_CRSE_NUMB",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SCBCRSE_TITLE",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "NovaPOCTableModel"
+		}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

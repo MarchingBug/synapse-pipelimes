@@ -1,0 +1,22 @@
+{
+	"name": "NYCDOECourseId",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AnonimizeDB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "courseId",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "CourseIdNYCDEO"
+		}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

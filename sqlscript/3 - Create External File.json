@@ -1,0 +1,19 @@
+{
+	"name": "3 - Create External File",
+	"properties": {
+		"folder": {
+			"name": "Polybase Import"
+		},
+		"content": {
+			"query": "CREATE EXTERNAL FILE FORMAT TextFile\nWITH (\n    FORMAT_TYPE = DelimitedText,\n    FORMAT_OPTIONS (FIELD_TERMINATOR = ',')\n);",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "sqlPool",
+				"poolName": "sqlPool"
+			}
+		},
+		"type": "SqlQuery"
+	}
+}

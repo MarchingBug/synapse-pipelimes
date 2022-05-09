@@ -1,0 +1,129 @@
+{
+	"name": "Import Donations - Rest API",
+	"properties": {
+		"activities": [
+			{
+				"name": "GetAuthenticationToken",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://apidemolgbac.azurewebsites.net/api/donations",
+					"connectVia": {
+						"referenceName": "AutoResolveIntegrationRuntime",
+						"type": "IntegrationRuntimeReference"
+					},
+					"method": "GET",
+					"linkedServices": [
+						{
+							"referenceName": "DonationAPI",
+							"type": "LinkedServiceReference"
+						}
+					]
+				}
+			},
+			{
+				"name": "Save records",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "GetAuthenticationToken",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "GET",
+						"paginationRules": {
+							"MaxRequestNumber": "50",
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$['fullName']"
+								},
+								"sink": {
+									"name": "Name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['donationDate']"
+								},
+								"sink": {
+									"name": "date",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['notes']"
+								},
+								"sink": {
+									"name": "Notes",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['amount']"
+								},
+								"sink": {
+									"name": "Amount",
+									"type": "Decimal"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DonationsRestLinked",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DonationAPI",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "Demo"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-12-02T19:32:04Z"
+	},
+	"type": "Microsoft.Synapse/workspaces/pipelines"
+}

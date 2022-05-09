@@ -1,0 +1,19 @@
+{
+	"name": "6 - Add Statistics to improve performance",
+	"properties": {
+		"folder": {
+			"name": "Polybase Import"
+		},
+		"content": {
+			"query": "-- Create statistics on the new data\nCREATE STATISTICS [DateKey] on [StageDate] ([DateKey]);\nCREATE STATISTICS [Quarter] on [StageDate] ([Quarter]);\nCREATE STATISTICS [Month] on [StageDate] ([Month]);",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "sqlPool",
+				"poolName": "sqlPool"
+			}
+		},
+		"type": "SqlQuery"
+	}
+}

@@ -1,0 +1,35 @@
+{
+	"name": "ProcessStreamedTwitts",
+	"properties": {
+		"folder": {
+			"name": "demo"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "TwitterInput",
+						"type": "DatasetReference"
+					},
+					"name": "TwitterInput"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "TwitterParquetFiles",
+						"type": "DatasetReference"
+					},
+					"name": "SaveToParquet"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FlattenURLS"
+				}
+			],
+			"script": "source(output(\n\t\tTweetText as string,\n\t\tTweetId as string,\n\t\tCreatedAt as string,\n\t\tCreatedAtIso as string,\n\t\tRetweetCount as integer,\n\t\tTweetedBy as string,\n\t\tMediaUrls as string[],\n\t\tTweetLanguageCode as string,\n\t\tTweetInReplyToUserId as string,\n\t\tFavorited as boolean,\n\t\tUserMentions as (Id as integer, FullName as string, UserName as string)[],\n\t\tOriginalTweet as string,\n\t\tUserDetails as (FullName as string, Location as string, Id as integer, UserName as string, FollowersCount as integer, Description as string, StatusesCount as integer, FriendsCount as integer, FavouritesCount as integer, ProfileImageUrl as string),\n\t\tEventProcessedUtcTime as string,\n\t\tPartitionId as integer,\n\t\tEventEnqueuedUtcTime as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tdocumentForm: 'documentPerLine') ~> TwitterInput\nTwitterInput foldDown(unroll(MediaUrls),\n\tmapColumn(\n\t\tTweetText,\n\t\tTweetId,\n\t\tCreatedAt,\n\t\tCreatedAtIso,\n\t\tRetweetCount,\n\t\tTweetedBy,\n\t\tMediaUrls,\n\t\tTweetLanguageCode,\n\t\tTweetInReplyToUserId,\n\t\tFavorited,\n\t\tUserMentions,\n\t\tOriginalTweet,\n\t\tUserDetails,\n\t\tEventProcessedUtcTime,\n\t\tPartitionId,\n\t\tEventEnqueuedUtcTime\n\t),\n\tskipDuplicateMapInputs: false,\n\tskipDuplicateMapOutputs: false) ~> FlattenURLS\nFlattenURLS sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'parquet',\n\tumask: 0022,\n\tpreCommands: [],\n\tpostCommands: [],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SaveToParquet"
+		}
+	}
+}

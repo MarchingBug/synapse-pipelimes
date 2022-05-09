@@ -1,0 +1,601 @@
+{
+	"name": "NYC - Meet - File",
+	"properties": {
+		"folder": {
+			"name": "NYC DOE Google Meet"
+		},
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "NotebookPool",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "112g",
+			"driverCores": 16,
+			"executorMemory": "112g",
+			"executorCores": 16,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"synapse_widget": {
+				"version": "0.1",
+				"state": {
+					"2b5c83d5-a4eb-4f48-ad00-5d99c75d09c0": {
+						"type": "Synapse.DataFrame",
+						"sync_state": {
+							"table": {
+								"rows": [
+									{
+										"actor": "[USER, priscilac20@nycstudents.net,, 113704598051410518323]",
+										"etag": "\"Qri9Z3WCQIhq2yLBxoFCooiWaax-hc2j_8VdlDR2MOs/HS0DYPgouhwMpM9VC85FxtrIHvw\"",
+										"id": "[meet, C035ui2dk, 2021-03-03T19:59:59.743Z, -3048026573727337915]",
+										"kind": "admin#reports#activity",
+										"events": "[[call_ended, [[, 56, duration_seconds,], [,, identifier, priscilac20@nycstudents.net], [,, location_region, New York], [, 0, video_send_seconds,], [,, location_country, US], [,, organizer_email, prodriguez10@schools.nyc.gov], [,, identifier_type, email_address], [,, endpoint_id, boq_hlane_p1hTKLbPGx7], [,, device_type, web], [,, ip_address, 98.14.80.122], [, 0, audio_send_seconds,], [,, display_name, PRISCILA CALLE], [, 0, screencast_send_seconds,], [, 0, video_recv_seconds,], [,, conference_id, FJ-eQLq-rEgZYBhjAxDPAKIQ], [, 0, screencast_recv_seconds,], [,, product_type, meet], [,, meeting_code, PIARRUEMVY], [, 0, audio_recv_seconds,], [, 0, network_congestion,], [false,, is_external,]], call]]"
+									},
+									{
+										"actor": "[USER, justinh465@nycstudents.net,, 108208889726246860560]",
+										"etag": "\"Qri9Z3WCQIhq2yLBxoFCooiWaax-hc2j_8VdlDR2MOs/M9XRH9kau0BQUboFyHbmY0tzjTc\"",
+										"id": "[meet, C035ui2dk, 2021-03-03T19:59:59.705Z, -4913289188447286236]",
+										"kind": "admin#reports#activity",
+										"events": "[[call_ended, [[, 2383, video_send_seconds,], [, 18, audio_send_bitrate_kbps_mean,], [,, device_type, web], [, 0, video_send_packet_loss_mean,], [, 978, screencast_recv_long_side_median_pixels,], [, 0, screencast_send_seconds,], [, 0, audio_send_packet_loss_max,], [, 0, video_recv_packet_loss_mean,], [, 2, network_send_jitter_msec_mean,], [, 5, screencast_recv_fps_mean,], [, 1910, audio_recv_seconds,], [, 0, network_congestion,], [, 0, audio_send_packet_loss_mean,], [,, network_transport_protocol, udp], [,, identifier, justinh465@nycstudents.net], [,, location_region, New York], [, 2, audio_recv_packet_loss_max,], [, 26, video_recv_fps_mean,], [, 0, audio_recv_packet_loss_mean,], [,, organizer_email, msausa5@schools.nyc.gov], [, 864, screencast_recv_short_side_median_pixels,], [, 4, network_recv_jitter_msec_mean,], [,, display_name, JUSTIN HUYNH], [, 0, screencast_recv_packet_loss_mean,], [,, conference_id, 65idM1N6KQ-XmGc7fjWTAKIQ], [, 713, network_estimated_upload_kbps_mean,], [, 360, video_send_short_side_median_pixels,], [,, meeting_code, GVPVFZJEZT], [, 36, screencast_recv_bitrate_kbps_mean,], [,, location_country, US], [,, identifier_type, email_address], [, 0, video_send_packet_loss_max,], [,, endpoint_id, boq_hlane_MBjop3Kp69L], [, 640, video_recv_long_side_median_pixels,], [, 19, video_send_fps_mean,], [, 360, video_recv_short_side_median_pixels,], [, 754, network_estimated_download_kbps_mean,], [, 2379, duration_seconds,], [, 674, video_send_bitrate_kbps_mean,], [, 157, network_recv_jitter_msec_max,], [,, ip_address, 173.52.226.17], [, 2383, audio_send_seconds,], [, 0, screencast_recv_packet_loss_max,], [, 1867, video_recv_seconds,], [, 17, network_rtt_msec_mean,], [, 640, video_send_long_side_median_pixels,], [, 1499, screencast_recv_seconds,], [,, product_type, meet], [, 0, video_recv_packet_loss_max,], [false,, is_external,]], call]]"
+									},
+									{
+										"actor": "[KEY,, HANGOUTS_EXTERNAL_OR_ANONYMOUS,]",
+										"etag": "\"Qri9Z3WCQIhq2yLBxoFCooiWaax-hc2j_8VdlDR2MOs/msdtasJ8f3WFFnuJ5RgEGvNwKJw\"",
+										"id": "[meet, C035ui2dk, 2021-03-03T19:59:59.628Z, -5908230180763391610]",
+										"kind": "admin#reports#activity",
+										"events": "[[call_ended, [[, 1737, video_send_seconds,], [, 157, screencast_recv_bitrate_kbps_mean,], [,, identifier_type, email_address], [, 42, audio_send_bitrate_kbps_mean,], [, 0, video_send_packet_loss_max,], [,, endpoint_id, hub_ios_Kj26kS8ZZoZ], [,, device_type, ios], [, 0, video_send_packet_loss_mean,], [, 1280, video_recv_long_side_median_pixels,], [, 1536, screencast_recv_long_side_median_pixels,], [, 0, screencast_send_seconds,], [, 30, video_send_fps_mean,], [, 0, audio_send_packet_loss_max,], [, 720, video_recv_short_side_median_pixels,], [, 12, video_recv_packet_loss_mean,], [, 7, screencast_recv_fps_mean,], [, 1737, audio_recv_seconds,], [, 6, network_congestion,], [, 367, network_estimated_download_kbps_mean,], [, 0, audio_send_packet_loss_mean,], [,, network_transport_protocol, udp], [, 1738, duration_seconds,], [, 685, video_send_bitrate_kbps_mean,], [,, identifier, jj.a********@***.com], [, 10, audio_recv_packet_loss_max,], [, 8, video_recv_fps_mean,], [, 1, audio_recv_packet_loss_mean,], [, 97, network_recv_jitter_msec_max,], [,, organizer_email, admi*@***.online], [, 674, screencast_recv_short_side_median_pixels,], [, 15, network_recv_jitter_msec_mean,], [, 1737, audio_send_seconds,], [,, display_name, jj ahmad], [, 42, screencast_recv_packet_loss_max,], [, 1728, video_recv_seconds,], [, 69, network_rtt_msec_mean,], [, 640, video_send_long_side_median_pixels,], [, 1, screencast_recv_packet_loss_mean,], [,, conference_id, 2ZcGo_S7qaEUQv86uPjgAKIQ], [, 1689, screencast_recv_seconds,], [,, product_type, meet], [, 743, network_estimated_upload_kbps_mean,], [, 360, video_send_short_side_median_pixels,], [, 31, video_recv_packet_loss_max,], [,, meeting_code, YKPNTIFEOZ], [true,, is_external,]], call]]"
+									},
+									{
+										"actor": "[KEY,, HANGOUTS_EXTERNAL_OR_ANONYMOUS,]",
+										"etag": "\"Qri9Z3WCQIhq2yLBxoFCooiWaax-hc2j_8VdlDR2MOs/OSkIcG-ZVJpAOpx0G2FX8QfCliI\"",
+										"id": "[meet, C035ui2dk, 2021-03-03T19:59:59.444Z, -1432764164517782472]",
+										"kind": "admin#reports#activity",
+										"events": "[[call_ended, [[, 167, video_send_seconds,], [,, identifier_type, email_address], [, 11, audio_send_bitrate_kbps_mean,], [, 0, video_send_packet_loss_max,], [,, endpoint_id, boq_hlane_9UizYrE0FQC], [,, device_type, web], [, 0, video_send_packet_loss_mean,], [,, calendar_event_id, 1ngtssu14apgdvnh3u2f8891rl], [, 0, screencast_send_seconds,], [, 22, video_send_fps_mean,], [, 0, audio_send_packet_loss_max,], [, 2, network_send_jitter_msec_mean,], [, 0, audio_recv_seconds,], [, 0, network_congestion,], [, 7, network_estimated_download_kbps_mean,], [, 0, audio_send_packet_loss_mean,], [,, network_transport_protocol, udp], [, 158, duration_seconds,], [, 141, video_send_bitrate_kbps_mean,], [,, identifier, d2best85@gmail.com], [,, organizer_email, acastellano@schools.nyc.gov], [, 167, audio_send_seconds,], [,, display_name, Dani], [, 0, video_recv_seconds,], [, 24, network_rtt_msec_mean,], [, 320, video_send_long_side_median_pixels,], [,, conference_id, RsjudU5JQpHzt7ZxcjpfAKIQ], [, 0, screencast_recv_seconds,], [,, product_type, meet], [, 183, network_estimated_upload_kbps_mean,], [, 180, video_send_short_side_median_pixels,], [,, meeting_code, DIHIQAUIHU], [true,, is_external,]], call]]"
+									},
+									{
+										"actor": "[USER, alexanderc353@nycstudents.net,, 117986501756544762008]",
+										"etag": "\"Qri9Z3WCQIhq2yLBxoFCooiWaax-hc2j_8VdlDR2MOs/gk_qSXxIbUxMLrvE9FdW5vQLR04\"",
+										"id": "[meet, C035ui2dk, 2021-03-03T19:59:59.342Z, 9219192183304322067]",
+										"kind": "admin#reports#activity",
+										"events": "[[call_ended, [[, 2139, video_send_seconds,], [,, location_country, US], [,, identifier_type, email_address], [, 5, audio_send_bitrate_kbps_mean,], [, 0, video_send_packet_loss_max,], [,, endpoint_id, boq_hlane_uzV9kZz2ZIW], [,, device_type, web], [, 0, video_send_packet_loss_mean,], [, 320, video_recv_long_side_median_pixels,], [,, calendar_event_id, 74cm4debt4sfskqi0k87bvqsn7_20210303T192000Z], [, 0, screencast_send_seconds,], [, 10, video_send_fps_mean,], [, 2, audio_send_packet_loss_max,], [, 180, video_recv_short_side_median_pixels,], [, 0, video_recv_packet_loss_mean,], [, 6, network_send_jitter_msec_mean,], [, 2139, audio_recv_seconds,], [, 0, network_congestion,], [, 599, network_estimated_download_kbps_mean,], [, 0, audio_send_packet_loss_mean,], [,, network_transport_protocol, udp], [, 2138, duration_seconds,], [, 496, video_send_bitrate_kbps_mean,], [,, identifier, alexanderc353@nycstudents.net], [,, location_region, New York], [, 3, audio_recv_packet_loss_max,], [, 15, video_recv_fps_mean,], [, 0, audio_recv_packet_loss_mean,], [, 66, network_recv_jitter_msec_max,], [,, organizer_email, ekar**********@***.org], [, 6, network_recv_jitter_msec_mean,], [,, ip_address, 67.250.10.18], [, 2139, audio_send_seconds,], [,, display_name, ALEXANDER CHIU], [, 2129, video_recv_seconds,], [, 35, network_rtt_msec_mean,], [, 320, video_send_long_side_median_pixels,], [,, conference_id, LJtnJac2C_kFRhUOjo9rAKIQ], [, 0, screencast_recv_seconds,], [,, product_type, meet], [, 501, network_estimated_upload_kbps_mean,], [, 180, video_send_short_side_median_pixels,], [, 0, video_recv_packet_loss_max,], [,, meeting_code, YZCIWXQVPE], [false,, is_external,]], call]]"
+									},
+									{
+										"actor": "[USER, jamiraha@nycstudents.net,, 105299757367240189221]",
+										"etag": "\"Qri9Z3WCQIhq2yLBxoFCooiWaax-hc2j_8VdlDR2MOs/JOuEqvi7qFVrZECLQFBPZik0qPA\"",
+										"id": "[meet, C035ui2dk, 2021-03-03T19:59:59.320Z, 6935685548242004291]",
+										"kind": "admin#reports#activity",
+										"events": "[[call_ended, [[, 0, video_send_seconds,], [, 136, screencast_recv_bitrate_kbps_mean,], [,, location_country, US], [,, identifier_type, email_address], [, 1, audio_send_bitrate_kbps_mean,], [,, endpoint_id, boq_hlane_uOqD1FNpNNO], [,, device_type, web], [, 320, video_recv_long_side_median_pixels,], [, 1440, screencast_recv_long_side_median_pixels,], [,, calendar_event_id, 59qjrlsa1e5d22qi42rrm6sdn3], [, 0, screencast_send_seconds,], [, 29, audio_send_packet_loss_max,], [, 180, video_recv_short_side_median_pixels,], [, 0, video_recv_packet_loss_mean,], [, 9, network_send_jitter_msec_mean,], [, 7, screencast_recv_fps_mean,], [, 1939, audio_recv_seconds,], [, 0, network_congestion,], [, 490, network_estimated_download_kbps_mean,], [, 1, audio_send_packet_loss_mean,], [,, network_transport_protocol, udp], [, 1931, duration_seconds,], [,, identifier, jamiraha@nycstudents.net], [,, location_region, New York], [, 7, audio_recv_packet_loss_max,], [, 22, video_recv_fps_mean,], [, 0, audio_recv_packet_loss_mean,], [, 116, network_recv_jitter_msec_max,], [,, organizer_email, alon****@***.org], [, 772, screencast_recv_short_side_median_pixels,], [, 9, network_recv_jitter_msec_mean,], [,, ip_address, 67.80.58.25], [, 1939, audio_send_seconds,], [,, display_name, JAMIRAH ANDERSON], [, 8, screencast_recv_packet_loss_max,], [, 1929, video_recv_seconds,], [, 37, network_rtt_msec_mean,], [, 0, screencast_recv_packet_loss_mean,], [,, conference_id, 0BpN3JITWrfpqg6iNDmvAKIQ], [, 1707, screencast_recv_seconds,], [,, product_type, meet], [, 10, network_estimated_upload_kbps_mean,], [, 0, video_recv_packet_loss_max,], [,, meeting_code, JXFRQOOUDB], [false,, is_external,]], call]]"
+									},
+									{
+										"actor": "[USER, siyad@nycstudents.net,, 111066136769420407064]",
+										"etag": "\"Qri9Z3WCQIhq2yLBxoFCooiWaax-hc2j_8VdlDR2MOs/0L4He65oI0vZDqXlfHfax9QEkpM\"",
+										"id": "[meet, C035ui2dk, 2021-03-03T19:59:59.174Z, 3036325301749294399]",
+										"kind": "admin#reports#activity",
+										"events": "[[call_ended, [[, 0, video_send_seconds,], [, 409, screencast_recv_bitrate_kbps_mean,], [,, location_country, US], [,, identifier_type, email_address], [,, endpoint_id, hub_ios_wphK8Y0oBhH], [,, device_type, ios], [, 1920, screencast_recv_long_side_median_pixels,], [, 0, screencast_send_seconds,], [, 2, screencast_recv_fps_mean,], [, 323, audio_recv_seconds,], [, 0, network_congestion,], [, 718, network_estimated_download_kbps_mean,], [,, network_transport_protocol, udp], [, 465, duration_seconds,], [,, identifier, siyad@nycstudents.net], [,, location_region, New York], [, 2, audio_recv_packet_loss_max,], [, 0, audio_recv_packet_loss_mean,], [, 202, network_recv_jitter_msec_max,], [,, organizer_email, is45*@***.org], [, 1080, screencast_recv_short_side_median_pixels,], [, 14, network_recv_jitter_msec_mean,], [,, ip_address, 165.155.132.86], [, 0, audio_send_seconds,], [,, display_name, SIYA DAVIS], [, 0, screencast_recv_packet_loss_max,], [, 210, video_recv_seconds,], [, 48, network_rtt_msec_mean,], [, 0, screencast_recv_packet_loss_mean,], [,, conference_id, d-R9SlcLgm0lbEsTza9VAKIQ], [, 250, screencast_recv_seconds,], [,, product_type, meet], [, 8, network_estimated_upload_kbps_mean,], [,, meeting_code, ZEYHQZUXTX], [false,, is_external,]], call]]"
+									},
+									{
+										"actor": "[USER, alizeg10@nycstudents.net,, 116700750401868469503]",
+										"etag": "\"Qri9Z3WCQIhq2yLBxoFCooiWaax-hc2j_8VdlDR2MOs/nsKK4sf9FZAHZRH4o-nlQz6QzAE\"",
+										"id": "[meet, C035ui2dk, 2021-03-03T19:59:58.832Z, -7720480236960590061]",
+										"kind": "admin#reports#activity",
+										"events": "[[call_ended, [[, 0, video_send_seconds,], [, 242, screencast_recv_bitrate_kbps_mean,], [,, location_country, US], [,, identifier_type, email_address], [, 3, audio_send_bitrate_kbps_mean,], [,, endpoint_id, boq_hlane_E9wxhw4dTOI], [,, device_type, web], [, 640, video_recv_long_side_median_pixels,], [, 1920, screencast_recv_long_side_median_pixels,], [, 0, screencast_send_seconds,], [, 2, audio_send_packet_loss_max,], [, 360, video_recv_short_side_median_pixels,], [, 0, video_recv_packet_loss_mean,], [, 6, network_send_jitter_msec_mean,], [, 5, screencast_recv_fps_mean,], [, 1988, audio_recv_seconds,], [, 0, network_congestion,], [, 454, network_estimated_download_kbps_mean,], [, 0, audio_send_packet_loss_mean,], [,, network_transport_protocol, udp], [, 1982, duration_seconds,], [,, identifier, alizeg10@nycstudents.net], [,, location_region, Newark], [, 4, audio_recv_packet_loss_max,], [, 15, video_recv_fps_mean,], [, 0, audio_recv_packet_loss_mean,], [, 133, network_recv_jitter_msec_max,], [,, organizer_email, mgleeso@schools.nyc.gov], [, 1080, screencast_recv_short_side_median_pixels,], [, 10, network_recv_jitter_msec_mean,], [,, ip_address, 24.146.179.238], [, 1988, audio_send_seconds,], [,, display_name, Alize Guerrero], [, 4, screencast_recv_packet_loss_max,], [, 1233, video_recv_seconds,], [, 38, network_rtt_msec_mean,], [, 0, screencast_recv_packet_loss_mean,], [,, conference_id, BLDPydOq-wJi6Gae2wYXAKIQ], [, 1653, screencast_recv_seconds,], [,, product_type, meet], [, 12, network_estimated_upload_kbps_mean,], [, 5, end_of_call_rating,], [, 0, video_recv_packet_loss_max,], [,, meeting_code, MISYUSIEFZ], [false,, is_external,]], call]]"
+									},
+									{
+										"actor": "[KEY,, HANGOUTS_EXTERNAL_OR_ANONYMOUS,]",
+										"etag": "\"Qri9Z3WCQIhq2yLBxoFCooiWaax-hc2j_8VdlDR2MOs/mNqRmtlGutTSPKQWp-T8IoABHP0\"",
+										"id": "[meet, C035ui2dk, 2021-03-03T19:59:58.778Z, 4209408638227890573]",
+										"kind": "admin#reports#activity",
+										"events": "[[call_ended, [[, 0, video_send_seconds,], [, 156, screencast_recv_bitrate_kbps_mean,], [,, identifier_type, email_address], [, 0, audio_send_bitrate_kbps_mean,], [,, endpoint_id, boq_hlane_798SWbH0hm3], [,, device_type, web], [, 320, video_recv_long_side_median_pixels,], [, 1440, screencast_recv_long_side_median_pixels,], [,, calendar_event_id, 59qjrlsa1e5d22qi42rrm6sdn3], [, 0, screencast_send_seconds,], [, 180, video_recv_short_side_median_pixels,], [, 0, video_recv_packet_loss_mean,], [, 0, screencast_recv_fps_mean,], [, 3385, audio_recv_seconds,], [, 0, network_congestion,], [, 504, network_estimated_download_kbps_mean,], [,, network_transport_protocol, udp], [, 3380, duration_seconds,], [,, identifier, bwil******@***.com], [, 3, audio_recv_packet_loss_max,], [, 0, video_recv_fps_mean,], [, 0, audio_recv_packet_loss_mean,], [, 87, network_recv_jitter_msec_max,], [,, organizer_email, alon****@***.org], [, 772, screencast_recv_short_side_median_pixels,], [, 8, network_recv_jitter_msec_mean,], [, 3385, audio_send_seconds,], [,, display_name, Briana Willis], [, 0, screencast_recv_packet_loss_max,], [, 3385, video_recv_seconds,], [, 21, network_rtt_msec_mean,], [, 0, screencast_recv_packet_loss_mean,], [,, conference_id, 0BpN3JITWrfpqg6iNDmvAKIQ], [, 3154, screencast_recv_seconds,], [,, product_type, meet], [, 14, network_estimated_upload_kbps_mean,], [, 0, video_recv_packet_loss_max,], [,, meeting_code, JXFRQOOUDB], [true,, is_external,]], call]]"
+									},
+									{
+										"actor": "[KEY,, HANGOUTS_EXTERNAL_OR_ANONYMOUS,]",
+										"etag": "\"Qri9Z3WCQIhq2yLBxoFCooiWaax-hc2j_8VdlDR2MOs/jjzqT8zJHV7Dh5sbtvdu0GqsmIg\"",
+										"id": "[meet, C035ui2dk, 2021-03-03T19:59:58.502Z, -4469669148339698446]",
+										"kind": "admin#reports#activity",
+										"events": "[[call_ended, [[, 0, video_send_seconds,], [, 296, screencast_recv_bitrate_kbps_mean,], [,, identifier_type, email_address], [, 1, audio_send_bitrate_kbps_mean,], [,, endpoint_id, boq_hlane_e2SGe4vcdaI], [,, device_type, web], [, 320, video_recv_long_side_median_pixels,], [, 1536, screencast_recv_long_side_median_pixels,], [, 0, screencast_send_seconds,], [, 5, audio_send_packet_loss_max,], [, 180, video_recv_short_side_median_pixels,], [, 0, video_recv_packet_loss_mean,], [, 10, network_send_jitter_msec_mean,], [, 5, screencast_recv_fps_mean,], [, 720, audio_recv_seconds,], [, 0, network_congestion,], [, 393, network_estimated_download_kbps_mean,], [, 1, audio_send_packet_loss_mean,], [,, network_transport_protocol, udp], [, 721, duration_seconds,], [,, identifier, xzha****@***.org], [, 10, audio_recv_packet_loss_max,], [, 17, video_recv_fps_mean,], [, 1, audio_recv_packet_loss_mean,], [, 92, network_recv_jitter_msec_max,], [,, organizer_email, jfer*****@***.org], [, 864, screencast_recv_short_side_median_pixels,], [, 12, network_recv_jitter_msec_mean,], [, 720, audio_send_seconds,], [,, display_name, Xiayan Zhao], [, 0, screencast_recv_packet_loss_max,], [, 667, video_recv_seconds,], [, 32, network_rtt_msec_mean,], [, 0, screencast_recv_packet_loss_mean,], [,, conference_id, 1lPS0Z8b4OqfapfIW-juAKIQ], [, 22, screencast_recv_seconds,], [,, product_type, meet], [, 11, network_estimated_upload_kbps_mean,], [, 1, video_recv_packet_loss_max,], [,, meeting_code, WEXNZVKXYC], [true,, is_external,]], call]]"
+									}
+								],
+								"schema": {
+									"actor": "StructType(StructField(callerType,StringType,true), StructField(email,StringType,true), StructField(key,StringType,true), StructField(profileId,StringType,true))",
+									"etag": "string",
+									"events": "ArrayType(StructType(StructField(name,StringType,true), StructField(parameters,ArrayType(StructType(StructField(boolValue,BooleanType,true), StructField(intValue,StringType,true), StructField(name,StringType,true), StructField(value,StringType,true)),true),true), StructField(type,StringType,true)),true)",
+									"id": "StructType(StructField(applicationName,StringType,true), StructField(customerId,StringType,true), StructField(time,StringType,true), StructField(uniqueQualifier,StringType,true))",
+									"kind": "string"
+								}
+							},
+							"isSummary": false,
+							"language": "scala"
+						},
+						"persist_state": {
+							"view": {
+								"type": "details",
+								"chartOptions": {
+									"chartType": "bar",
+									"aggregationType": "count",
+									"categoryFieldKeys": [
+										"etag"
+									],
+									"seriesFieldKeys": [
+										"actor"
+									],
+									"isStacked": false
+								}
+							}
+						}
+					}
+				}
+			},
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "python"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/20e228e4-63c7-480a-a860-4b61e9623727/resourceGroups/EDU-US-DevPoc/providers/Microsoft.Synapse/workspaces/educsademo/bigDataPools/NotebookPool",
+				"name": "NotebookPool",
+				"type": "Spark",
+				"endpoint": "https://educsademo.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/NotebookPool",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "2.4",
+				"nodeCount": 10,
+				"cores": 16,
+				"memory": 112,
+				"extraHeader": null
+			}
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"metadata": {
+					"microsoft": {
+						"language": "python"
+					},
+					"collapsed": false
+				},
+				"source": [
+					"%%pyspark\r\n",
+					"df = spark.read.json('abfss://nycdoe@edupocdatalake.dfs.core.windows.net/*.json', multiLine=True)\r\n",
+					"display(df.limit(10))"
+				],
+				"attachments": null,
+				"execution_count": 167
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": true
+				},
+				"source": [
+					"df.printSchema()"
+				],
+				"attachments": null,
+				"execution_count": 168
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": true
+				},
+				"source": [
+					"import pandas as pd\r\n",
+					"from pyspark.sql.functions import explode, col\r\n",
+					"\r\n",
+					"spark.conf.set(\"spark.sql.execution.arrow.enabled\", \"true\")\r\n",
+					"\r\n",
+					""
+				],
+				"attachments": null,
+				"execution_count": 169
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": true
+				},
+				"source": [
+					"#flatten first part\r\n",
+					"events_struct = df.select(\"etag\",explode(\"events\").alias(\"events\"))\r\n",
+					"events_struct.printSchema()"
+				],
+				"attachments": null,
+				"execution_count": 170
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"events = events_struct.select(\"etag\",\"events.*\")\r\n",
+					"display(events)\r\n",
+					"filename = \"abfss://nycdoe@edupocdatalake.dfs.core.windows.net/events.json\"           \r\n",
+					"events.write.json(filename)\r\n",
+					"\r\n",
+					""
+				],
+				"attachments": null,
+				"execution_count": 171
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": true
+				},
+				"source": [
+					"#flatten first part\r\n",
+					"parameters_struct = events.select(\"etag\",\"name\",explode(\"parameters\").alias(\"parameters\"))\r\n",
+					"\r\n",
+					"parameters_struct  = parameters_struct.withColumnRenamed(\"name\",\"eventname\")\r\n",
+					"parameters_struct.printSchema()"
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"display(parameters_struct)"
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"parameters = parameters_struct.select(\"etag\",\"eventname\",\"parameters.*\")\r\n",
+					"display(parameters)"
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": true
+				},
+				"source": [
+					"\r\n",
+					"filename = \"abfss://nycdoe@edupocdatalake.dfs.core.windows.net/googleMeet.csv\"           \r\n",
+					"parameters.write.csv(filename)\r\n",
+					"\r\n",
+					"\r\n",
+					""
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": true
+				},
+				"source": [
+					"filename = \"abfss://nycdoe@edupocdatalake.dfs.core.windows.net/googleMeet.json\"           \r\n",
+					"parameters.write.json(filename)\r\n",
+					""
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"x = parameters.toPandas()  \r\n",
+					"#parameters = x.DataFrame()\r\n",
+					"display(x)\r\n",
+					"\r\n",
+					""
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": true
+				},
+				"source": [
+					"# SPARK read parquet, note that it won't load any data yet by now\r\n",
+					"\r\n",
+					"print('Register the DataFrame as a SQL temporary view: source')\r\n",
+					"parameters.createOrReplaceTempView('source')"
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": true
+				},
+				"source": [
+					"x_string = spark.sql(\"\"\"\r\n",
+					"   Select * from source where intValue IS NULL\r\n",
+					"\"\"\") \r\n",
+					"\r\n",
+					"x_int = spark.sql(\"\"\"\r\n",
+					"   Select * from source where value IS NULL\r\n",
+					"\"\"\") "
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"display(x_string)"
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": true
+				},
+				"source": [
+					"x_string = x_string.toPandas()"
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": true
+				},
+				"source": [
+					"a = x_string.pivot(index='etag', columns='name', values=['value'])\r\n",
+					"a\r\n",
+					""
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": true
+				},
+				"source": [
+					"table = x_string.pivot_table(values='value', index=['etag'],  aggfunc={'value': [max]})"
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": true
+				},
+				"source": [
+					"display(string_pivot)"
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": true
+				},
+				"source": [
+					"x_int = x_int.toPandas()\r\n",
+					"int_pivot = x_int.pivot(index='etag', columns='name', values=['intValue'])"
+				],
+				"attachments": null,
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": true
+				},
+				"source": [
+					"\r\n",
+					"pivoted = string_pivot.set_index('etag').join(int_pivot.set_index('etag'))\r\n",
+					"\r\n",
+					""
+				],
+				"attachments": null,
+				"execution_count": null
+			}
+		]
+	}
+}

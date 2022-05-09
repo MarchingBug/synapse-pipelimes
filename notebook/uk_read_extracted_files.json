@@ -1,0 +1,176 @@
+{
+	"name": "uk_read_extracted_files",
+	"properties": {
+		"folder": {
+			"name": "UK-Canvas"
+		},
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "NotebookPool",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "112g",
+			"driverCores": 16,
+			"executorMemory": "112g",
+			"executorCores": 16,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/20e228e4-63c7-480a-a860-4b61e9623727/resourceGroups/EDU-US-DevPoc/providers/Microsoft.Synapse/workspaces/educsademo/bigDataPools/NotebookPool",
+				"name": "NotebookPool",
+				"type": "Spark",
+				"endpoint": "https://educsademo.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/NotebookPool",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "2.4",
+				"nodeCount": 10,
+				"cores": 16,
+				"memory": 112,
+				"extraHeader": null
+			}
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"metadata": {
+					"diagram": {
+						"activateDiagramType": 1,
+						"chartConfig": {
+							"category": "bar",
+							"keys": [
+								"_c0"
+							],
+							"values": [
+								"_c0"
+							],
+							"yLabel": "_c0",
+							"xLabel": "_c0",
+							"aggregation": "COUNT",
+							"aggByBackend": false
+						},
+						"aggData": "{\"_c0\":{\"11390000001901572\":1,\"11390000001901574\":1,\"11390000001901582\":1,\"11390000001901588\":1,\"11390000001901590\":1,\"11390000001901600\":1,\"11390000001901601\":1,\"11390000001901604\":1,\"11390000001995496\":1,\"11390000002006740\":1}}",
+						"isSummary": false,
+						"previewData": {
+							"filter": null
+						},
+						"isSql": false
+					}
+				},
+				"source": [
+					"%%pyspark\n",
+					"blob_account_name = \"edupocdatalake\"\n",
+					"blob_container_name = \"ukfiles\"\n",
+					"from pyspark.sql import SparkSession\n",
+					"\n",
+					"sc = SparkSession.builder.getOrCreate()\n",
+					"token_library = sc._jvm.com.microsoft.azure.synapse.tokenlibrary.TokenLibrary\n",
+					"blob_sas_token = token_library.getConnectionString(\"edupocdatalake\")\n",
+					"\n",
+					"spark.conf.set(\n",
+					"    'fs.azure.sas.%s.%s.blob.core.windows.net' % (blob_container_name, blob_account_name),\n",
+					"    blob_sas_token)\r\n",
+					"df = spark.read.load('wasbs://ukfiles@edupocdatalake.blob.core.windows.net/extracted-files/data_dbde263c-2e95-45f9-bd28-f4a291212726_7378b5b4-2486-413d-b6c0-ccaeff11e927.csv', format='csv'\r\n",
+					"## If header exists uncomment line below\r\n",
+					"##, header=True\r\n",
+					")\r\n",
+					"display(df.limit(10))"
+				],
+				"attachments": null,
+				"execution_count": 3
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"diagram": {
+						"activateDiagramType": 1,
+						"chartConfig": {
+							"category": "bar",
+							"keys": [
+								"id"
+							],
+							"values": [
+								"id"
+							],
+							"yLabel": "id",
+							"xLabel": "id",
+							"aggregation": "COUNT",
+							"aggByBackend": false
+						},
+						"aggData": "{\"id\":{}}",
+						"isSummary": false,
+						"previewData": {
+							"filter": null
+						},
+						"isSql": false
+					}
+				},
+				"source": [
+					"%%pyspark\n",
+					"header = spark.read.load('abfss://uk-files@edupocdatalake.dfs.core.windows.net/course_dim_header.csv', format='csv'\n",
+					"## If header exists uncomment line below ##\n",
+					",header=True\n",
+					")\n",
+					"display(header.limit(10))"
+				],
+				"attachments": null,
+				"execution_count": 4
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"diagram": {
+						"activateDiagramType": 1,
+						"chartConfig": {
+							"category": "bar",
+							"keys": [
+								"id"
+							],
+							"values": [
+								"id"
+							],
+							"yLabel": "id",
+							"xLabel": "id",
+							"aggregation": "COUNT",
+							"aggByBackend": false
+						},
+						"aggData": "{\"id\":{\"11390000001756670\":1,\"11390000001756671\":1,\"11390000001756674\":1,\"11390000001756675\":1,\"11390000001756676\":1,\"11390000001756677\":1,\"11390000001756678\":1,\"11390000001756679\":1,\"11390000001756688\":1,\"11390000001756911\":1}}",
+						"isSummary": false,
+						"previewData": {
+							"filter": null
+						},
+						"isSql": false
+					}
+				},
+				"source": [
+					"merged = header.union(df)\n",
+					"display(merged.limit(10))"
+				],
+				"attachments": null,
+				"execution_count": 5
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"\n",
+					"merged.write()"
+				],
+				"attachments": null,
+				"execution_count": null
+			}
+		]
+	}
+}

@@ -1,0 +1,11 @@
+{
+	"name": "edudemokeyvault",
+	"type": "Microsoft.Synapse/workspaces/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://eduCSUdemo.vault.azure.net/"
+		}
+	}
+}

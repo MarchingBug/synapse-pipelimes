@@ -1,0 +1,38 @@
+{
+	"name": "Processs Donations to Delta",
+	"properties": {
+		"folder": {
+			"name": "demo"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DonationIngestion",
+						"type": "DatasetReference"
+					},
+					"name": "DonationFiles"
+				}
+			],
+			"sinks": [
+				{
+					"linkedService": {
+						"referenceName": "educsademo-WorkspaceDefaultStorage",
+						"type": "LinkedServiceReference"
+					},
+					"name": "SinkToDataLake"
+				}
+			],
+			"transformations": [
+				{
+					"name": "splitName"
+				},
+				{
+					"name": "parseTheFirstName"
+				}
+			],
+			"script": "source(output(\n\t\tfullName as string,\n\t\tdonationDate as string,\n\t\tnotes as string,\n\t\tamount as integer,\n\t\tthankyouSent as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tdocumentForm: 'documentPerLine') ~> DonationFiles\nDonationFiles derive(splitName = split(fullName, \" \")) ~> splitName\nsplitName derive(parsedFirstName = splitName[1],\n\t\tparsedLastName = splitName[2]) ~> parseTheFirstName\nparseTheFirstName sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'delta',\n\tfileSystem: 'pipelinedemo',\n\tfolderPath: 'DeltaRecords',\n\tmergeSchema: false,\n\tautoCompact: false,\n\toptimizedWrite: false,\n\tvacuum: 0,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tumask: 0022,\n\tpreCommands: [],\n\tpostCommands: [],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tmapColumn(\n\t\tfullName,\n\t\tdonationDate,\n\t\tnotes,\n\t\tamount,\n\t\tthankyouSent,\n\t\tFirstName = parsedFirstName,\n\t\tLastName = parsedLastName\n\t)) ~> SinkToDataLake"
+		}
+	}
+}

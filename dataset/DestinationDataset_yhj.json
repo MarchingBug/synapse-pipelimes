@@ -1,0 +1,17 @@
+{
+	"name": "DestinationDataset_yhj",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AnonimizeDB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "ukfiles"
+		}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

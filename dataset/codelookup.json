@@ -1,0 +1,22 @@
+{
+	"name": "codelookup",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NYC_DOE_SHOP",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "value",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "VC_CodeLookup"
+		}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}
